@@ -20,6 +20,7 @@ export default function CustomizedSnackbars({
   variant,
   open,
   closeSnackbar,
+  message,
 }) {
   return (
     <Snackbar
@@ -32,7 +33,7 @@ export default function CustomizedSnackbars({
       <div>
         <Alert
           sx={{
-            height: variant === 'success' ? '' : '85px',
+            height: variant === 'success' ? '' : '95px',
             width: '500px',
             paddingTop: '13px',
             color:
@@ -73,24 +74,13 @@ export default function CustomizedSnackbars({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                gap:
-                  (variant === 'success' && '160px') ||
-                  (variant === 'error' && '310px') ||
-                  (variant === 'info' && '315px') ||
-                  (variant === 'warning' && '290px'),
               }}
             >
-              <SnackBarText1>
-                {(variant === 'success' &&
-                  'Спасибо что сообщили нам об этом') ||
-                  (variant === 'error' && 'Error Message') ||
-                  (variant === 'info' && 'Info Message') ||
-                  (variant === 'warning' && 'Warning Message')}
-              </SnackBarText1>
+              <SnackBarText1>{message || ''}</SnackBarText1>
               <img onClick={closeSnackbar} src={closeAlertIcon} alt='none' />
             </div>
           </SnackTopBlock>
-          <SnackBarText2>{text}</SnackBarText2>
+          <SnackBarText2>{text || ''}</SnackBarText2>
         </Alert>
       </div>
     </Snackbar>
