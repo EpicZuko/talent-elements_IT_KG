@@ -1,72 +1,186 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import AurtorozationLogoAdptiv from '../../assets/icon/autorizationIcons/autorizationBgAdaptiv.svg'
 import ABgE from '../../assets/icon/autorizationIcons/autorizationBgELems.svg'
 import ItKgLogo from '../../assets/icon/autorizationIcons/itKgLogo.svg'
 import AutorizationLogo from '../../assets/icon/autorizationIcons/nubelson-fernandes-UcYBL5V0xWQ-unsplash 1.svg'
+import {
+  postLoginOrRegister,
+  LoginSliceAction,
+} from '../../services/reducerSlice/authSlice/loginOrRegisterSlice'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
+import CustomizedSnackbars from '../UI/Snackbar'
 
 const Autorization = ({ variant }) => {
+  const [createAccount, setCreateAccount] = useState({
+    emailOrUsername: '',
+    password: '',
+  })
+  const [toComeIn, setToComeIn] = useState({
+    username: '',
+    fullName: '',
+    email: '',
+    password: '',
+  })
   const navigate = useNavigate()
   const loginHandler = () => {
-    navigate('/Login')
+    navigate('/login')
   }
   const regHandler = () => {
     navigate('/')
   }
+  const dispatch = useDispatch()
+  const { status, Isuccess } = useSelector((state) => state.login)
+  const createAccountHandlerChangeValue = (event) => {
+    setCreateAccount({
+      ...createAccount,
+      [event.target.name]: event.target.value,
+    })
+  }
+  const toComeInHandlerChangeValue = (event) => {
+    setToComeIn({
+      ...toComeIn,
+      [event.target.name]: event.target.value,
+    })
+  }
+  const closeSnackBarHandler = () => {
+    dispatch(LoginSliceAction.snackBarClose({ Isuccess: false, status }))
+  }
+  const submitLogin = (event) => {
+    event.preventDefault()
+    dispatch(
+      postLoginOrRegister({
+        body: {
+          emailOrUsername: createAccount.emailOrUsername,
+          password: createAccount.password,
+        },
+        fetchRole: 'login',
+      })
+    )
+  }
+
+  const submitAuth = (event) => {
+    event.preventDefault()
+    dispatch(
+      postLoginOrRegister({
+        body: {
+          username: toComeIn.username,
+          fullName: toComeIn.fullName,
+          email: toComeIn.email,
+          password: toComeIn.password,
+        },
+        fetchRole: 'register',
+      })
+    )
+  }
   return (
-    <RegisterBg>
-      <RegisterBg2>
-        <AutorizationFormBlock>
-          <AutorizationImgBlock>
-            <ItKgLogos>
-              <ItKgImg src={ItKgLogo} alt='none' />
-              <ItKgText>IT.KG</ItKgText>
-            </ItKgLogos>
-            <AutorizationImg src={AutorizationLogo} alt='none' />
-          </AutorizationImgBlock>
-          <div>
-            {variant === 'Login' ? (
-              <LoginText>
-                <AutorizationText>Войти</AutorizationText>
-              </LoginText>
-            ) : (
-              <AutorizationText>Регистрация</AutorizationText>
-            )}
-            {variant === 'Login' ? (
-              <AutorizationForm>
-                <Input placeholder='Введите логин' />
-                <Input placeholder='Введите пароль' />
-                <LoginButton>
+    <>
+      <CustomizedSnackbars
+        message={
+          status === 'success'
+            ? 'Поздравлеем! Вы успешно авторизовались в системе. Добро пожаловать!'
+            : 'Извините призошло ошибка при авторизации. Пожалуйста, проверьте введенные данные и повторите попытку'
+        }
+        variant={status}
+        open={Isuccess}
+        closeSnackbar={closeSnackBarHandler}
+      />
+      <RegisterBg>
+        <RegisterBg2>
+          <AutorizationFormBlock>
+            <AutorizationImgBlock>
+              <ItKgLogos>
+                <ItKgImg src={ItKgLogo} alt='none' />
+                <ItKgText>IT.KG</ItKgText>
+              </ItKgLogos>
+              <AutorizationImg src={AutorizationLogo} alt='none' />
+            </AutorizationImgBlock>
+            <div>
+              {variant === 'Login' ? (
+                <LoginText>
+                  <AutorizationText>Войти</AutorizationText>
+                </LoginText>
+              ) : (
+                <AutorizationText>Регистрация</AutorizationText>
+              )}
+              {variant === 'Login' ? (
+                <AutorizationForm onSubmit={submitLogin}>
+                  <Input
+                    placeholder='Введите логин'
+                    type='text'
+                    name='emailOrUsername'
+                    value={createAccount.emailOrUsername}
+                    onChange={createAccountHandlerChangeValue}
+                  />
+                  <Input
+                    placeholder='Введите пароль'
+                    type='password'
+                    name='password'
+                    value={createAccount.password}
+                    onChange={createAccountHandlerChangeValue}
+                  />
+                  <LoginButton>
+                    <Button variant='sing in'>Создать аккаунт</Button>
+                  </LoginButton>
+                  <ForLoginText>
+                    У вас нету аккаунта?
+                    <ForLoginText2 onClick={regHandler}>
+                      Зарегистроваться
+                    </ForLoginText2>
+                  </ForLoginText>
+                </AutorizationForm>
+              ) : (
+                <AutorizationForm onSubmit={submitAuth}>
+                  <Input
+                    placeholder='Введите логин'
+                    type='text'
+                    name='username'
+                    value={toComeIn.username}
+                    onChange={toComeInHandlerChangeValue}
+                  />
+                  <Input
+                    placeholder='Введите фамилю'
+                    type='text'
+                    name='fullName'
+                    value={toComeIn.fullName}
+                    onChange={toComeInHandlerChangeValue}
+                  />
+                  <Input
+                    placeholder='Введите email'
+                    type='email'
+                    name='email'
+                    value={toComeIn.email}
+                    onChange={toComeInHandlerChangeValue}
+                  />
+                  <Input
+                    placeholder='Введите пароль'
+                    type='password'
+                    name='password'
+                    value={toComeIn.password}
+                    onChange={toComeInHandlerChangeValue}
+                  />
+                  {/* <Input
+                    placeholder='Повторите пароль'
+                    type='pasword'
+                    name='repeatPassword'
+                    value={toComeIn.repeatPassword}
+                    onChange={toComeInHandlerChangeValue}
+                  /> */}
                   <Button variant='sing in'>Создать аккаунт</Button>
-                </LoginButton>
-                <ForLoginText>
-                  У вас нету аккаунта?{' '}
-                  <ForLoginText2 onClick={regHandler}>
-                    Зарегистроваться
-                  </ForLoginText2>
-                </ForLoginText>
-              </AutorizationForm>
-            ) : (
-              <AutorizationForm>
-                <Input placeholder='Введите логин' />
-                <Input placeholder='Введите фамилю' />
-                <Input placeholder='Введите email' />
-                <Input placeholder='Введите пароль' />
-                <Input placeholder='Повторите пароль' />
-                <Button variant='sing in'>Создать аккаунт</Button>
-                <ForLoginText>
-                  У вас уже есть аккаунт?{' '}
-                  <ForLoginText onClick={loginHandler}>Войти</ForLoginText>
-                </ForLoginText>
-              </AutorizationForm>
-            )}
-          </div>
-        </AutorizationFormBlock>
-      </RegisterBg2>
-    </RegisterBg>
+                  <ForLoginText>
+                    У вас уже есть аккаунт?
+                    <ForLoginText onClick={loginHandler}>Войти</ForLoginText>
+                  </ForLoginText>
+                </AutorizationForm>
+              )}
+            </div>
+          </AutorizationFormBlock>
+        </RegisterBg2>
+      </RegisterBg>
+    </>
   )
 }
 
