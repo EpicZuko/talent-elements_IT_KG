@@ -1,5 +1,7 @@
+import Modal from './components/UI/'
+
 function App() {
-  return <div />
+  return <Modal></Modal>
 }
 
 export default App
