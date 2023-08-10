@@ -17,7 +17,13 @@ export const postLoginOrRegister = createAsyncThunk(
         LocalStorageFunction({
           type: 'setItem',
           key: 'login',
-          body: response,
+          body: {
+            email: response.email,
+            jwt: response.token,
+            role: response.role,
+            status: response.status,
+            message: response.message,
+          },
         })
         return response
       }
@@ -30,7 +36,13 @@ export const postLoginOrRegister = createAsyncThunk(
         LocalStorageFunction({
           type: 'setItem',
           key: 'login',
-          body: response,
+          body: {
+            email: response.email,
+            jwt: response.token,
+            role: response.role,
+            status: response.status,
+            message: response.message,
+          },
         })
         return response
       }

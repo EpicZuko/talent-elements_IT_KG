@@ -183,8 +183,6 @@ const SideBarBlock = styled.div`
   * {
     margin: 0;
   }
-  position: ${(props) => (props.absoluteNone === 'none' ? 'none' : 'absolute')};
-  right: 0px;
   z-index: 7;
   @media (max-width: 391px) {
     background-color: rgba(0, 0, 0, 0.25);
@@ -205,7 +203,6 @@ const Con = styled.div`
   padding-left: 17px;
   padding-top: 90px;
   position: relative;
-  z-index: -1;
   cursor: pointer;
   @media (max-width: 391px) {
     width: 230px;
@@ -216,7 +213,6 @@ const Con = styled.div`
     padding-top: 0px;
     position: absolute;
     right: 0px;
-    z-index: -1;
     cursor: pointer;
   }
 `
