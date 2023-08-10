@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import arrowLeftIcon from '../../assets/icon/notificationIcons/strelka.svg'
-import { MentorRequest } from '../../services/mentorInstructorSlice/Body'
-import { SelectorFuncMentorBody } from '../../utils/helpers/useSelector/SelectorFunc'
+import { MentorRequest } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Notifications from '../UI/Notifications'
 
 export const MentorInstructorNotifications = () => {
@@ -12,7 +12,7 @@ export const MentorInstructorNotifications = () => {
   const navToPrevPage = () => {
     navigate(-1)
   }
-  const state = SelectorFuncMentorBody()
+  const state = SelectorFuncMentor()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(MentorRequest({ page: 'notifcations' }))

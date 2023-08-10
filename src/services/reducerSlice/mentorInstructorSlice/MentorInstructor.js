@@ -1,8 +1,11 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import ApiFetch from '../../api/ApiFetch'
-import { MentorInstructorNotificationsUrl } from '../../utils/constants/url'
+import ApiFetch from '../../../api/ApiFetch'
+import {
+  MentorInstructorHeaderSeeUrl,
+  MentorInstructorNotificationsUrl,
+} from '../../../utils/constants/url'
 
 export const MentorRequest = createAsyncThunk(
   'mentor-instructor/requests',
@@ -32,6 +35,15 @@ export const MentorRequest = createAsyncThunk(
     }
   }
 )
+export const MentorHeaderRequest = createAsyncThunk(
+  'header/request',
+  async () => {
+    const response = await ApiFetch({
+      url: `${MentorInstructorHeaderSeeUrl}`,
+    })
+    return response
+  }
+)
 
 const initialState = {
   status: null,
@@ -39,6 +51,9 @@ const initialState = {
   lessons: [],
   notifications: [],
   courseName: '',
+  name: '',
+  avatar: null,
+  notificationsCount: null,
 }
 
 export const MentorInstructorBodySlice = createSlice({
@@ -60,6 +75,17 @@ export const MentorInstructorBodySlice = createSlice({
       state.notifications = action.payload
     },
     [MentorRequest.rejected]: (state) => {
+      state.status = 'rejected'
+    },
+    [MentorHeaderRequest.pending]: (state) => {
+      state.status = 'pending'
+    },
+    [MentorHeaderRequest.fulfilled]: (state, action) => {
+      state.status = 'fullfilled'
+      state.name = action.payload.fullName
+      state.avatar = action.payload.photo
+    },
+    [MentorHeaderRequest.rejected]: (state) => {
       state.status = 'rejected'
     },
   },

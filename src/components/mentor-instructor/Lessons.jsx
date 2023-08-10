@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { MentorRequest } from '../../services/mentorInstructorSlice/Body'
-import { SelectorFuncMentorBody } from '../../utils/helpers/useSelector/SelectorFunc'
+import { MentorRequest } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import LessonsCard from '../UI/LessonsCard'
 
 const MentorInstructorLessons = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const state = SelectorFuncMentorBody()
+  const state = SelectorFuncMentor()
   const navToGroup = () => {
     navigate('/groups')
   }

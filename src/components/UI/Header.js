@@ -28,7 +28,7 @@ const Header = ({
           src={notificationIcon}
           alt='error'
         />
-        {notificationNumberCount && (
+        {notificationNumberCount > 0 && (
           <NotificationCount>{notificationNumberCount}</NotificationCount>
         )}
         <BurgerMenu

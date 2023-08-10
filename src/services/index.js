@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { MentorInstructorBodySlice } from './mentorInstructorSlice/Body'
-import { MentorInstructorHeaderSlice } from './mentorInstructorSlice/HeaderSlice'
 import loginOrRegisterSlice from './reducerSlice/authSlice/loginOrRegisterSlice'
+import { MentorInstructorBodySlice } from './reducerSlice/mentorInstructorSlice/MentorInstructor'
+import getSeoAdminGroupSlice from './reducerSlice/seoAdminGroupsSlice/allGroups'
 
 const store = configureStore({
   reducer: {
     login: loginOrRegisterSlice.reducer,
-    mentorInstructorBody: MentorInstructorBodySlice.reducer,
-    mentorInstructorHeader: MentorInstructorHeaderSlice.reducer,
+    mentorInstructor: MentorInstructorBodySlice.reducer,
+    seoAdmin: getSeoAdminGroupSlice.reducer,
   },
 })
 export default store

@@ -7,7 +7,7 @@ const Card = (props) => {
   return (
     <div>
       <Container onClick={props.openHandler}>
-        {props.user.map((element) => (
+        {props?.user?.map((element) => (
           <div key={element.id}>
             <Styled variant={props.variant}>
               <div onClick={props.onClickHandler} role='button' tabIndex='0'>
@@ -19,7 +19,7 @@ const Card = (props) => {
               </div>
               <div>
                 <Title onClick={props.navToCurrentGroup}>
-                  Группа <span>{element.title}</span>{' '}
+                  <span>{element.title}</span>
                 </Title>
               </div>
               <div>
@@ -86,6 +86,7 @@ const MenegerHeights = (props) => {
 const Container = styled.div`
   display: flex;
   gap: 30px;
+  flex-wrap: wrap;
   @media screen and (max-width: 415px) {
     flex-direction: column;
     justify-content: center;

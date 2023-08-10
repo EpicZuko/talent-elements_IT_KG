@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import {
   MentorInstructorAction,
   MentorRequest,
-} from '../../services/mentorInstructorSlice/Body'
-import { SelectorFuncMentorBody } from '../../utils/helpers/useSelector/SelectorFunc'
+} from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import SelectorFuncMentorBody from '../../utils/helpers/useSelector/SelectorFunc'
 import Card from '../UI/card/Card'
 
 const MentorInstrucorGroups = () => {
