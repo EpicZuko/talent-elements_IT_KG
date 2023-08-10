@@ -8,3 +8,5 @@ export const MentorInstructorNotificationsUrl =
 export const MentorInstructorHeaderSeeUrl = 'api/teachers/see/header/profile'
 export const seoAdminGetAllGroupsUrl = 'api/v1/seo/admin/find/all/group'
 export const seoAdminProfileUrl = 'api/v1/seo/admin/see/header/profile'
+export const staffAdminGetAllGroups = 'api/v1/staff/admin/get_all_groups'
+export const staffAdmingetProfile = 'api/v1/staff/admin/see/header/profile'
