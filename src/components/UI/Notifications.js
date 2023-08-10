@@ -159,7 +159,7 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
                 </MentorInput>
                 <Input placeholder='Комментарии' />
                 <MentorButton>
-                  <Button variant='group'>Отправить</Button>
+                  <Button variant='seo/admin'>Отправить</Button>
                 </MentorButton>
                 <MentorNotificationsHideIcon
                   onClick={showMentor}
@@ -428,7 +428,7 @@ const MentorNotificationsRightBlock = styled.div`
     display: block;
   }
 `
-const MentorNotificationsName = styled.h6`
+const MentorNotificationsName = styled.div`
   font-family: 'Zen Kaku Gothic New', sans-serif;
   font-size: 16px;
   font-weight: 500;
@@ -480,6 +480,9 @@ const MentorNotificationsHideIcon = styled.img`
   margin-left: 340px;
   margin-top: 20px;
   rotate: 180deg;
+  @media screen and (max-width: 415px) {
+    margin-left: 310px;
+  }
   @media screen and (max-width: 391px) {
     margin-left: 300px;
   }
@@ -513,8 +516,10 @@ const MentorNotificationsUser = styled.div`
 `
 const MentorButton = styled.div`
   margin-top: 24px;
-  margin-left: 10px;
   @media screen and (max-width: 415px) {
+    margin-top: 56px;
+  }
+  @media screen and (max-width: 391px) {
     margin-top: 56px;
   }
 `

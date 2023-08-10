@@ -1,7 +1,11 @@
-import Modal from './components/UI/'
+import MentorInstrucorRoute from './routes/MentorInstrucorRoute'
 
 function App() {
-  return <Modal></Modal>
+  return (
+    <div>
+      <MentorInstrucorRoute />
+    </div>
+  )
 }
 
 export default App

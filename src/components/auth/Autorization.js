@@ -123,12 +123,12 @@ const Autorization = ({ variant }) => {
                     onChange={createAccountHandlerChangeValue}
                   />
                   <LoginButton>
-                    <Button variant='sing in'>Создать аккаунт</Button>
+                    <Button variant='sing in'>Войти</Button>
                   </LoginButton>
                   <ForLoginText>
                     У вас нету аккаунта?
                     <ForLoginText2 onClick={regHandler}>
-                      Зарегистроваться
+                      Зарегистрироваться
                     </ForLoginText2>
                   </ForLoginText>
                 </AutorizationForm>
@@ -172,7 +172,7 @@ const Autorization = ({ variant }) => {
                   <Button variant='sing in'>Создать аккаунт</Button>
                   <ForLoginText>
                     У вас уже есть аккаунт?
-                    <ForLoginText onClick={loginHandler}>Войти</ForLoginText>
+                    <ForLoginText2 onClick={loginHandler}>Войти</ForLoginText2>
                   </ForLoginText>
                 </AutorizationForm>
               )}
@@ -303,11 +303,13 @@ const AutorizationText = styled.h4`
 const ForLoginText = styled.span`
   font-family: 'Zen Kaku Gothic New', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
   color: #373737;
+  cursor: pointer;
+  margin-left: 4px;
 `
 const ItKgLogos = styled.div`
   position: absolute;
@@ -338,6 +340,8 @@ const ForLoginText2 = styled.span`
   letter-spacing: 0em;
   text-align: left;
   color: #0b3852;
+  cursor: pointer;
+  margin-left: 4px;
 `
 const LoginText = styled.div`
   margin-top: 160px;
