@@ -588,7 +588,7 @@ const SeoAdminFullNames = (props) => {
 }
 const StyledList = styled.div`
   width: 1020px;
-  @media screen and (max-width: 391px) {
+  @media (max-width: 391px) {
     ${SeoAdminGroups}
     max-width: 100%;
     overflow-x: scroll;
