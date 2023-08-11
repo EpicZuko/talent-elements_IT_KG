@@ -45,6 +45,7 @@ export const MentorInstructorLayout = () => {
           <SiderBar
             variant='mentor'
             onClickMentorInstructorGroup={navToGroup}
+            absoluteNone='none'
           />
         </SideBlock>
         {show && (
@@ -52,6 +53,7 @@ export const MentorInstructorLayout = () => {
             variant='mentor'
             onClickMentorInstructorGroup={navToGroup}
             onCloseBackdrop={burger}
+            absoluteNone='none'
           />
         )}
       </Block>

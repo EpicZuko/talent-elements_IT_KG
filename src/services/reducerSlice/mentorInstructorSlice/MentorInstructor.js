@@ -1,9 +1,7 @@
+/* eslint-disable no-plusplus */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import ApiFetch from '../../../api/ApiFetch'
-import {
-  MentorInstructorHeaderSeeUrl,
-  MentorInstructorNotificationsUrl,
-} from '../../../utils/constants/url'
+import { MentorInstructorHeaderSeeUrl } from '../../../utils/constants/url'
 
 export const MentorGroupRequest = createAsyncThunk(
   'mentor-instructor/bodyRequests',
@@ -12,56 +10,17 @@ export const MentorGroupRequest = createAsyncThunk(
       const response = await ApiFetch({
         url: `api/teachers/${props.id}/groups`,
       })
-      return response
-    } catch (error) {
-      return rejectWithValue(error.message)
-    }
-  }
-)
-export const MentorCoursesRequest = createAsyncThunk(
-  'mentor-instructor/coursesRequest',
-  async (props, { rejectWithValue }) => {
-    try {
-      const response = await ApiFetch({
-        url: `api/teachers/${props.id}/courses`,
-      })
-      return response
-    } catch (error) {
-      return rejectWithValue(error.message)
-    }
-  }
-)
-export const MentorNotificationsRequest = createAsyncThunk(
-  'mentor-instructor/notificationsRequest',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await ApiFetch({
-        url: `${MentorInstructorNotificationsUrl}`,
-      })
-      const notifications = []
-      // eslint-disable-next-line no-plusplus
+      const data = []
       for (let i = 0; i < response.length; i++) {
-        const arr = [
-          {
-            message: response[i].message,
-          },
-        ]
-        notifications.push(arr)
+        data.push({
+          id: response[i].id,
+          title: response[i].name,
+          students: response[i].studentsId || 0,
+          lesson: response[i].lessonId || 0,
+          img: response[i].photo,
+        })
       }
-      return notifications
-    } catch (error) {
-      return rejectWithValue(error.message)
-    }
-  }
-)
-export const MentorLessonsRequest = createAsyncThunk(
-  'mentor-instructor/lessonsRequest',
-  async (props, { rejectWithValue }) => {
-    try {
-      const response = await ApiFetch({
-        url: `api/teachers/${props.id}/lessons`,
-      })
-      return response
+      return data
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -84,27 +43,12 @@ export const MentorHeaderRequest = createAsyncThunk(
 const initialState = {
   status: null,
   groups: [],
-  courses: [],
-  lessons: [],
-  notifications: [],
   profile: {},
-  courseId: '',
-  courseName: '',
-  lessonsName: '',
 }
 
 export const MentorInstructorBodySlice = createSlice({
   name: 'mentor-instructor',
   initialState,
-  reducers: {
-    findCoursesBy(state, action) {
-      state.courseId = action.payload.id
-      state.courseName = action.payload.name
-    },
-    findLessonsBy(state, action) {
-      state.lessonsName = action.payload.lessonsname
-    },
-  },
   extraReducers: {
     [MentorGroupRequest.pending]: (state) => {
       state.status = 'pending'
@@ -129,36 +73,6 @@ export const MentorInstructorBodySlice = createSlice({
       state.profile = profile
     },
     [MentorHeaderRequest.rejected]: (state) => {
-      state.status = 'rejected'
-    },
-    [MentorCoursesRequest.pending]: (state) => {
-      state.status = 'pending'
-    },
-    [MentorCoursesRequest.fulfilled]: (state, action) => {
-      state.status = 'fulfilled'
-      state.courses = action.payload
-    },
-    [MentorCoursesRequest.rejected]: (state) => {
-      state.status = 'rejected'
-    },
-    [MentorNotificationsRequest.pending]: (state) => {
-      state.status = 'pending'
-    },
-    [MentorNotificationsRequest.fulfilled]: (state, action) => {
-      state.status = 'fulfilled'
-      state.notifications = action.payload
-    },
-    [MentorNotificationsRequest.rejected]: (state) => {
-      state.status = 'rejected'
-    },
-    [MentorLessonsRequest.pending]: (state) => {
-      state.status = 'pending'
-    },
-    [MentorLessonsRequest.fulfilled]: (state, action) => {
-      state.status = 'fullfilled'
-      state.lessons = action.payload
-    },
-    [MentorLessonsRequest.rejected]: (state) => {
       state.status = 'rejected'
     },
   },
