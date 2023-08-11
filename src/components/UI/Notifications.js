@@ -142,6 +142,7 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
                   {mentorData.date}
                 </ManagerNotificationsDate>
                 <MentorNotificationIcon>
+                  <div />
                   {!mentorShow && (
                     <MentorNotificationsShowIcon
                       onClick={showMentor}
@@ -161,11 +162,14 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
                 <MentorButton>
                   <Button variant='seo/admin'>Отправить</Button>
                 </MentorButton>
-                <MentorNotificationsHideIcon
-                  onClick={showMentor}
-                  src={showIcon}
-                  alt='none'
-                />
+                <MentorNotificationIcon>
+                  <div />
+                  <MentorNotificationsHideIcon
+                    onClick={showMentor}
+                    src={showIcon}
+                    alt='none'
+                  />
+                </MentorNotificationIcon>
               </div>
             )}
           </div>
@@ -457,15 +461,16 @@ const MentorNotificationsComment = styled.p`
   text-align: left;
   color: #373737b2;
   max-width: 600px;
-  display: flex;
-  align-items: start;
   word-wrap: break-word;
 `
-const MentorNotificationIcon = styled.div``
+const MentorNotificationIcon = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 const MentorNotificationsShowIcon = styled.img`
   width: 13px;
   height: 13px;
-  margin-left: 55px;
+  /* margin-left: 55px; */
   margin-top: 8px;
   @media screen and (max-width: 415px) {
     rotate: -90deg;
@@ -495,17 +500,17 @@ const MentorNotificationsDate = styled.div`
   flex-direction: column;
   @media screen and (max-width: 415px) {
     margin-top: 15px;
-    gap: 210px;
+    gap: 95px;
     flex-direction: row;
   }
+  margin-top: 15px;
   @media screen and (max-width: 391px) {
-    margin-top: 15px;
-    gap: 200px;
+    gap: 85px;
     flex-direction: row;
   }
   @media screen and (max-width: 375px) {
     margin-top: 15px;
-    gap: 180px;
+    gap: 75px;
     flex-direction: row;
   }
 `

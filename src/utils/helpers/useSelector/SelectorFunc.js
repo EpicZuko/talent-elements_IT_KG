@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 const SelectorFuncMentor = () => {
-  const bodyData = useSelector((state) => state.mentorInstructor)
-  return bodyData
+  const mentorData = useSelector((state) => state.mentorInstructor)
+  return mentorData
 }
 export default SelectorFuncMentor

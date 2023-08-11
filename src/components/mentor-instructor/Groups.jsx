@@ -5,26 +5,28 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import {
   MentorInstructorAction,
-  MentorRequest,
+  MentorGroupRequest,
 } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
-import SelectorFuncMentorBody from '../../utils/helpers/useSelector/SelectorFunc'
+import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Card from '../UI/card/Card'
 
 const MentorInstrucorGroups = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const state = SelectorFuncMentorBody()
-  console.log(state.groups)
+  const state = SelectorFuncMentor()
   useEffect(() => {
-    dispatch(MentorRequest({ page: 'groups', id: 1 }))
-  }, [dispatch])
+    dispatch(MentorGroupRequest({ id: 1 }))
+  }, [])
   const navToGroup = (loc) => {
-    dispatch(MentorInstructorAction.findLessonsByCourseName(loc))
-    navigate(loc)
+    dispatch(
+      MentorInstructorAction.findCoursesBy({ id: loc.id, name: loc.location })
+    )
+    navigate(loc.location)
   }
   const navToStudents = () => {
     navigate('students')
   }
+  console.log(state.groups)
   return (
     <div>
       <LocationText>Мои группы</LocationText>
@@ -35,16 +37,17 @@ const MentorInstrucorGroups = () => {
             {
               id: el.id,
               title: el.name,
-              lesson: state.lessonsCount,
+              lesson: el.lessonId || 0,
+              students: el.studentsId || 0,
               img: el.photo,
             },
           ]}
           navToCurrentGroup={() => {
-            navToGroup(el.name)
+            navToGroup({ location: el.name, id: el.id })
           }}
           navToStudents={navToStudents}
           onClickHandler={() => {
-            navToGroup(el.name)
+            navToGroup({ location: el.name, id: el.id })
           }}
         />
       ))}

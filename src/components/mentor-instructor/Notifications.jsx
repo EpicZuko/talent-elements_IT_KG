@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import arrowLeftIcon from '../../assets/icon/notificationIcons/strelka.svg'
-import { MentorRequest } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import { MentorNotificationsRequest } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Notifications from '../UI/Notifications'
 
@@ -12,31 +12,28 @@ export const MentorInstructorNotifications = () => {
   const navToPrevPage = () => {
     navigate(-1)
   }
+  const mentorData = useSelector((state) => state.login)
+  console.log(mentorData)
   const state = SelectorFuncMentor()
+  console.log(state)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(MentorRequest({ page: 'notifcations' }))
-  }, [dispatch])
+    dispatch(MentorNotificationsRequest())
+  }, [])
   return (
     <div>
       <Location>
         <ArrowLeft onClick={navToPrevPage} src={arrowLeftIcon} alt='none' />
         <LocationText>Уведомление</LocationText>
       </Location>
-      {state.notifications.map(
-        (el) =>
-          el.message && (
-            <Notifications
-              variant='MentorNotifications'
-              mentorData={{
-                group: '',
-                lesson: '',
-                value: '',
-                comment: el.message || '',
-              }}
-            />
-          )
-      )}
+      <Notifications
+        variant='MentorNotifications'
+        mentorData={{
+          email: mentorData.login.email,
+          username: state.profile.name,
+          comment: '',
+        }}
+      />
     </div>
   )
 }

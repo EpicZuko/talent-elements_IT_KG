@@ -19,7 +19,7 @@ const Card = (props) => {
               </div>
               <div>
                 <Title onClick={props.navToCurrentGroup}>
-                  <span>{element.title}</span>
+                  <span>Группа {element.title}</span>
                 </Title>
               </div>
               <div>
