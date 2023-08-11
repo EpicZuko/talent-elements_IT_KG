@@ -46,6 +46,43 @@ export const getAllGroups = createAsyncThunk(
     }
   }
 )
+export const getSeoAdminInstructorMentor = createAsyncThunk(
+  'seoAdmin/getSeoAdminInstructorMentor',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: 'api/v1/seo/admin/get/all/teachers/for/seoAdmin',
+      })
+      const teachersArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].createdAt
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+
+        teachersArray.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          name: response[i].fullName,
+          img: response[i].photo,
+          group: response[i].groupName,
+          doctrine: response[i].lessonNames,
+          dateOfRegistration: formattedDate,
+        })
+      }
+      return { teachersArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
@@ -53,9 +90,9 @@ const getSeoAdminGroupSlice = createSlice({
     card: [],
     error: null,
     profileSeoAdmin: {},
+    teachers: [],
+    teachersStatus: null,
   },
-
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getAllGroups.pending, (state) => {
@@ -82,6 +119,17 @@ const getSeoAdminGroupSlice = createSlice({
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = 'error'
         state.error = action.payload?.error.message
+      })
+      // getallteachers seo admin
+      .addCase(getSeoAdminInstructorMentor.pending, (state) => {
+        state.teachersStatus = 'pending'
+      })
+      .addCase(getSeoAdminInstructorMentor.fulfilled, (state, action) => {
+        state.teachersStatus = 'success'
+        state.teachers = action.payload?.teachersArray
+      })
+      .addCase(getSeoAdminInstructorMentor.rejected, (state) => {
+        state.teachersStatus = 'error'
       })
   },
 })
