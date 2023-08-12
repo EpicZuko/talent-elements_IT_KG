@@ -1,61 +1,35 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/UI/Header'
 import SiderBar from '../components/UI/SiderBar'
-import { MentorHeaderRequest } from '../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import { getMentorProfile } from '../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../utils/helpers/useSelector/SelectorFunc'
 
 export const MentorInstructorLayout = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const state = SelectorFuncMentor()
 
-  const navToGroup = () => {
-    navigate('/')
-  }
-  const navToNotifications = () => {
-    navigate('/notifications')
-  }
   const [show, setShow] = useState()
   const burger = () => {
     setShow((prev) => !prev)
   }
   useEffect(() => {
-    dispatch(MentorHeaderRequest())
+    dispatch(getMentorProfile())
   }, [])
   return (
     <div>
-      <Header
-        data={{
-          name: state.profile.name,
-          img: state.profile.avatar,
-          notificationNumberCount: state.profile.notificationsCount,
-        }}
-        onBurgerMenuClick={burger}
-        onClickNotification={navToNotifications}
-      />
+      <Header data={state?.getProfile} onBurgerMenuClick={burger} />
       <Block>
         <Container>
           <Outlet />
         </Container>
         <SideBlock>
-          <SiderBar
-            variant='mentor'
-            onClickMentorInstructorGroup={navToGroup}
-            absoluteNone='none'
-          />
+          <SiderBar variant='mentor' />
         </SideBlock>
-        {show && (
-          <SiderBar
-            variant='mentor'
-            onClickMentorInstructorGroup={navToGroup}
-            onCloseBackdrop={burger}
-            absoluteNone='none'
-          />
-        )}
+        {show && <SiderBar variant='mentor' onCloseBackdrop={burger} />}
       </Block>
     </div>
   )

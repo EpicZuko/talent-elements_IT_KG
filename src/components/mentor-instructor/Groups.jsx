@@ -1,40 +1,22 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { MentorGroupRequest } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import { getMentorGroups } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Card from '../UI/card/Card'
 
 const MentorInstrucorGroups = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const state = SelectorFuncMentor()
   useEffect(() => {
-    dispatch(MentorGroupRequest())
+    dispatch(getMentorGroups())
   }, [])
-  const navToGroup = () => {
-    navigate('/courses')
-  }
-  const navToStudents = () => {
-    navigate('/students')
-  }
-  const navToLessons = () => {
-    navigate('/lessons')
-  }
+
   return (
     <div>
       <LocationText>Мои группы</LocationText>
-      {state.groups.map((el) => (
-        <Card
-          variant='mentor_instructor'
-          user={[el]}
-          navToCurrentGroup={navToGroup}
-          navToStudents={navToStudents}
-          onClickHandler={navToLessons}
-        />
-      ))}
+      <Card variant='mentor_instructor' user={state.getCardGroups} />
     </div>
   )
 }
@@ -51,4 +33,12 @@ const LocationText = styled.p`
   letter-spacing: 0em;
   text-align: left;
   color: rgba(19, 71, 100, 1);
+  @media (max-width: 391px) {
+    color: var(--light-blue, #134764);
+    font-family: Zen Kaku Gothic New;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
 `

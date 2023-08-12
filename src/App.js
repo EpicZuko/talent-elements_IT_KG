@@ -1,6 +1,4 @@
-import MentorInstrucorGroups from './components/mentor-instructor/Groups'
-
 function App() {
-  return <MentorInstrucorGroups />
+  return <div />
 }
 export default App

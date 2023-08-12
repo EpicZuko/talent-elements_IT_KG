@@ -2,20 +2,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import ApiFetch from '../../../api/ApiFetch'
 import {
-  MentorInstructorGetAllGroups,
-  MentorInstructorHeaderSeeUrl,
+  mentorInstructorGetAllGroupsUrl,
+  mentorProfileUrl,
 } from '../../../utils/constants/url'
 
-export const MentorGroupRequest = createAsyncThunk(
-  'mentor-instructor/groupRequest',
+export const getMentorGroups = createAsyncThunk(
+  'mentor-instructor/getMentorGroups',
   async (_, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `${MentorInstructorGetAllGroups}`,
+        url: mentorInstructorGetAllGroupsUrl,
       })
-      const data = []
+      const getGroups = []
       for (let i = 0; i < response.length; i++) {
-        data.push({
+        getGroups.push({
           id: response[i].id,
           title: response[i].groupName,
           students: response[i].countStudent,
@@ -23,20 +23,26 @@ export const MentorGroupRequest = createAsyncThunk(
           img: response[i].photo,
         })
       }
-      return data
+
+      return { getGroups }
     } catch (error) {
       return rejectWithValue(error.message)
     }
   }
 )
-export const MentorHeaderRequest = createAsyncThunk(
-  'mentor-instructor/headerRequest',
+export const getMentorProfile = createAsyncThunk(
+  'mentor-instructor/getMentorProfile',
   async (_, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `${MentorInstructorHeaderSeeUrl}`,
+        url: mentorProfileUrl,
       })
-      return response
+      const getProfile = {
+        name: response.fullName,
+        avatar: response.photo,
+        notificationsCount: response.count,
+      }
+      return { getProfile }
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -44,39 +50,36 @@ export const MentorHeaderRequest = createAsyncThunk(
 )
 
 const initialState = {
-  status: null,
-  groups: [],
-  profile: {},
+  getCardGroupsStatus: null,
+  getCardGroups: [],
+  getProfileStatus: null,
+  getProfile: {},
 }
 
 export const MentorInstructorSlice = createSlice({
   name: 'mentor-instructor',
   initialState,
   extraReducers: {
-    [MentorGroupRequest.pending]: (state) => {
-      state.status = 'pending'
+    [getMentorGroups.pending]: (state) => {
+      state.getCardGroupsStatus = 'pending'
     },
-    [MentorGroupRequest.fulfilled]: (state, action) => {
-      state.status = 'fullfilled'
-      state.groups = action.payload
+    [getMentorGroups.fulfilled]: (state, action) => {
+      state.getCardGroupsStatus = 'fullfilled'
+      state.getCardGroups = action.payload?.getGroups
     },
-    [MentorGroupRequest.rejected]: (state) => {
-      state.status = 'rejected'
+    [getMentorGroups.rejected]: (state) => {
+      state.getCardGroupsStatus = 'rejected'
     },
-    [MentorHeaderRequest.pending]: (state) => {
-      state.status = 'pending'
+    // get mentor profile
+    [getMentorProfile.pending]: (state) => {
+      state.getProfileStatus = 'pending'
     },
-    [MentorHeaderRequest.fulfilled]: (state, action) => {
-      state.status = 'fullfilled'
-      const profile = {
-        name: action.payload?.fullName,
-        avatar: action.payload?.photo,
-        notificationsCount: action.payload?.count,
-      }
-      state.profile = profile
+    [getMentorProfile.fulfilled]: (state, action) => {
+      state.getProfileStatus = 'fullfilled'
+      state.getProfile = action.payload?.getProfile
     },
-    [MentorHeaderRequest.rejected]: (state) => {
-      state.status = 'rejected'
+    [getMentorProfile.rejected]: (state) => {
+      state.getProfileStatus = 'rejected'
     },
   },
 })
