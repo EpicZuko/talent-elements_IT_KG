@@ -3,6 +3,8 @@ export const InitialUrl =
 
 export const LoginUserUrl = 'login'
 export const registerUserUrl = 'register'
+export const mentorProfileUrl = 'api/teachers/see/header/profile'
+export const mentorInstructorGetAllGroupsUrl = 'api/teachers/find/all/group'
 export const seoAdminGetAllGroupsUrl = 'api/v1/seo/admin/find/all/group'
 export const seoAdminProfileUrl = 'api/v1/seo/admin/see/header/profile'
 export const staffAdminGetAllGroups = 'api/v1/staff/admin/get_all_groups'
