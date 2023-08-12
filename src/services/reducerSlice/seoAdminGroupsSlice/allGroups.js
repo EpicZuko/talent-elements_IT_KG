@@ -23,6 +23,7 @@ export const getProfile = createAsyncThunk(
     }
   }
 )
+
 export const getAllGroups = createAsyncThunk(
   'seoAdmin/getAllGroups',
   async (_, { rejectWithValue }) => {
@@ -34,9 +35,9 @@ export const getAllGroups = createAsyncThunk(
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
         cardGroup.push({
-          id: response[i]?.id,
+          id: response[i].id,
           img: response[i].photo,
-          students: response[i].count,
+          students: response[i].countStudent,
           title: response[i].groupName,
         })
       }
@@ -46,6 +47,7 @@ export const getAllGroups = createAsyncThunk(
     }
   }
 )
+
 export const getSeoAdminInstructorMentor = createAsyncThunk(
   'seoAdmin/getSeoAdminInstructorMentor',
   // eslint-disable-next-line consistent-return
@@ -83,7 +85,39 @@ export const getSeoAdminInstructorMentor = createAsyncThunk(
     }
   }
 )
-
+export const getStudentsId = createAsyncThunk(
+  'seoAdmin/getStudentsId',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/find/all/student/group/by/id?groupId=${props?.id}`,
+      })
+      const studentsId = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].created
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        studentsId.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          name: response[i].name,
+          dateOfRegistration: formattedDate,
+        })
+      }
+      return { studentsId }
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
   initialState: {
@@ -92,6 +126,8 @@ const getSeoAdminGroupSlice = createSlice({
     profileSeoAdmin: {},
     teachers: [],
     teachersStatus: null,
+    studentsStatus: null,
+    students: [],
   },
   extraReducers: (builder) => {
     builder
@@ -131,7 +167,19 @@ const getSeoAdminGroupSlice = createSlice({
       .addCase(getSeoAdminInstructorMentor.rejected, (state) => {
         state.teachersStatus = 'error'
       })
+      // getStudentsId seo admin
+      .addCase(getStudentsId.pending, (state) => {
+        state.studentsStatus = 'pending'
+      })
+      .addCase(getStudentsId.fulfilled, (state, action) => {
+        state.studentsStatus = 'success'
+        state.students = action.payload?.studentsId
+      })
+      .addCase(getStudentsId.rejected, (state) => {
+        state.studentsStatus = 'error'
+      })
   },
 })
+
 export const getAllGroupAction = getSeoAdminGroupSlice.actions
 export default getSeoAdminGroupSlice
