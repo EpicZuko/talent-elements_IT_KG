@@ -20,6 +20,7 @@ const Student = ({
   onClickManagerDeleteButton,
   onClickMentorEditButton,
   onClickMentorDeleteButton,
+  onClickElement,
 }) => {
   return (
     <div>
@@ -142,7 +143,15 @@ const Student = ({
           </thead>
           <tbody>
             {UserDataArray.map((element) => (
-              <StyledBody key={element.id} variant={variant}>
+              <StyledBody
+                key={element.id}
+                variant={variant}
+                onClick={() =>
+                  variant === 'Seo_admin_managers'
+                    ? ''
+                    : onClickElement(element)
+                }
+              >
                 {variant === 'Students' && (
                   <StyledId>{element.raiting}</StyledId>
                 )}
