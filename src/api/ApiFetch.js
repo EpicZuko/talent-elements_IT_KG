@@ -10,10 +10,10 @@ function ApiFetch(props) {
   const jwt = store.getState()
   const requestOptions = {
     method: props.method || 'GET',
-    headers: jwt.login.login?.token
+    headers: jwt.login.login?.jwt
       ? {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwt.login.login.token}`,
+          Authorization: `Bearer ${jwt.login.login.jwt}`,
         }
       : {
           'Content-Type': 'application/json',
