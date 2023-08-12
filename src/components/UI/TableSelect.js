@@ -11,7 +11,7 @@ const Table = ({ student, variant }) => {
             <TableHead>Группы</TableHead>
           </TrHead>
           {student.map((element) => (
-            <TrBody>
+            <TrBody key={element.id}>
               <TableBody>{element.number}</TableBody>
               <TableBody>{element.lessons}</TableBody>
               <TableBody width='100px'>{element.groups}</TableBody>
@@ -39,7 +39,8 @@ export default Table
 
 const Div = styled.div`
   @media (max-width: 391px) {
-    width: 100%;
+    width: 370px;
+    height: 300px;
     overflow-x: scroll;
   }
 `
@@ -48,11 +49,19 @@ const TrHead = styled.tr`
   width: 400px;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 391px) {
+    width: 320px;
+    margin-left: 20px;
+  }
 `
 const TrBody = styled.tr`
   width: 450px;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 391px) {
+    width: 350px;
+    margin-left: 20px;
+  }
 `
 const TableHead = styled.th`
   color: var(--black, #373737);
@@ -84,6 +93,8 @@ const TableBody = styled.td`
   font-weight: 500;
   line-height: normal;
   margin-left: 2px;
+  margin-top: 17px;
+  margin-bottom: 17px;
 `
 const TableBody2 = styled.td`
   color: var(--breadcrumbs, #878787);

@@ -22,12 +22,6 @@ const SeoAdminLayouts = () => {
     dispatch(getProfile())
   }, [dispatch])
 
-  const notificationNavigateSeoAdmin = () => {
-    navigate('/notification')
-  }
-  const profileNavigateSeoAdmin = () => {
-    navigate('/profile')
-  }
   const clickNavigateGroup = () => {
     navigate('/')
   }
@@ -42,8 +36,6 @@ const SeoAdminLayouts = () => {
       <Header
         data={state?.profileSeoAdmin}
         onBurgerMenuClick={OpenSideBarHandler}
-        onClickNotification={notificationNavigateSeoAdmin}
-        onClickProfile={profileNavigateSeoAdmin}
       />
       <DivSeoAdmin>
         <div>
