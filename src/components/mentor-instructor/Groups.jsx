@@ -12,13 +12,16 @@ const MentorInstrucorGroups = () => {
   const navigate = useNavigate()
   const state = SelectorFuncMentor()
   useEffect(() => {
-    dispatch(MentorGroupRequest({ id: 1 }))
+    dispatch(MentorGroupRequest())
   }, [])
-  const navToGroup = (loc) => {
-    navigate(loc)
+  const navToGroup = () => {
+    navigate('/courses')
   }
   const navToStudents = () => {
     navigate('/students')
+  }
+  const navToLessons = () => {
+    navigate('/lessons')
   }
   return (
     <div>
@@ -27,13 +30,9 @@ const MentorInstrucorGroups = () => {
         <Card
           variant='mentor_instructor'
           user={[el]}
-          navToCurrentGroup={() => {
-            navToGroup(el.title)
-          }}
+          navToCurrentGroup={navToGroup}
           navToStudents={navToStudents}
-          onClickHandler={() => {
-            navToGroup(el.title)
-          }}
+          onClickHandler={navToLessons}
         />
       ))}
     </div>

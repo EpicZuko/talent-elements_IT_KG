@@ -1,22 +1,25 @@
 /* eslint-disable no-plusplus */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import ApiFetch from '../../../api/ApiFetch'
-import { MentorInstructorHeaderSeeUrl } from '../../../utils/constants/url'
+import {
+  MentorInstructorGetAllGroups,
+  MentorInstructorHeaderSeeUrl,
+} from '../../../utils/constants/url'
 
 export const MentorGroupRequest = createAsyncThunk(
-  'mentor-instructor/bodyRequests',
-  async (props, { rejectWithValue }) => {
+  'mentor-instructor/groupRequest',
+  async (_, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `api/teachers/${props.id}/groups`,
+        url: `${MentorInstructorGetAllGroups}`,
       })
       const data = []
       for (let i = 0; i < response.length; i++) {
         data.push({
           id: response[i].id,
-          title: response[i].name,
-          students: response[i].studentsId || 0,
-          lesson: response[i].lessonId || 0,
+          title: response[i].groupName,
+          students: response[i].countStudent,
+          lesson: response[i].countCourses,
           img: response[i].photo,
         })
       }

@@ -10,7 +10,7 @@ const Card = (props) => {
         {props?.user?.map((element) => (
           <div key={element.id}>
             <Styled variant={props.variant}>
-              <div onClick={props.onClickHandler} role='button' tabIndex='0'>
+              <div role='button' tabIndex='0'>
                 <Img
                   onClick={props.navToCurrentGroup}
                   src={element.img}
