@@ -3,6 +3,7 @@ import ApiFetch from '../../../api/ApiFetch'
 import {
   seoAdminGetAllGroupsUrl,
   seoAdminProfileUrl,
+  seoAdmingetFindAllManagerUrl,
 } from '../../../utils/constants/url'
 
 export const getProfile = createAsyncThunk(
@@ -68,7 +69,6 @@ export const getSeoAdminInstructorMentor = createAsyncThunk(
         const formattedDate = `${dateObject.toLocaleString('en-US', {
           day: '2-digit',
         })}.${dateAddOne}.${dateObject.getFullYear()}`
-
         teachersArray.push({
           id: response[i].id,
           raiting: response[i].id,
@@ -118,6 +118,33 @@ export const getStudentsId = createAsyncThunk(
     }
   }
 )
+
+export const getSeoAdminManager = createAsyncThunk(
+  'seoAdmin/getSeoAdminManager',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: seoAdmingetFindAllManagerUrl,
+      })
+      const managerArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        managerArray.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          name: response[i].username,
+          dateOfRegistration: response[i].date,
+        })
+      }
+      return { managerArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
   initialState: {
@@ -128,6 +155,8 @@ const getSeoAdminGroupSlice = createSlice({
     teachersStatus: null,
     studentsStatus: null,
     students: [],
+    manager: [],
+    managerStatus: null,
   },
   extraReducers: (builder) => {
     builder
@@ -177,6 +206,18 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getStudentsId.rejected, (state) => {
         state.studentsStatus = 'error'
+
+      // get manager
+      .addCase(getSeoAdminManager.pending, (state) => {
+        state.managerStatus = 'pending'
+      })
+      .addCase(getSeoAdminManager.fulfilled, (state, action) => {
+        state.managerStatus = 'success'
+        state.manager = action.payload?.managerArray
+      })
+      .addCase(getSeoAdminManager.rejected, (state, action) => {
+        state.managerStatus = 'error'
+        state.errorManager = action.payload
       })
   },
 })
