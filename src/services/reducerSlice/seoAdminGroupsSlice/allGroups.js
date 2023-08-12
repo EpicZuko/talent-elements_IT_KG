@@ -42,7 +42,7 @@ export const getAllGroups = createAsyncThunk(
           title: response[i].groupName,
         })
       }
-      return cardGroup
+      return { cardGroup }
     } catch (error) {
       return rejectWithValue(error?.message)
     }
@@ -130,15 +130,63 @@ export const getSeoAdminManager = createAsyncThunk(
       const managerArray = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].date
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
         managerArray.push({
           id: response[i].id,
           raiting: response[i].id,
           img: response[i].photo,
           name: response[i].username,
-          dateOfRegistration: response[i].date,
+          dateOfRegistration: formattedDate,
         })
       }
       return { managerArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// get seo admin student profile
+export const getStudentIDProfile = createAsyncThunk(
+  'seoAdmin/getStudentIDProfile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/find/by/id/student/info?studentId=${props?.id}`,
+      })
+      const getStudentId = {
+        email: response.email,
+        group: response.group,
+        profileImg: response.photo,
+        groups: [],
+      }
+
+      const dateString = response?.created
+      const dateObject = new Date(dateString)
+      const dateAddOne =
+        dateObject?.getMonth() < 10
+          ? `0${dateObject.getMonth() + 1}`
+          : dateObject.getMonth() + 1
+      const formattedDate = `${dateObject?.toLocaleString('en-US', {
+        day: '2-digit',
+      })}.${dateAddOne}.${dateObject.getFullYear()}`
+      getStudentId.groups.push({
+        name: response?.name,
+        email: response?.email,
+        groups: response?.group,
+        date: formattedDate,
+      })
+
+      return { getStudentId }
     } catch (error) {
       return rejectWithValue(error)
     }
@@ -157,6 +205,13 @@ const getSeoAdminGroupSlice = createSlice({
     students: [],
     manager: [],
     managerStatus: null,
+    studentIdProfileArray: {
+      email: '',
+      group: '',
+      profileImg: '',
+      groups: [],
+    },
+    studentIdStatus: null,
   },
   extraReducers: (builder) => {
     builder
@@ -166,7 +221,7 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getAllGroups.fulfilled, (state, action) => {
         state.loading = 'success'
-        state.card = action.payload
+        state.card = action.payload.cardGroup
       })
       .addCase(getAllGroups.rejected, (state, action) => {
         state.loading = 'error'
@@ -206,7 +261,7 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getStudentsId.rejected, (state) => {
         state.studentsStatus = 'error'
-
+      })
       // get manager
       .addCase(getSeoAdminManager.pending, (state) => {
         state.managerStatus = 'pending'
@@ -218,6 +273,21 @@ const getSeoAdminGroupSlice = createSlice({
       .addCase(getSeoAdminManager.rejected, (state, action) => {
         state.managerStatus = 'error'
         state.errorManager = action.payload
+      })
+      // get studentId  profile
+      .addCase(getStudentIDProfile.pending, (state) => {
+        state.studentIdStatus = 'pending'
+      })
+      .addCase(getStudentIDProfile.fulfilled, (state, action) => {
+        state.studentIdStatus = 'success'
+        state.studentIdProfileArray.groups = action.payload.getStudentId?.groups
+        state.studentIdProfileArray.group = action.payload.getStudentId?.group
+        state.studentIdProfileArray.email = action.payload.getStudentId?.email
+        state.studentIdProfileArray.profileImg =
+          action.payload.getStudentId?.profileImg
+      })
+      .addCase(getStudentIDProfile.rejected, (state) => {
+        state.studentIdStatus = 'error'
       })
   },
 })
