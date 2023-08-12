@@ -46,7 +46,7 @@ const initialState = {
   profile: {},
 }
 
-export const MentorInstructorBodySlice = createSlice({
+export const MentorInstructorSlice = createSlice({
   name: 'mentor-instructor',
   initialState,
   extraReducers: {
@@ -78,4 +78,4 @@ export const MentorInstructorBodySlice = createSlice({
   },
 })
 
-export const MentorInstructorAction = MentorInstructorBodySlice.actions
+export const MentorInstructorAction = MentorInstructorSlice.actions
