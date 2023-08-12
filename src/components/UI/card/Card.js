@@ -12,14 +12,14 @@ const Card = (props) => {
             <Styled variant={props.variant}>
               <div role='button' tabIndex='0'>
                 <Img
-                  onClick={props.navToCurrentGroup}
+                  onClick={() => props.navToCurrentGroup(element)}
                   src={element.img}
                   alt='error img'
                 />
               </div>
               <div>
-                <Title onClick={props.navToCurrentGroup}>
-                  <span>Группа {element.title}</span>
+                <Title onClick={() => props.navToCurrentGroup(element)}>
+                  <span>{element.title}</span>
                 </Title>
               </div>
               <div>
@@ -31,11 +31,11 @@ const Card = (props) => {
                       tabIndex='0'
                     >
                       <Icon
-                        onClick={props.navToStudents}
+                        onClick={() => props.navToStudents(element)}
                         src={IconCardGroup}
                         alt='error'
                       />
-                      <Students onClick={props.navToStudents}>
+                      <Students onClick={() => props.navToStudents(element)}>
                         {element.students} студентов
                       </Students>
                     </div>

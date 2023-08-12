@@ -49,18 +49,6 @@ const SeoAdminLayouts = () => {
         <div>
           <Outlet />
         </div>
-        <div>
-          {stateSideBar && (
-            <SiderBar
-              variant='seo/admin'
-              onClickSeoAdminInstructor={clickNavigateInstructor}
-              onClickSeoAdminManager={clickNavigateManager}
-              onClickSeoAdminGroup={clickNavigateGroup}
-              absoluteNone='none'
-              onCloseBackdrop={CloseSideBarHandler}
-            />
-          )}
-        </div>
         <StyledSideBar>
           <SiderBar
             variant='seo/admin'
@@ -71,6 +59,16 @@ const SeoAdminLayouts = () => {
             onCloseBackdrop={CloseSideBarHandler}
           />
         </StyledSideBar>
+        {stateSideBar && (
+          <SiderBar
+            variant='seo/admin'
+            onClickSeoAdminInstructor={clickNavigateInstructor}
+            onClickSeoAdminManager={clickNavigateManager}
+            onClickSeoAdminGroup={clickNavigateGroup}
+            absoluteNone='none'
+            onCloseBackdrop={CloseSideBarHandler}
+          />
+        )}
       </DivSeoAdmin>
     </div>
   )
@@ -83,7 +81,6 @@ const DivSeoAdmin = styled.div`
   justify-content: space-between;
 `
 const StyledSideBar = styled.div`
-  display: block;
   @media screen and (max-width: 391px) {
     display: none;
   }
