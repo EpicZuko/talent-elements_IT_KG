@@ -192,7 +192,34 @@ export const getStudentIDProfile = createAsyncThunk(
     }
   }
 )
+// api/v1/seo/admin/get/byId/teachers/for/seoAdmin?teacherId=1
+export const getSeoAdminByIdTeachers = createAsyncThunk(
+  'seoAdmin/getSeoAdminByIdTeachers',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/get/byId/teachers/for/seoAdmin?teacherId=${props.id}`,
+      })
+      const instructorOrMentor = {
+        id: response.id,
+        profileImg: response.photo,
+        email: response.email,
+        groups: [],
+        lessonNames: response.groupName,
+      }
+      instructorOrMentor.groups.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
 
+      return { instructorOrMentor }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
   initialState: {
@@ -212,6 +239,14 @@ const getSeoAdminGroupSlice = createSlice({
       groups: [],
     },
     studentIdStatus: null,
+    byIdTeachers: {
+      id: null,
+      profileImg: '',
+      email: '',
+      groups: [],
+      lessonNames: [],
+    },
+    byIdTeachersStatus: null,
   },
   extraReducers: (builder) => {
     builder
@@ -288,6 +323,23 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getStudentIDProfile.rejected, (state) => {
         state.studentIdStatus = 'error'
+      })
+      // getSeoAdminByIdTeachers
+      .addCase(getSeoAdminByIdTeachers.pending, (state) => {
+        state.byIdTeachersStatus = 'pending'
+      })
+      .addCase(getSeoAdminByIdTeachers.fulfilled, (state, action) => {
+        state.byIdTeachersStatus = 'success'
+        state.byIdTeachers.email = action.payload.instructorOrMentor.email
+        state.byIdTeachers.groups = action.payload.instructorOrMentor.groups
+        state.byIdTeachers.id = action.payload.instructorOrMentor.id
+        state.byIdTeachers.lessonNames =
+          action.payload.instructorOrMentor.lessonNames
+        state.byIdTeachers.profileImg =
+          action.payload.instructorOrMentor.profileImg
+      })
+      .addCase(getSeoAdminByIdTeachers.rejected, (state) => {
+        state.byIdTeachersStatus = 'error'
       })
   },
 })

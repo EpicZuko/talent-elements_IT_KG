@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { getSeoAdminInstructorMentor } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
 import Input from '../UI/Input'
@@ -9,6 +10,7 @@ const SeoAdminInstructorMentor = () => {
   const [search, setSearch] = useState('')
   const state = useSelector((state) => state.seoAdmin)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getSeoAdminInstructorMentor())
   }, [])
@@ -22,6 +24,9 @@ const SeoAdminInstructorMentor = () => {
     return filterSearch
   }
   const filterSearch = searchFilter()
+  const clickInstructorOrMentorProfile = (id) => {
+    navigate(`/instructor/${id}`)
+  }
   return (
     <DivStyled>
       <div>
@@ -38,7 +43,14 @@ const SeoAdminInstructorMentor = () => {
         </DivStyledInput>
         <Div>
           {filterSearch.length > 0 ? (
-            <Student variant='Staff_admin' UserDataArray={filterSearch} />
+            <Student
+              variant='Staff_admin'
+              UserDataArray={filterSearch}
+              onClickElement={(element) =>
+                clickInstructorOrMentorProfile(element.id)
+              }
+              variantClick='click'
+            />
           ) : (
             <P>Совпадений не найдено.</P>
           )}

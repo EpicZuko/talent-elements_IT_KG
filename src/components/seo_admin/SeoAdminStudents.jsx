@@ -22,7 +22,7 @@ const SeoAdminStudent = () => {
       <DivContianer>
         <DivStyle>
           <AllGroup>
-            Все группы /<Location />
+            Все группы / <Location />
           </AllGroup>
         </DivStyle>
         <DivStudent>
@@ -47,8 +47,7 @@ const AllGroup = styled.h6`
   color: rgba(135, 135, 135, 1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 135px;
+  width: 300px;
   height: 29px;
   flex-shrink: 0;
   @media (max-width: 391px) {
