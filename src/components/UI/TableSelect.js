@@ -21,7 +21,7 @@ const Table = ({ student, variant }) => {
       )}
       {variant === 'table' &&
         student.map((el) => (
-          <table>
+          <StyledTable>
             <tr style={{ display: 'flex', gap: '5px' }}>
               <TableBody2>Группа:</TableBody2>
               <TableHead2>{el.groups}</TableHead2>
@@ -30,7 +30,7 @@ const Table = ({ student, variant }) => {
               <TableBody2>Дата регистрации:</TableBody2>
               <TableHead2>{el.date}</TableHead2>
             </tr>
-          </table>
+          </StyledTable>
         ))}
     </Div>
   )
@@ -88,11 +88,18 @@ const TableBody = styled.td`
 const TableBody2 = styled.td`
   color: var(--breadcrumbs, #878787);
   text-align: center;
-  font-family:
-    Zen Kaku Gothic New,
-    sans-serif;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Zen Kaku Gothic New;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  margin-bottom: 40px;
+`
+const StyledTable = styled.table`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `

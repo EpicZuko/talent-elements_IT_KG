@@ -21,6 +21,7 @@ const Student = ({
   onClickMentorEditButton,
   onClickMentorDeleteButton,
   onClickElement,
+  variantClick,
 }) => {
   return (
     <div>
@@ -147,9 +148,7 @@ const Student = ({
                 key={element.id}
                 variant={variant}
                 onClick={() =>
-                  variant === 'Seo_admin_managers'
-                    ? ''
-                    : onClickElement(element)
+                  variantClick === 'disbled' ? '' : onClickElement(element)
                 }
               >
                 {variant === 'Students' && (
