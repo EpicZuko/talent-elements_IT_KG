@@ -54,7 +54,7 @@ const Card = (props) => {
                   </Div1>
                   <Div2 role='button' tabIndex='0'>
                     <ImgGroup
-                      onClick={props.navToStudents}
+                      onClick={() => props.navToStudents(element)}
                       src={IconCardGroup}
                       alt='error'
                     />

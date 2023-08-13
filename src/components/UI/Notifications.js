@@ -470,13 +470,12 @@ const MentorNotificationIcon = styled.div`
 const MentorNotificationsShowIcon = styled.img`
   width: 13px;
   height: 13px;
-  /* margin-left: 55px; */
   margin-top: 8px;
   @media screen and (max-width: 415px) {
     rotate: -90deg;
     position: relative;
     bottom: 6px;
-    margin-left: 100px;
+    margin-left: 220px;
   }
 `
 const MentorNotificationsHideIcon = styled.img`
