@@ -30,7 +30,7 @@ const StudentLayouts = () => {
   }
 
   const clickNavigateCard = () => {
-    navigate('/card')
+    navigate('/my_group')
   }
 
   const clickNavigateCourse = () => {
