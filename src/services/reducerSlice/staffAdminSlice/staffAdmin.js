@@ -75,6 +75,7 @@ export const getStudentStaffAdmin = createAsyncThunk(
           day: '2-digit',
         })}.${dateAddOne}.${dateObject.getFullYear()}`
         getFindAllTeacehrs.push({
+          id: response[i].id,
           raiting: response[i].id,
           img: response[i].photo,
           name: response[i].fullName,
@@ -122,6 +123,45 @@ export const getRatingGroupById = createAsyncThunk(
     }
   }
 )
+
+// get profile instructor mentor
+export const getProfileInstructorMentor = createAsyncThunk(
+  'staffAdmin/getProfileInstructorMentor',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/staff/admin/get/teacher/byId?teacherId=${props.id}`,
+      })
+      const lessons = []
+      const groupsProfile = {
+        id: response.id,
+        profileImg: response.photo,
+        name: response.fullName,
+        email: response.email,
+      }
+
+      response.groupName.forEach((group) => {
+        group.lessonTipResponses.forEach((lesson) => {
+          const lessonNames = lesson.lessonName
+          lessons.push({
+            id: group.groupId,
+            number: group.groupId,
+            groups: group.groupName,
+            lessons: lessonNames,
+          })
+        })
+      })
+      const getAllProfileInstructorMentor = {
+        groupsProfil: groupsProfile,
+        lesson: lessons,
+      }
+      return { getAllProfileInstructorMentor }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -137,6 +177,11 @@ const staffAdminSlice = createSlice({
       getGroupBiId: [],
     },
     statusGroupBiId: null,
+    getProfileInstructorMentor: {
+      profileInstructorOrMentor: {},
+      lesson: [],
+      statusInstructorMentor: null,
+    },
   },
   extraReducers: (builder) => {
     // staffAdminStudent
@@ -186,6 +231,20 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getRatingGroupById.rejected, (state) => {
         state.statusGroupBiId = 'error'
+      })
+      // get profile instructor mentor
+      .addCase(getProfileInstructorMentor.pending, (state) => {
+        state.getProfileInstructorMentor.statusInstructorMentor = 'pending'
+      })
+      .addCase(getProfileInstructorMentor.fulfilled, (state, action) => {
+        state.getProfileInstructorMentor.statusInstructorMentor = 'success'
+        state.getProfileInstructorMentor.profileInstructorOrMentor =
+          action.payload.getAllProfileInstructorMentor.groupsProfil
+        state.getProfileInstructorMentor.lesson =
+          action.payload.getAllProfileInstructorMentor.lesson
+      })
+      .addCase(getProfileInstructorMentor.rejected, (state) => {
+        state.getProfileInstructorMentor.statusInstructorMentor = 'error'
       })
   },
 })

@@ -26,6 +26,7 @@ const StaffAdminStudents = () => {
         <Student
           variant='User_Group'
           UserDataArray={state?.getStudentIdRainting?.getGroupBiId}
+          variantClick='disbled'
         />
       </StudentContianer>
     </DivBlockContainer>
