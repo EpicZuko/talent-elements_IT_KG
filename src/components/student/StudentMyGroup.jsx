@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentMyGroup } from '../../services/reducerSlice/studentSlice/studentAction'
 import Student from '../UI/Student'
@@ -7,9 +8,14 @@ import Student from '../UI/Student'
 const StudentMyGroup = () => {
   const state = useSelector((state) => state.student)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getStudentMyGroup())
   }, [])
+
+  const navigateStudentProfile = (id) => {
+    navigate(`/my_group/student_profile/${id}`)
+  }
   return (
     <DivBlockContainer>
       <H5>Мои группа</H5>
@@ -18,7 +24,8 @@ const StudentMyGroup = () => {
           <Student
             variant='User_Group'
             UserDataArray={state?.getStudentMyGroup}
-            variantClick='disbled'
+            variantClick='click'
+            onClickElement={(element) => navigateStudentProfile(element.id)}
           />
         ) : (
           <p>Совпадений не найдено.</p>
