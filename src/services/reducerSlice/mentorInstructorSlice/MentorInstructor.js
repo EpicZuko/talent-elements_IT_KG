@@ -39,10 +39,48 @@ export const getMentorProfile = createAsyncThunk(
       })
       const getProfile = {
         name: response.fullName,
-        avatar: response.photo,
-        notificationsCount: response.count,
+        avatarImg: response.photo,
+        notificationNumberCount: response.count,
       }
       return { getProfile }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const getMentorStudents = createAsyncThunk(
+  'mentor-instructor/getStudents',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/teachers/rating/group/by/id?groupId=${props.id}`,
+      })
+      const getStudents = []
+      for (let i = 0; i < response.length; i++) {
+        const obj = {
+          name: response[i].name,
+          id: response[i].id,
+          img: response[i].photo,
+          score: `${response[i].score} балл`,
+          raiting: response[i].rating,
+        }
+        getStudents.push(obj)
+      }
+      return { getStudents }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const putMentorStudents = createAsyncThunk(
+  'mentor-instrcutor/putStudents',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      await ApiFetch({
+        url: `api/teachers/remove_student/${props.id}`,
+        method: 'PUT',
+      })
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -54,6 +92,8 @@ const initialState = {
   getCardGroups: [],
   getProfileStatus: null,
   getProfile: {},
+  getStudents: [],
+  getStudentsStatus: null,
 }
 
 export const MentorInstructorSlice = createSlice({
@@ -80,6 +120,17 @@ export const MentorInstructorSlice = createSlice({
     },
     [getMentorProfile.rejected]: (state) => {
       state.getProfileStatus = 'rejected'
+    },
+    // get mentor students
+    [getMentorStudents.pending]: (state) => {
+      state.getStudentsStatus = 'pending'
+    },
+    [getMentorStudents.fulfilled]: (state, action) => {
+      state.getStudentsStatus = 'fulfilled'
+      state.getStudents = action.payload?.getStudents
+    },
+    [getMentorStudents.rejected]: (state) => {
+      state.getStudentsStatus = 'rejected'
     },
   },
 })
