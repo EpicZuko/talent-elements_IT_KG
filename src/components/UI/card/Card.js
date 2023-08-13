@@ -57,7 +57,15 @@ const Card = (props) => {
                     role='button'
                     tabIndex='0'
                   >
-                    <ImgGroup src={IconCardGroup} alt='error' />
+                    <ImgGroup
+                      src={IconCardGroup}
+                      alt='error'
+                      onClick={() =>
+                        props.variantClick === 'disabled'
+                          ? ''
+                          : props.onClickStudents(element)
+                      }
+                    />
                     <Studentss>Стдуенты -{element.students}</Studentss>
                   </Div2>
                 </Mentor>
