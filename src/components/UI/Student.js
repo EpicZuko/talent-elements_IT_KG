@@ -395,37 +395,37 @@ const Student = ({
                 )}
                 {variant === 'Students' && (
                   <td>
-                    {element.payment === 'Оплатил' && (
+                    {element.payment === true && (
                       <Button onClick={onClickStudentPaidButton} variant='paid'>
-                        <P>{element.payment}</P>
+                        <P>Оплатил</P>
                       </Button>
                     )}
-                    {element.payment === 'Не оплатил' && (
+                    {element.payment === false && (
                       <Button
                         onClick={onClickStudentNotPaidButton}
                         variant='not paid'
                       >
-                        <P>{element.payment}</P>
+                        <P>Не оплатил</P>
                       </Button>
                     )}
                   </td>
                 )}
                 {variant === 'Students' && (
                   <StyledActions>
-                    {element.action === 'Блокировать' && (
+                    {element.action === false && (
                       <Button
-                        onClick={onClickStudentBlockButton}
+                        onClick={() => onClickStudentBlockButton(element.id)}
                         variant='ActionBlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Блокировать</P>
                       </Button>
                     )}
-                    {element.action === 'Разблокировать' && (
+                    {element.action === true && (
                       <Button
                         onClick={onClickStudentUnlockButton}
                         variant='ActionUnlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Разблокировать</P>
                       </Button>
                     )}
                   </StyledActions>
@@ -816,6 +816,7 @@ const StyledDate = styled.td`
   color: rgba(0, 0, 0, 1);
   font-weight: 500;
   font-size: 16px;
+  word-break: break-all;
 `
 const StyledImg = styled.img`
   width: 40px;

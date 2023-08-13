@@ -24,7 +24,9 @@ const MainManagerLayout = () => {
   const handlerManagerGroupLayout = () => {
     navigate('/')
   }
-
+  const handlerStudentsLayout = () => {
+    navigate('/students')
+  }
   return (
     <div>
       <Header data={state?.managerProfile} onBurgerMenuClick={sideBarOpen} />
@@ -37,6 +39,7 @@ const MainManagerLayout = () => {
             <SiderBar
               variant='manager'
               onClickManagerGroup={handlerManagerGroupLayout}
+              onClickManagerStudent={handlerStudentsLayout}
               onCloseBackdrop={sideBarClose}
             />
           )}
@@ -44,6 +47,7 @@ const MainManagerLayout = () => {
             <SiderBar
               variant='manager'
               onClickManagerGroup={handlerManagerGroupLayout}
+              onClickManagerStudent={handlerStudentsLayout}
             />
           </StyledSiderBar>
         </div>
