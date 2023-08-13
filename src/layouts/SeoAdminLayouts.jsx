@@ -22,12 +22,6 @@ const SeoAdminLayouts = () => {
     dispatch(getProfile())
   }, [dispatch])
 
-  const notificationNavigateSeoAdmin = () => {
-    navigate('/notification')
-  }
-  const profileNavigateSeoAdmin = () => {
-    navigate('/profile')
-  }
   const clickNavigateGroup = () => {
     navigate('/')
   }
@@ -42,24 +36,10 @@ const SeoAdminLayouts = () => {
       <Header
         data={state?.profileSeoAdmin}
         onBurgerMenuClick={OpenSideBarHandler}
-        onClickNotification={notificationNavigateSeoAdmin}
-        onClickProfile={profileNavigateSeoAdmin}
       />
       <DivSeoAdmin>
         <div>
           <Outlet />
-        </div>
-        <div>
-          {stateSideBar && (
-            <SiderBar
-              variant='seo/admin'
-              onClickSeoAdminInstructor={clickNavigateInstructor}
-              onClickSeoAdminManager={clickNavigateManager}
-              onClickSeoAdminGroup={clickNavigateGroup}
-              absoluteNone='none'
-              onCloseBackdrop={CloseSideBarHandler}
-            />
-          )}
         </div>
         <StyledSideBar>
           <SiderBar
@@ -71,6 +51,16 @@ const SeoAdminLayouts = () => {
             onCloseBackdrop={CloseSideBarHandler}
           />
         </StyledSideBar>
+        {stateSideBar && (
+          <SiderBar
+            variant='seo/admin'
+            onClickSeoAdminInstructor={clickNavigateInstructor}
+            onClickSeoAdminManager={clickNavigateManager}
+            onClickSeoAdminGroup={clickNavigateGroup}
+            absoluteNone='none'
+            onCloseBackdrop={CloseSideBarHandler}
+          />
+        )}
       </DivSeoAdmin>
     </div>
   )
@@ -83,7 +73,6 @@ const DivSeoAdmin = styled.div`
   justify-content: space-between;
 `
 const StyledSideBar = styled.div`
-  display: block;
   @media screen and (max-width: 391px) {
     display: none;
   }

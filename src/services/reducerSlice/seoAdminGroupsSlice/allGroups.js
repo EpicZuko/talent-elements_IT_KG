@@ -3,6 +3,7 @@ import ApiFetch from '../../../api/ApiFetch'
 import {
   seoAdminGetAllGroupsUrl,
   seoAdminProfileUrl,
+  seoAdmingetFindAllManagerUrl,
 } from '../../../utils/constants/url'
 
 export const getProfile = createAsyncThunk(
@@ -23,6 +24,7 @@ export const getProfile = createAsyncThunk(
     }
   }
 )
+
 export const getAllGroups = createAsyncThunk(
   'seoAdmin/getAllGroups',
   async (_, { rejectWithValue }) => {
@@ -34,18 +36,19 @@ export const getAllGroups = createAsyncThunk(
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
         cardGroup.push({
-          id: response[i]?.id,
+          id: response[i].id,
           img: response[i].photo,
-          students: response[i].count,
+          students: response[i].countStudent,
           title: response[i].groupName,
         })
       }
-      return cardGroup
+      return { cardGroup }
     } catch (error) {
       return rejectWithValue(error?.message)
     }
   }
 )
+
 export const getSeoAdminInstructorMentor = createAsyncThunk(
   'seoAdmin/getSeoAdminInstructorMentor',
   // eslint-disable-next-line consistent-return
@@ -66,7 +69,6 @@ export const getSeoAdminInstructorMentor = createAsyncThunk(
         const formattedDate = `${dateObject.toLocaleString('en-US', {
           day: '2-digit',
         })}.${dateAddOne}.${dateObject.getFullYear()}`
-
         teachersArray.push({
           id: response[i].id,
           raiting: response[i].id,
@@ -83,7 +85,141 @@ export const getSeoAdminInstructorMentor = createAsyncThunk(
     }
   }
 )
+export const getStudentsId = createAsyncThunk(
+  'seoAdmin/getStudentsId',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/find/all/student/group/by/id?groupId=${props?.id}`,
+      })
+      const studentsId = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].created
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        studentsId.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          name: response[i].name,
+          dateOfRegistration: formattedDate,
+        })
+      }
+      return { studentsId }
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
 
+export const getSeoAdminManager = createAsyncThunk(
+  'seoAdmin/getSeoAdminManager',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: seoAdmingetFindAllManagerUrl,
+      })
+      const managerArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].date
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        managerArray.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          name: response[i].username,
+          dateOfRegistration: formattedDate,
+        })
+      }
+      return { managerArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// get seo admin student profile
+export const getStudentIDProfile = createAsyncThunk(
+  'seoAdmin/getStudentIDProfile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/find/by/id/student/info?studentId=${props?.id}`,
+      })
+      const getStudentId = {
+        email: response.email,
+        group: response.group,
+        profileImg: response.photo,
+        groups: [],
+      }
+
+      const dateString = response?.created
+      const dateObject = new Date(dateString)
+      const dateAddOne =
+        dateObject?.getMonth() < 10
+          ? `0${dateObject.getMonth() + 1}`
+          : dateObject.getMonth() + 1
+      const formattedDate = `${dateObject?.toLocaleString('en-US', {
+        day: '2-digit',
+      })}.${dateAddOne}.${dateObject.getFullYear()}`
+      getStudentId.groups.push({
+        name: response?.name,
+        email: response?.email,
+        groups: response?.group,
+        date: formattedDate,
+      })
+
+      return { getStudentId }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+// api/v1/seo/admin/get/byId/teachers/for/seoAdmin?teacherId=1
+export const getSeoAdminByIdTeachers = createAsyncThunk(
+  'seoAdmin/getSeoAdminByIdTeachers',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/seo/admin/get/byId/teachers/for/seoAdmin?teacherId=${props.id}`,
+      })
+      const instructorOrMentor = {
+        id: response.id,
+        profileImg: response.photo,
+        email: response.email,
+        groups: [],
+        lessonNames: response.groupName,
+      }
+      instructorOrMentor.groups.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
+
+      return { instructorOrMentor }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
   initialState: {
@@ -92,6 +228,25 @@ const getSeoAdminGroupSlice = createSlice({
     profileSeoAdmin: {},
     teachers: [],
     teachersStatus: null,
+    studentsStatus: null,
+    students: [],
+    manager: [],
+    managerStatus: null,
+    studentIdProfileArray: {
+      email: '',
+      group: '',
+      profileImg: '',
+      groups: [],
+    },
+    studentIdStatus: null,
+    byIdTeachers: {
+      id: null,
+      profileImg: '',
+      email: '',
+      groups: [],
+      lessonNames: [],
+    },
+    byIdTeachersStatus: null,
   },
   extraReducers: (builder) => {
     builder
@@ -101,7 +256,7 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getAllGroups.fulfilled, (state, action) => {
         state.loading = 'success'
-        state.card = action.payload
+        state.card = action.payload.cardGroup
       })
       .addCase(getAllGroups.rejected, (state, action) => {
         state.loading = 'error'
@@ -131,7 +286,63 @@ const getSeoAdminGroupSlice = createSlice({
       .addCase(getSeoAdminInstructorMentor.rejected, (state) => {
         state.teachersStatus = 'error'
       })
+      // getStudentsId seo admin
+      .addCase(getStudentsId.pending, (state) => {
+        state.studentsStatus = 'pending'
+      })
+      .addCase(getStudentsId.fulfilled, (state, action) => {
+        state.studentsStatus = 'success'
+        state.students = action.payload?.studentsId
+      })
+      .addCase(getStudentsId.rejected, (state) => {
+        state.studentsStatus = 'error'
+      })
+      // get manager
+      .addCase(getSeoAdminManager.pending, (state) => {
+        state.managerStatus = 'pending'
+      })
+      .addCase(getSeoAdminManager.fulfilled, (state, action) => {
+        state.managerStatus = 'success'
+        state.manager = action.payload?.managerArray
+      })
+      .addCase(getSeoAdminManager.rejected, (state, action) => {
+        state.managerStatus = 'error'
+        state.errorManager = action.payload
+      })
+      // get studentId  profile
+      .addCase(getStudentIDProfile.pending, (state) => {
+        state.studentIdStatus = 'pending'
+      })
+      .addCase(getStudentIDProfile.fulfilled, (state, action) => {
+        state.studentIdStatus = 'success'
+        state.studentIdProfileArray.groups = action.payload.getStudentId?.groups
+        state.studentIdProfileArray.group = action.payload.getStudentId?.group
+        state.studentIdProfileArray.email = action.payload.getStudentId?.email
+        state.studentIdProfileArray.profileImg =
+          action.payload.getStudentId?.profileImg
+      })
+      .addCase(getStudentIDProfile.rejected, (state) => {
+        state.studentIdStatus = 'error'
+      })
+      // getSeoAdminByIdTeachers
+      .addCase(getSeoAdminByIdTeachers.pending, (state) => {
+        state.byIdTeachersStatus = 'pending'
+      })
+      .addCase(getSeoAdminByIdTeachers.fulfilled, (state, action) => {
+        state.byIdTeachersStatus = 'success'
+        state.byIdTeachers.email = action.payload.instructorOrMentor.email
+        state.byIdTeachers.groups = action.payload.instructorOrMentor.groups
+        state.byIdTeachers.id = action.payload.instructorOrMentor.id
+        state.byIdTeachers.lessonNames =
+          action.payload.instructorOrMentor.lessonNames
+        state.byIdTeachers.profileImg =
+          action.payload.instructorOrMentor.profileImg
+      })
+      .addCase(getSeoAdminByIdTeachers.rejected, (state) => {
+        state.byIdTeachersStatus = 'error'
+      })
   },
 })
+
 export const getAllGroupAction = getSeoAdminGroupSlice.actions
 export default getSeoAdminGroupSlice

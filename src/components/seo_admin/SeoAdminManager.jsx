@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { getSeoAdminInstructorMentor } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
+import { styled } from 'styled-components'
+import { getSeoAdminManager } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
 import Input from '../UI/Input'
 import Student from '../UI/Student'
 
-const SeoAdminInstructorMentor = () => {
+const SeoAdminManager = () => {
   const [search, setSearch] = useState('')
   const state = useSelector((state) => state.seoAdmin)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   useEffect(() => {
-    dispatch(getSeoAdminInstructorMentor())
+    dispatch(getSeoAdminManager())
   }, [])
   const searchChangeValue = (event) => {
     setSearch(event.target.value)
   }
   const searchFilter = () => {
-    const filterSearch = state?.teachers?.filter((elem) => {
+    const filterSearch = state?.manager?.filter((elem) => {
       return elem?.name?.toLowerCase()?.includes(search)
     })
     return filterSearch
   }
   const filterSearch = searchFilter()
-  const clickInstructorOrMentorProfile = (id) => {
-    navigate(`/instructor/${id}`)
-  }
   return (
-    <DivStyled>
+    <StyledDiv>
       <div>
         <DivStyledInput>
-          <H5>Инструкторы, Мен.</H5>
+          <H5> Менеждеры </H5>
           <DivInput>
             <Input
               variant='add Search'
@@ -44,25 +39,22 @@ const SeoAdminInstructorMentor = () => {
         <Div>
           {filterSearch.length > 0 ? (
             <Student
-              variant='Staff_admin'
+              variant='Seo_admin_managers'
               UserDataArray={filterSearch}
-              onClickElement={(element) =>
-                clickInstructorOrMentorProfile(element.id)
-              }
-              variantClick='click'
+              variantClick='disbled'
             />
           ) : (
-            <P>Совпадений не найдено.</P>
+            <p>Совпадений не найдено</p>
           )}
         </Div>
       </div>
-    </DivStyled>
+    </StyledDiv>
   )
 }
 
-export default SeoAdminInstructorMentor
+export default SeoAdminManager
 
-const DivStyled = styled.div`
+const StyledDiv = styled.div`
   padding: 35px;
   width: 100%;
   @media (max-width: 391px) {
@@ -112,7 +104,4 @@ const H5 = styled.h5`
     padding-left: 15px;
     padding-top: 15px;
   }
-`
-const P = styled.p`
-  font-family: 'Zen Kaku Gothic New', sans-serif;
 `

@@ -20,6 +20,8 @@ const Student = ({
   onClickManagerDeleteButton,
   onClickMentorEditButton,
   onClickMentorDeleteButton,
+  onClickElement,
+  variantClick,
 }) => {
   return (
     <div>
@@ -142,7 +144,13 @@ const Student = ({
           </thead>
           <tbody>
             {UserDataArray.map((element) => (
-              <StyledBody key={element.id} variant={variant}>
+              <StyledBody
+                key={element.id}
+                variant={variant}
+                onClick={() =>
+                  variantClick === 'disbled' ? '' : onClickElement(element)
+                }
+              >
                 {variant === 'Students' && (
                   <StyledId>{element.raiting}</StyledId>
                 )}
