@@ -52,11 +52,19 @@ const Card = (props) => {
                     <ImgCard src={ImgCardGroup} alt='error' />
                     <Lesson>Курсы - {element.lesson}</Lesson>
                   </Div1>
-                  <Div2 role='button' tabIndex='0'>
+                  <Div2
+                    onClick={props.onClickHandler}
+                    role='button'
+                    tabIndex='0'
+                  >
                     <ImgGroup
-                      onClick={() => props.navToStudents(element)}
                       src={IconCardGroup}
                       alt='error'
+                      onClick={() =>
+                        props.variantClick === 'disabled'
+                          ? ''
+                          : props.onClickStudents(element)
+                      }
                     />
                     <Studentss>Стдуенты -{element.students}</Studentss>
                   </Div2>

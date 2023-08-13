@@ -598,7 +598,7 @@ const StyledList = styled.div`
   width: 1020px;
   @media (max-width: 391px) {
     ${SeoAdminGroups}
-    max-width: 100%;
+    width: 100%;
     overflow-x: scroll;
   }
 `
@@ -738,7 +738,7 @@ const StyledId = styled.td`
   width: 25px;
   height: 25px;
   flex-shrink: 0;
-  margin-bottom: 20px;
+  margin-top: -2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -754,6 +754,7 @@ const StyledName = styled.td`
   height: 23px;
   display: flex;
   align-items: center;
+  margin-left: 10px;
   ${SeoAdminManagers}
   @media screen and (max-width: 391px) {
     ${SeoAdminFullNames}
