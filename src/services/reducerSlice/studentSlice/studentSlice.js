@@ -3,6 +3,7 @@ import {
   getCoursesStudent,
   getStudentMyGroup,
   getStudentProfile,
+  getStudentProfileProgress,
 } from './studentAction'
 
 const initialState = {
@@ -14,6 +15,15 @@ const initialState = {
   getStudentCousesStatus: null,
   getStudentMyGroup: [],
   getStudentMyGroupStatus: null,
+  getStudentProfileProgress: {
+    completedCount: 0,
+    inProgressCount: 0,
+    notStartedCount: 0,
+    studentProfileProgress: [],
+    profileImg: '',
+    email: '',
+    studentProfileStatus: null,
+  },
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
@@ -55,6 +65,35 @@ const studentSlice = createSlice({
       .addCase(getStudentMyGroup.rejected, (state) => {
         state.getStudentMyGroup = 'error'
         state.getStudentMyGroup = []
+      })
+      // getStudentProfileProgress
+      .addCase(getStudentProfileProgress.pending, (state) => {
+        state.getStudentProfileProgress.studentProfileStatus = 'pending'
+      })
+      .addCase(getStudentProfileProgress.fulfilled, (state, action) => {
+        state.getStudentProfileProgress.studentProfileStatus = 'success'
+
+        state.getStudentProfileProgress.studentProfileProgress =
+          action.payload.studentProgressId.studentProfileProgress
+
+        state.getStudentProfileProgress.completedCount =
+          action.payload.studentProgressId.completedCount
+
+        state.getStudentProfileProgress.inProgressCount =
+          action.payload.studentProgressId.inProgressCount
+
+        state.getStudentProfileProgress.notStartedCount =
+          action.payload.studentProgressId.notStartedCount
+
+        state.getStudentProfileProgress.profileImg =
+          action.payload.studentProgressId.profileImg
+
+        state.getStudentProfileProgress.email =
+          action.payload.studentProgressId.email
+      })
+      .addCase(getStudentProfileProgress.rejected, (state) => {
+        state.getStudentProfileProgress.studentProfileStatus = 'error'
+        state.getStudentProfileProgress.studentProfileProgress = []
       })
   },
 })

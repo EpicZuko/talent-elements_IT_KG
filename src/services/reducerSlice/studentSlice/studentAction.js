@@ -62,7 +62,7 @@ export const getStudentMyGroup = createAsyncThunk(
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
         studentMyGroupRaiting.push({
-          id: response[i].id,
+          id: response[i].groupId,
           img: response[i].photo,
           name: response[i].name,
           raiting: response[i].rating,
@@ -70,6 +70,34 @@ export const getStudentMyGroup = createAsyncThunk(
         })
       }
       return { studentMyGroupRaiting }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getStudentProfileProgress = createAsyncThunk(
+  'studentSlice/getStudentProfileProgress',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/user/getStudent/By/${props.id}`,
+      })
+      const studentProgressId = {
+        email: response.email,
+        profileImg: response.photo,
+        completedCount: response.completedCount,
+        inProgressCount: response.inProgressCount,
+        notStartedCount: response.notStartedCount,
+        studentProfileProgress: [],
+      }
+      studentProgressId.studentProfileProgress.push({
+        id: response.id,
+        email: response.email,
+        name: response.name,
+      })
+      return { studentProgressId }
     } catch (error) {
       return rejectWithValue(error)
     }
