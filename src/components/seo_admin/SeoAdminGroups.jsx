@@ -12,8 +12,8 @@ const SeoAdminGroup = () => {
   useEffect(() => {
     dispatch(getAllGroups())
   }, [])
-  const studentNavigateSeoAdmin = () => {
-    navigate('/student')
+  const groupIdOrStudents = (element) => {
+    navigate(`/${element.id}`)
   }
 
   return (
@@ -23,7 +23,7 @@ const SeoAdminGroup = () => {
         <Card
           variant='Manager_group'
           user={state?.card}
-          navToStudents={studentNavigateSeoAdmin}
+          navToStudents={(element) => groupIdOrStudents(element)}
         />
       </Container2>
     </div>

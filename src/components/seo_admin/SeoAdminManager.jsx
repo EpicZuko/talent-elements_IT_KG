@@ -41,6 +41,7 @@ const SeoAdminManager = () => {
             <Student
               variant='Seo_admin_managers'
               UserDataArray={filterSearch}
+              variantClick='disbled'
             />
           ) : (
             <p>Совпадений не найдено</p>

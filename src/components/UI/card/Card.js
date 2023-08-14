@@ -10,15 +10,15 @@ const Card = (props) => {
         {props?.user?.map((element) => (
           <div key={element.id}>
             <Styled variant={props.variant}>
-              <div onClick={props.onClickHandler} role='button' tabIndex='0'>
+              <div role='button' tabIndex='0'>
                 <Img
-                  onClick={props.navToCurrentGroup}
+                  onClick={() => props.navToCurrentGroup(element)}
                   src={element.img}
                   alt='error img'
                 />
               </div>
               <div>
-                <Title onClick={props.navToCurrentGroup}>
+                <Title onClick={() => props.navToCurrentGroup(element)}>
                   <span>{element.title}</span>
                 </Title>
               </div>
@@ -31,11 +31,11 @@ const Card = (props) => {
                       tabIndex='0'
                     >
                       <Icon
-                        onClick={props.navToStudents}
+                        onClick={() => props.navToStudents(element)}
                         src={IconCardGroup}
                         alt='error'
                       />
-                      <Students onClick={props.navToStudents}>
+                      <Students onClick={() => props.navToStudents(element)}>
                         {element.students} студентов
                       </Students>
                     </div>
@@ -50,14 +50,14 @@ const Card = (props) => {
                     tabIndex='0'
                   >
                     <ImgCard src={ImgCardGroup} alt='error' />
-                    <Lesson>{element.lesson}</Lesson>
+                    <Lesson>Курсы - {element.lesson}</Lesson>
                   </Div1>
-                  <Div2
-                    onClick={props.onClickHandler}
-                    role='button'
-                    tabIndex='0'
-                  >
-                    <ImgGroup src={IconCardGroup} alt='error' />
+                  <Div2 role='button' tabIndex='0'>
+                    <ImgGroup
+                      onClick={props.navToStudents}
+                      src={IconCardGroup}
+                      alt='error'
+                    />
                     <Studentss>Стдуенты -{element.students}</Studentss>
                   </Div2>
                 </Mentor>
