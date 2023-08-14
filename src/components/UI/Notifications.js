@@ -24,18 +24,34 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
           <StudentNotificationsLeftBlock>
             <StudentNotificationsName>
               {studentData.name}:
-              <StudentNotificationsValue days={studentData.days}>
+              <StudentNotificationsValue days={studentData?.days}>
                 {studentData.name !== 'Бухалтерия'
                   ? `${
                       showStudentNotifications
-                        ? studentData.value
+                        ? studentData?.value
                         : `${
                             window.innerWidth < 415
-                              ? studentData.value.slice(0, 30)
-                              : studentData.value.slice(0, 100)
+                              ? studentData?.value?.slice(0, 30)
+                              : studentData?.value?.slice(0, 100)
                           }`
                     }`
-                  : studentData.value}
+                  : studentData?.value}
+              </StudentNotificationsValue>
+            </StudentNotificationsName>
+            <StudentNotificationsName>
+              comment:
+              <StudentNotificationsValue days={studentData?.days}>
+                {studentData?.name !== 'Бухалтерия'
+                  ? `${
+                      showStudentNotifications
+                        ? studentData?.commentValue
+                        : `${
+                            window.innerWidth < 415
+                              ? studentData?.commentValue.slice(0, 30)
+                              : studentData?.commentValue.slice(0, 100)
+                          }`
+                    }`
+                  : studentData.commentValue}
               </StudentNotificationsValue>
             </StudentNotificationsName>
           </StudentNotificationsLeftBlock>
@@ -188,6 +204,7 @@ const Container = styled.div`
 `
 const StudentNotificationsBlock = styled.div`
   width: 1110px;
+  max-width: 100%;
   border-radius: 8px;
   box-shadow: 0px 0px 4px 0px #00000040;
   margin-bottom: 20px;
@@ -260,6 +277,7 @@ const MentorNotificationsBlock = styled.div`
 const StudentNotificationsLeftBlock = styled.div`
   display: flex;
   align-items: baseline;
+  flex-direction: column;
 `
 const StudentNotificationsName = styled.span`
   font-family: 'Zen Kaku Gothic New', sans-serif;
@@ -281,8 +299,8 @@ const StudentNotificationsValue = styled.span`
   letter-spacing: 0em;
   text-align: left;
   color: ${(props) => props.days <= 5 && '#00CC0D;'}${(props) => props.days > 5 && '#DC3545'};
-  margin-left: 64px;
-  max-width: 685px;
+  margin-left: 24px;
+  max-width: 450px;
   word-break: break-all;
   @media screen and (max-width: 415px) {
     margin-left: 20px;

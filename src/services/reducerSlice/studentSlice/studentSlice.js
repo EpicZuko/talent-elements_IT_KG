@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
   getCoursesStudent,
   getStudentMyGroup,
+  getStudentNotification,
   getStudentProfile,
   getStudentProfileProgress,
 } from './studentAction'
@@ -24,10 +25,18 @@ const initialState = {
     email: '',
     studentProfileStatus: null,
   },
+  getStudentNotification: [],
+  getStudentNotificationStatus: null,
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
   initialState,
+  reducers: {
+    clearStudentNotificationProfile(state, action) {
+      state.studentProfile.studentProfile.notificationNumberCount =
+        action.payload.notificationNumberCount
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStudentProfile.pending, (state) => {
@@ -94,6 +103,20 @@ const studentSlice = createSlice({
       .addCase(getStudentProfileProgress.rejected, (state) => {
         state.getStudentProfileProgress.studentProfileStatus = 'error'
         state.getStudentProfileProgress.studentProfileProgress = []
+      })
+      // getStudentNotification
+      .addCase(getStudentNotification.pending, (state) => {
+        state.getStudentNotificationStatus = 'pending'
+      })
+      .addCase(getStudentNotification.fulfilled, (state, action) => {
+        state.getStudentNotificationStatus = 'success'
+
+        state.getStudentNotification =
+          action.payload.getStudentNotificationArray
+      })
+      .addCase(getStudentNotification.rejected, (state) => {
+        state.getStudentProfileProgress.studentProfileStatus = 'error'
+        state.getStudentNotification = []
       })
   },
 })
