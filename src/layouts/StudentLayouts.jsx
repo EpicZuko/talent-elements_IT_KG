@@ -65,6 +65,7 @@ const StudentLayouts = () => {
             onClickUserGroup={clickNavigateCard}
             onClickUserCourse={clickNavigateCourse}
             onCloseBackdrop={sideBarUserCloseMenu}
+            onClickUserProfile={clickNavigateProfile}
             variant='user'
           />
         )}
