@@ -3,6 +3,7 @@ import {
   getCoursesStudent,
   getStudentMyGroup,
   getStudentMyProfile,
+  getStudentNotification,
   getStudentProfile,
   getStudentProfileProgress,
 } from './studentAction'
@@ -33,10 +34,18 @@ const initialState = {
     profileImg: '',
     studentMyProfileStatus: null,
   },
+  getStudentNotification: [],
+  getStudentNotificationStatus: null,
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
   initialState,
+  reducers: {
+    clearStudentNotificationProfile(state, action) {
+      state.studentProfile.studentProfile.notificationNumberCount =
+        action.payload.notificationNumberCount
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStudentProfile.pending, (state) => {
@@ -129,6 +138,20 @@ const studentSlice = createSlice({
       .addCase(getStudentMyProfile.rejected, (state) => {
         state.getStudentMyProfile.studentMyProfileStatus = 'error'
         state.getStudentMyProfile.studentProfileProgress = []
+    })
+      // getStudentNotification
+      .addCase(getStudentNotification.pending, (state) => {
+        state.getStudentNotificationStatus = 'pending'
+      })
+      .addCase(getStudentNotification.fulfilled, (state, action) => {
+        state.getStudentNotificationStatus = 'success'
+
+        state.getStudentNotification =
+          action.payload.getStudentNotificationArray
+      })
+      .addCase(getStudentNotification.rejected, (state) => {
+        state.getStudentProfileProgress.studentProfileStatus = 'error'
+        state.getStudentNotification = []
       })
   },
 })

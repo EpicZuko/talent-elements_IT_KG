@@ -5,6 +5,7 @@ import {
   getCousesUrl,
   getStudentMyGroupUrl,
   getStudentMyprofileUrl,
+  getStudentNotificationUrl,
 } from '../../../utils/constants/url'
 
 export const getStudentProfile = createAsyncThunk(
@@ -105,6 +106,7 @@ export const getStudentProfileProgress = createAsyncThunk(
   }
 )
 
+
 export const getStudentMyProfile = createAsyncThunk(
   'studentSlice/getStudentMyprofile',
   // eslint-disable-next-line consistent-return
@@ -133,6 +135,32 @@ export const getStudentMyProfile = createAsyncThunk(
         name: response.name,
       })
       return { studentMyProfile }
+    }catch (error) {
+      return rejectWithValue(error)
+    }
+ }
+)
+
+export const getStudentNotification = createAsyncThunk(
+  'studentSlice/getStudentNotification',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: getStudentNotificationUrl,
+      })
+      const getStudentNotificationArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        getStudentNotificationArray.push({
+          value: response[i].assigment,
+          name: response[i].lessonName,
+          score: response[i].gradeCount,
+          commentValue: response[i].comment,
+          lesson: response[i].assigment,
+        })
+      }
+      return { getStudentNotificationArray }
     } catch (error) {
       return rejectWithValue(error)
     }

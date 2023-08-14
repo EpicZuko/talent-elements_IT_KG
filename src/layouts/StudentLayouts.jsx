@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Header from '../components/UI/Header'
 import SiderBar from '../components/UI/SiderBar'
 import { getStudentProfile } from '../services/reducerSlice/studentSlice/studentAction'
-// import { getProfile } from '../services/reducerSlice/userSlice/userSlice'
 
 const StudentLayouts = () => {
   const [stateUserSideBar, setStateUserSideBar] = useState(false)
@@ -26,7 +25,7 @@ const StudentLayouts = () => {
   }
 
   const clickNavigateNotification = () => {
-    navigate('/login')
+    navigate('/notification')
   }
 
   const clickNavigateCard = () => {

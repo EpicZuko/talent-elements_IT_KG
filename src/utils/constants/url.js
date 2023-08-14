@@ -17,3 +17,5 @@ export const getStudentProfileUrl = 'api/v1/user/see/header/profile'
 export const getCousesUrl = 'api/v1/user/find/all/course'
 export const getStudentMyGroupUrl = 'api/v1/user/rating/student/in/my/group'
 export const getStudentMyprofileUrl = 'api/v1/user/get/user/profile/by'
+export const getStudentNotificationUrl = 'api/v1/user/student/notifications'
+
