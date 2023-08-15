@@ -4,6 +4,7 @@ import {
   getStudentProfileUrl,
   getCousesUrl,
   getStudentMyGroupUrl,
+  getStudentMyprofileUrl,
 } from '../../../utils/constants/url'
 
 export const getStudentProfile = createAsyncThunk(
@@ -98,6 +99,40 @@ export const getStudentProfileProgress = createAsyncThunk(
         name: response.name,
       })
       return { studentProgressId }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getStudentMyProfile = createAsyncThunk(
+  'studentSlice/getStudentMyprofile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.fileImg !== '') {
+        await ApiFetch({
+          method: 'PUT',
+          url: `api/v1/user/update/photo?photo=${props.fileImg}`,
+        })
+        dispatch(getStudentProfile())
+      }
+      const response = await ApiFetch({
+        url: getStudentMyprofileUrl,
+      })
+      const studentMyProfile = {
+        profileImg: response.photo,
+        completedCount: response.completedCount,
+        inProgressCount: response.inProgressCount,
+        notStartedCount: response.notStartedCount,
+        studentMyProfile: [],
+      }
+      studentMyProfile.studentMyProfile.push({
+        id: response.id,
+        email: response.email,
+        name: response.name,
+      })
+      return { studentMyProfile }
     } catch (error) {
       return rejectWithValue(error)
     }

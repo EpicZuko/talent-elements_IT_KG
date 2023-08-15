@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
   getCoursesStudent,
   getStudentMyGroup,
+  getStudentMyProfile,
   getStudentProfile,
   getStudentProfileProgress,
 } from './studentAction'
@@ -23,6 +24,14 @@ const initialState = {
     profileImg: '',
     email: '',
     studentProfileStatus: null,
+  },
+  getStudentMyProfile: {
+    completedCount: 0,
+    inProgressCount: 0,
+    notStartedCount: 0,
+    studentMyProfile: [],
+    profileImg: '',
+    studentMyProfileStatus: null,
   },
 }
 const studentSlice = createSlice({
@@ -94,6 +103,32 @@ const studentSlice = createSlice({
       .addCase(getStudentProfileProgress.rejected, (state) => {
         state.getStudentProfileProgress.studentProfileStatus = 'error'
         state.getStudentProfileProgress.studentProfileProgress = []
+      })
+      // getStudentMyProfile
+      .addCase(getStudentMyProfile.pending, (state) => {
+        state.getStudentMyProfile.studentMyProfileStatus = 'pending'
+      })
+      .addCase(getStudentMyProfile.fulfilled, (state, action) => {
+        state.getStudentMyProfile.studentMyProfileStatus = 'success'
+
+        state.getStudentMyProfile.studentMyProfile =
+          action.payload.studentMyProfile.studentMyProfile
+
+        state.getStudentMyProfile.completedCount =
+          action.payload.studentMyProfile.completedCount
+
+        state.getStudentMyProfile.inProgressCount =
+          action.payload.studentMyProfile.inProgressCount
+
+        state.getStudentMyProfile.notStartedCount =
+          action.payload.studentMyProfile.notStartedCount
+
+        state.getStudentMyProfile.profileImg =
+          action.payload.studentMyProfile.profileImg
+      })
+      .addCase(getStudentMyProfile.rejected, (state) => {
+        state.getStudentMyProfile.studentMyProfileStatus = 'error'
+        state.getStudentMyProfile.studentProfileProgress = []
       })
   },
 })
