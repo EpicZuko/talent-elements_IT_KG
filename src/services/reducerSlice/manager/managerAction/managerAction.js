@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
   managerGetProfile,
   managerGetAllGroups,
+  managerGetStudents,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -10,6 +11,8 @@ const managerSlice = createSlice({
     managerCard: [],
     error: null,
     managerProfile: {},
+    managerStudentsStatus: null,
+    managerStudents: [],
   },
 
   reducers: {},
@@ -38,6 +41,18 @@ const managerSlice = createSlice({
       })
       .addCase(managerGetProfile.rejected, (state, action) => {
         state.loading = 'error'
+        state.error = action.payload?.error.message
+      })
+      // managerStudents
+      .addCase(managerGetStudents.pending, (state) => {
+        state.managerStudentsStatus = 'pending'
+      })
+      .addCase(managerGetStudents.fulfilled, (state, action) => {
+        state.managerStudentsStatus = 'success'
+        state.managerStudents = action.payload?.managerStudents
+      })
+      .addCase(managerGetStudents.rejected, (state, action) => {
+        state.managerStudentsStatus = 'error'
         state.error = action.payload?.error.message
       })
   },

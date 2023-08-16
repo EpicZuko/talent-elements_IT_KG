@@ -18,9 +18,9 @@ const SiderBar = ({
   onClickUserGroup,
   onClickUserProfile,
   onClickManagerGroup,
-  onClickMangerStudent,
+  onClickManagerStudent,
   onClickManagerInstructor,
-  onClickMangerStafAdmin,
+  onClickManagerStafAdmin,
   onClickManagerSeoAdmin,
   onClickMentorInstructorGroup,
   onClickStafAdminGroup,
@@ -78,7 +78,7 @@ const SiderBar = ({
                   <Title>Группы</Title>
                 </div>
               </DivContainer>
-              <DivContainer onClick={onClickMangerStudent}>
+              <DivContainer onClick={onClickManagerStudent}>
                 <div>
                   <Img src={SideIcon2} alt='error' />
                 </div>
@@ -94,7 +94,7 @@ const SiderBar = ({
                   <Title>Инструкторы</Title>
                 </div>
               </DivContainer>
-              <DivContainer onClick={onClickMangerStafAdmin}>
+              <DivContainer onClick={onClickManagerStafAdmin}>
                 <div>
                   <Img src={SideIcon4} alt='error' />
                 </div>
