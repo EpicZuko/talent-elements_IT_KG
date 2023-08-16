@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { getMentorGroups } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
@@ -8,15 +9,23 @@ import Card from '../UI/card/Card'
 
 const MentorInstrucorGroups = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const state = SelectorFuncMentor()
   useEffect(() => {
     dispatch(getMentorGroups())
   }, [])
 
+  const navToStudents = (element) => {
+    navigate(`students/${element.title}/${element.id}`)
+  }
   return (
     <div>
       <LocationText>Мои группы</LocationText>
-      <Card variant='mentor_instructor' user={state.getCardGroups} />
+      <Card
+        variant='mentor_instructor'
+        user={state.getCardGroups}
+        navToStudents={navToStudents}
+      />
     </div>
   )
 }

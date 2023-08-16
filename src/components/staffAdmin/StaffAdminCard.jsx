@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { getAllCouseCardStaffAdmin } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
 import Card from '../UI/card/Card'
@@ -7,14 +8,22 @@ import Card from '../UI/card/Card'
 const StaffAdminCard = () => {
   const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getAllCouseCardStaffAdmin())
   }, [])
-
+  const studentGroupsId = (id) => {
+    navigate(`/studentGroups/${id}`)
+  }
   return (
     <DivStyled>
       <H5>Все группы</H5>
-      <Card variant='mentor_instructor' user={state?.cardCouses} />
+      <Card
+        variant='mentor_instructor'
+        user={state?.cardCouses}
+        onClickStudents={(element) => studentGroupsId(element.id)}
+        variantClick='click'
+      />
     </DivStyled>
   )
 }
@@ -24,7 +33,7 @@ export default StaffAdminCard
 const DivStyled = styled.div`
   padding: 35px;
   @media (max-width: 391px) {
-    padding: 20px;
+    padding: 10px;
   }
 `
 const H5 = styled.h5`
