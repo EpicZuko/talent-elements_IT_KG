@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import ApiFetch from '../../../api/ApiFetch'
 import {
   mentorInstructorGetAllGroupsUrl,
+  mentorNotificationsUrl,
   mentorProfileUrl,
 } from '../../../utils/constants/url'
 
@@ -61,8 +62,9 @@ export const getMentorStudents = createAsyncThunk(
           name: response[i].name,
           id: response[i].id,
           img: response[i].photo,
-          score: `${response[i].score} балл`,
+          score: response[i].score,
           raiting: response[i].rating,
+          studentId: response[i].studentId,
         }
         getStudents.push(obj)
       }
@@ -86,6 +88,50 @@ export const putMentorStudents = createAsyncThunk(
     }
   }
 )
+export const getMentorNotifications = createAsyncThunk(
+  'mentor-instructor/getNotifications',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `${mentorNotificationsUrl}`,
+      })
+      const getNotifications = []
+      for (let i = 0; i < response.length; i++) {
+        getNotifications.push({
+          id: response[i].id,
+          email: response[i].email,
+          value: response[i].assigment,
+          username: response[i].name,
+          date: response[i].createdAt,
+          group: response[i].groupName,
+          comment: response[i].description || 'no comments',
+          lesson: response[i].lessonName || 'null',
+          nickname: response[i].username,
+          studentId: response[i].studentId,
+          submissionId: response[i].submissionId,
+        })
+      }
+      return { getNotifications }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const postMentorStudentSubmission = createAsyncThunk(
+  'mentor-instructor/postStudentSubmission',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      await ApiFetch({
+        url: `api/teachers/check/submission/student?studentId=${props.studentId}&submissionId=${props.submissionId}&comment=${props.comment}&score=${props.score}`,
+        method: 'POST',
+      })
+      dispatch(getMentorNotifications())
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const initialState = {
   getCardGroupsStatus: null,
@@ -94,11 +140,21 @@ const initialState = {
   getProfile: {},
   getStudents: [],
   getStudentsStatus: null,
+  getNotifications: [],
+  getNotificationsStatus: null,
+  isSuccess: false,
+  status: null,
 }
 
 export const MentorInstructorSlice = createSlice({
   name: 'mentor-instructor',
   initialState,
+  reducers: {
+    SnackbarClose(state, action) {
+      state.status = action.payload.status
+      state.isSuccess = action.payload.isSuccess
+    },
+  },
   extraReducers: {
     [getMentorGroups.pending]: (state) => {
       state.getCardGroupsStatus = 'pending'
@@ -131,6 +187,26 @@ export const MentorInstructorSlice = createSlice({
     },
     [getMentorStudents.rejected]: (state) => {
       state.getStudentsStatus = 'rejected'
+    },
+    // get mentor notfications
+    [getMentorNotifications.pending]: (state) => {
+      state.getNotificationsStatus = 'pending'
+    },
+    [getMentorNotifications.fulfilled]: (state, action) => {
+      state.getNotificationsStatus = 'fulfilled'
+      state.getNotifications = action.payload?.getNotifications
+    },
+    [getMentorNotifications.rejected]: (state) => {
+      state.getNotificationsStatus = 'rejected'
+    },
+    // post mentor-student submission
+    [postMentorStudentSubmission.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [postMentorStudentSubmission.rejected]: (state) => {
+      state.status = 'error'
+      state.isSuccess = true
     },
   },
 })

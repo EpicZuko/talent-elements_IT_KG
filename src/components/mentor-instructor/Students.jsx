@@ -25,8 +25,8 @@ export const MentorInstructorStudents = () => {
   }, [put])
 
   const deleteStudents = (id) => {
-    dispatch(putMentorStudents({ id }))
     setPut((prev) => !prev)
+    dispatch(putMentorStudents({ id }))
   }
 
   return (
@@ -39,8 +39,8 @@ export const MentorInstructorStudents = () => {
         <Student
           variant='mentor/instructors'
           UserDataArray={state.getStudents}
-          variantClick='disbled'
           onClickMentorDeleteButton={deleteStudents}
+          variantClick='disbled'
         />
       </StudentBlock>
     </div>

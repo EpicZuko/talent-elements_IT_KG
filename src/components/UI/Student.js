@@ -508,7 +508,9 @@ const Student = ({
                       </span>
                       <span style={{ marginLeft: '27px', background: 'none' }}>
                         <Button
-                          onClick={() => onClickMentorDeleteButton(element.id)}
+                          onClick={() =>
+                            onClickMentorDeleteButton(element.studentId)
+                          }
                           variant='delete button'
                         />
                       </span>

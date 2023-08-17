@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/UI/Header'
 import SiderBar from '../components/UI/SiderBar'
@@ -11,6 +11,7 @@ export const MentorInstructorLayout = () => {
   const dispatch = useDispatch()
 
   const state = SelectorFuncMentor()
+  const navigate = useNavigate()
 
   const [show, setShow] = useState()
   const burger = () => {
@@ -19,17 +20,36 @@ export const MentorInstructorLayout = () => {
   useEffect(() => {
     dispatch(getMentorProfile())
   }, [])
+  const navToNotifications = () => {
+    navigate('/notifications')
+  }
+  const navToGroups = () => {
+    navigate('/')
+  }
   return (
     <div>
-      <Header data={state?.getProfile} onBurgerMenuClick={burger} />
+      <Header
+        data={state?.getProfile}
+        onClickNotification={navToNotifications}
+        onBurgerMenuClick={burger}
+      />
       <Block>
         <Container>
           <Outlet />
         </Container>
         <SideBlock>
-          <SiderBar variant='mentor' />
+          <SiderBar
+            onClickMentorInstructorGroup={navToGroups}
+            variant='mentor'
+          />
         </SideBlock>
-        {show && <SiderBar variant='mentor' onCloseBackdrop={burger} />}
+        {show && (
+          <SiderBar
+            onClickMentorInstructorGroup={navToGroups}
+            variant='mentor'
+            onCloseBackdrop={burger}
+          />
+        )}
       </Block>
     </div>
   )
