@@ -15,6 +15,9 @@ const StaffAdminCard = () => {
   const studentGroupsId = (id) => {
     navigate(`/studentGroups/${id}`)
   }
+  const clickLessonNavigate = (id) => {
+    navigate(`/lessons/${id}`)
+  }
   return (
     <DivStyled>
       <H5>Все группы</H5>
@@ -22,6 +25,7 @@ const StaffAdminCard = () => {
         variant='mentor_instructor'
         user={state?.cardCouses}
         onClickStudents={(element) => studentGroupsId(element.id)}
+        onClickHandler={(element) => clickLessonNavigate(element.id)}
         variantClick='click'
       />
     </DivStyled>

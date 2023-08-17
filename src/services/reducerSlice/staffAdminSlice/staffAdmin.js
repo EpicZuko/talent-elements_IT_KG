@@ -162,6 +162,59 @@ export const getProfileInstructorMentor = createAsyncThunk(
     }
   }
 )
+export const getStaffAdminLesson = createAsyncThunk(
+  'staffAdmin/getStaffAdminLesson',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/staff/admin/get/lessons/by/groupId?groupId=${props.id}`,
+      })
+
+      const staffAdminLesson = []
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const item of response) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const elem of item.materials) {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const el of item.assignments) {
+            // eslint-disable-next-line no-await-in-loop
+            const responseAssiment = await ApiFetch({
+              url: `api/v1/staff/admin/assigment/id/find/student/submission?assigmentId=${el.id}`,
+            })
+            const dateString = el.created
+            const dateObject = new Date(dateString)
+            const dateAddOne =
+              dateObject.getMonth() < 10
+                ? `0${dateObject.getMonth() + 1}`
+                : dateObject.getMonth() + 1
+            const formattedDate = `${dateObject.toLocaleString('en-US', {
+              day: '2-digit',
+            })}.${dateAddOne}.${dateObject.getFullYear()}`
+
+            staffAdminLesson.push({
+              lessonId: item?.lesson?.id,
+              materialsId: elem?.id,
+              assignmentsId: el?.id,
+              text: item?.lesson?.title,
+              title: elem?.title,
+              urlLesson: elem?.youtube,
+              lesson: el?.title,
+              date: formattedDate,
+              votedStudents: el.countSubmission,
+              students: [...responseAssiment.responseStudents],
+            })
+          }
+        }
+      }
+
+      return { staffAdminLesson }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -182,7 +235,10 @@ const staffAdminSlice = createSlice({
       lesson: [],
       statusInstructorMentor: null,
     },
+    getStaffAdminLesson: [],
+    getStaffAdminLessonStatus: null,
   },
+  reducers: {},
   extraReducers: (builder) => {
     // staffAdminStudent
     builder
@@ -245,6 +301,18 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getProfileInstructorMentor.rejected, (state) => {
         state.getProfileInstructorMentor.statusInstructorMentor = 'error'
+      })
+      // get staff admin lesson
+      .addCase(getStaffAdminLesson.pending, (state) => {
+        state.getStaffAdminLessonStatus = 'pending'
+      })
+      .addCase(getStaffAdminLesson.fulfilled, (state, action) => {
+        state.getStaffAdminLessonStatus = 'success'
+        state.getStaffAdminLesson = action.payload.staffAdminLesson
+      })
+      .addCase(getStaffAdminLesson.rejected, (state) => {
+        state.getStaffAdminLessonStatus = 'error'
+        state.getStaffAdminLesson.lesson = []
       })
   },
 })
