@@ -20,7 +20,6 @@ const StaffAdminLesson = () => {
   }, [lessonsId])
 
   const navigateHomeWorkStudentId = (element) => {
-    console.log(element)
     navigate(
       `/lessons/submission/${element.submissionId}/assigment/${element.assigmentId}`
     )
