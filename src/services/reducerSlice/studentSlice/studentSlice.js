@@ -36,6 +36,8 @@ const initialState = {
   },
   getStudentNotification: [],
   getStudentNotificationStatus: null,
+  getStaffAdminLesson: [],
+  getStaffAdminLessonStatus: null,
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
@@ -138,7 +140,7 @@ const studentSlice = createSlice({
       .addCase(getStudentMyProfile.rejected, (state) => {
         state.getStudentMyProfile.studentMyProfileStatus = 'error'
         state.getStudentMyProfile.studentProfileProgress = []
-    })
+      })
       // getStudentNotification
       .addCase(getStudentNotification.pending, (state) => {
         state.getStudentNotificationStatus = 'pending'

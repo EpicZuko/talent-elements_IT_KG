@@ -106,7 +106,6 @@ export const getStudentProfileProgress = createAsyncThunk(
   }
 )
 
-
 export const getStudentMyProfile = createAsyncThunk(
   'studentSlice/getStudentMyprofile',
   // eslint-disable-next-line consistent-return
@@ -135,10 +134,10 @@ export const getStudentMyProfile = createAsyncThunk(
         name: response.name,
       })
       return { studentMyProfile }
-    }catch (error) {
+    } catch (error) {
       return rejectWithValue(error)
     }
- }
+  }
 )
 
 export const getStudentNotification = createAsyncThunk(
