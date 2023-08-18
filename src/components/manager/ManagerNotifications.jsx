@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -9,32 +10,19 @@ import {
   managerGetNotifications,
   managerPostNotificationSelect,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
+import { selectArray } from '../../utils/helpers/selected/select'
 import Notifications from '../UI/Notifications'
 import CustomizedSnackbars from '../UI/Snackbar'
 
-const selectArray = [
-  {
-    id: 1,
-    name: 'пользователь',
-    option: 'USER',
-  },
-  {
-    id: 2,
-    name: 'студент',
-    option: 'STUDENT',
-  },
-
-  { id: 3, name: 'ментор', option: 'MENTOR' },
-
-  { id: 4, name: 'инструктор', option: 'INSTRUCTOR' },
-]
 const ManagerNotifications = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [selectstate, setSelectState] = useState(null)
   const [selectIndex, setSelectIndex] = useState('')
   const state = useSelector((state) => state.manager)
-  const { status, Insuccess } = useSelector((state) => state.manager)
+  const { status, Insuccess, statusblock } = useSelector(
+    (state) => state.manager
+  )
   const closeSnackBarHandler = () => {
     dispatch(managerAction.snackBarClose({ Isuccess: false, status }))
   }
@@ -102,17 +90,22 @@ const ManagerNotifications = () => {
     }
   }
   const handlerBlockUser = (element) => {
-    dispatch(managerBlockUser({ id: element.id }))
+    dispatch(managerBlockUser({ id: element.number }))
   }
   return (
     <div>
       <CustomizedSnackbars
         message={
+          // eslint-disable-next-line no-nested-ternary
           status === 'success'
-            ? 'Поздравлеем! Вы успешно авторизовались в системе. Добро пожаловать!'
-            : 'Извините призошло ошибка при авторизации. Пожалуйста, проверьте введенные данные и повторите попытку'
+            ? 'Поздравляем! Запрос на разрешения пользовотеля отправлен!'
+            : statusblock === 'success'
+            ? 'Поздравляем!  Данный  пользователь  успешно  заблокировано! '
+            : statusblock === 'error'
+            ? 'Произошло ошибка при заблокировании! Повторите попытку'
+            : 'Извините призошло ошибка при разрешении пользователя. Пожалуйста, проверьте введенные данные и повторите попытку'
         }
-        variant={status}
+        variant={status || statusblock}
         open={Insuccess}
         closeSnackbar={closeSnackBarHandler}
       />

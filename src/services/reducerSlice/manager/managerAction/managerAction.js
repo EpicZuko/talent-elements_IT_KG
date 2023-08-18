@@ -5,12 +5,14 @@ import {
   managerGetStudents,
   managerGetNotifications,
   managerPostNotificationSelect,
+  managerBlockUser,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
   name: 'managerSlice',
   initialState: {
     status: null,
+    statusblock: null,
     Insuccess: false,
     managerCard: [],
     error: null,
@@ -88,6 +90,18 @@ const managerSlice = createSlice({
       })
       .addCase(managerPostNotificationSelect.rejected, (state) => {
         state.status = 'error'
+        state.Insuccess = true
+      })
+      // managerNotificationBlock
+      .addCase(managerBlockUser.pending, (state) => {
+        state.statusblock = 'pending'
+      })
+      .addCase(managerBlockUser.fulfilled, (state) => {
+        state.Insuccess = true
+        state.statusblock = 'success'
+      })
+      .addCase(managerBlockUser.rejected, (state) => {
+        state.statusblock = 'error'
         state.Insuccess = true
       })
   },
