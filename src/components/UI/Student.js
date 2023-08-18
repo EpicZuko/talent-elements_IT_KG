@@ -394,37 +394,40 @@ const Student = ({
                 )}
                 {variant === 'Students' && (
                   <td>
-                    {element.payment === 'Оплатил' && (
-                      <Button onClick={onClickStudentPaidButton} variant='paid'>
-                        <P>{element.payment}</P>
-                      </Button>
-                    )}
-                    {element.payment === 'Не оплатил' && (
+                    {element.payment === true && (
                       <Button
-                        onClick={onClickStudentNotPaidButton}
+                        onClick={() => onClickStudentPaidButton(element)}
                         variant='not paid'
                       >
-                        <P>{element.payment}</P>
+                        <P>Не оплатил</P>
+                      </Button>
+                    )}
+                    {element.payment === false && (
+                      <Button
+                        onClick={() => onClickStudentNotPaidButton(element)}
+                        variant='paid'
+                      >
+                        <P>Оплатил</P>
                       </Button>
                     )}
                   </td>
                 )}
                 {variant === 'Students' && (
                   <StyledActions>
-                    {element.action === 'Блокировать' && (
+                    {element.action === false && (
                       <Button
-                        onClick={onClickStudentBlockButton}
+                        onClick={() => onClickStudentBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Блокировать</P>
                       </Button>
                     )}
-                    {element.action === 'Разблокировать' && (
+                    {element.action === true && (
                       <Button
-                        onClick={onClickStudentUnlockButton}
+                        onClick={() => onClickStudentUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Разблокировать</P>
                       </Button>
                     )}
                   </StyledActions>
@@ -433,7 +436,7 @@ const Student = ({
                   <StyledActions>
                     {element.action === 'Блокировать' && (
                       <Button
-                        onClick={onClickInstructorBlockButton}
+                        onClick={() => onClickInstructorBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
                         <P>{element.action}</P>
@@ -441,7 +444,7 @@ const Student = ({
                     )}
                     {element.action === 'Разблокировать' && (
                       <Button
-                        onClick={onClickInstructorUnlockButton}
+                        onClick={() => onClickInstructorUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
                         <P>{element.action}</P>
@@ -453,7 +456,7 @@ const Student = ({
                   <StyledActions>
                     {element.action === 'Блокировать' && (
                       <Button
-                        onClick={onClickManagerBlockButton}
+                        onClick={() => onClickManagerBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
                         <P>{element.action}</P>
@@ -461,7 +464,7 @@ const Student = ({
                     )}
                     {element.action === 'Разблокировать' && (
                       <Button
-                        onClick={onClickManagerUnlockButton}
+                        onClick={() => onClickManagerUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
                         <P>{element.action}</P>
@@ -479,13 +482,13 @@ const Student = ({
                     >
                       <span>
                         <Button
-                          onClick={onClickManagerEditButton}
+                          onClick={() => onClickManagerEditButton(element)}
                           variant='edit button'
                         />
                       </span>
                       <span style={{ marginLeft: '27px', background: 'none' }}>
                         <Button
-                          onClick={onClickManagerDeleteButton}
+                          onClick={() => onClickManagerDeleteButton(element)}
                           variant='delete button'
                         />
                       </span>
@@ -502,15 +505,13 @@ const Student = ({
                     >
                       <span>
                         <Button
-                          onClick={onClickMentorEditButton}
+                          onClick={() => onClickMentorEditButton(element)}
                           variant='edit button'
                         />
                       </span>
                       <span style={{ marginLeft: '27px', background: 'none' }}>
                         <Button
-                          onClick={() =>
-                            onClickMentorDeleteButton(element.studentId)
-                          }
+                          onClick={() => onClickMentorDeleteButton(element)}
                           variant='delete button'
                         />
                       </span>
@@ -818,6 +819,7 @@ const StyledDate = styled.td`
   color: rgba(0, 0, 0, 1);
   font-weight: 500;
   font-size: 16px;
+  word-break: break-all;
 `
 const StyledImg = styled.img`
   width: 40px;

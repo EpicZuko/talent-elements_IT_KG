@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,16 +17,14 @@ export const MentorInstructorStudents = () => {
     navigate('/')
   }
   const { name, groupId } = useParams()
-  const [put, setPut] = useState(false)
 
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getMentorStudents({ id: groupId }))
-  }, [put])
+  }, [])
 
-  const deleteStudents = (id) => {
-    setPut((prev) => !prev)
-    dispatch(putMentorStudents({ id }))
+  const deleteStudents = (element) => {
+    dispatch(putMentorStudents({ id: element.studentId }))
   }
 
   return (

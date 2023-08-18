@@ -15,6 +15,10 @@ import CustomizedSnackbars from '../UI/Snackbar'
 export const MentorInstructorNotifications = () => {
   const [comment, setComment] = useState('')
   const [score, setScore] = useState('')
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getMentorNotifications())
+  }, [])
 
   const scoreInputHandler = (event) => {
     setScore(event.target.value)
@@ -28,11 +32,8 @@ export const MentorInstructorNotifications = () => {
   const navToPrevPage = () => {
     navigate(-1)
   }
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getMentorNotifications())
-  }, [])
   const checkSubmissonStudent = (data) => {
+    console.log(data)
     if (comment.trim() !== '' && score.trim() !== '') {
       dispatch(
         postMentorStudentSubmission({
@@ -54,6 +55,7 @@ export const MentorInstructorNotifications = () => {
       })
     )
   }
+  console.log(state.getNotifications)
   return (
     <div>
       <Location>
