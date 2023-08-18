@@ -215,6 +215,34 @@ export const getStaffAdminLesson = createAsyncThunk(
   }
 )
 
+export const getStaffAdminHomeWorkStudent = createAsyncThunk(
+  'staffAdmin/getStaffAdminHomeWorkStudent',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/staff/admin/get/by/id/check/submission?submissionId=${props.submissionId}&assigmentId=${props.assigmentId}`,
+      })
+      const homeWorkId = {
+        studentName: response.studentName,
+        homeWorkArray: [],
+        answer: [],
+      }
+      homeWorkId.homeWorkArray.push({
+        taskTitle: response.titleAssigment,
+        img: response.photo,
+      })
+      homeWorkId.answer.push({
+        taskTitle: response.submissionResponse?.text,
+        img: response.submissionResponse?.file,
+      })
+      return { homeWorkId }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -237,6 +265,12 @@ const staffAdminSlice = createSlice({
     },
     getStaffAdminLesson: [],
     getStaffAdminLessonStatus: null,
+    getStaffAdminHomeWorkStudent: {
+      studentName: null,
+      homeWorkArray: [],
+      answer: [],
+    },
+    getStaffAdminHomeWorkStudentStatus: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -313,6 +347,23 @@ const staffAdminSlice = createSlice({
       .addCase(getStaffAdminLesson.rejected, (state) => {
         state.getStaffAdminLessonStatus = 'error'
         state.getStaffAdminLesson.lesson = []
+      })
+      // get staff Admin home work id student
+      .addCase(getStaffAdminHomeWorkStudent.pending, (state) => {
+        state.getStaffAdminHomeWorkStudentStatus = 'pending'
+      })
+      .addCase(getStaffAdminHomeWorkStudent.fulfilled, (state, action) => {
+        state.getStaffAdminHomeWorkStudentStatus = 'success'
+        state.getStaffAdminHomeWorkStudent.answer =
+          action.payload.homeWorkId.answer
+        state.getStaffAdminHomeWorkStudent.homeWorkArray =
+          action.payload.homeWorkId.homeWorkArray
+        state.getStaffAdminHomeWorkStudent.studentName =
+          action.payload.homeWorkId.studentName
+      })
+      .addCase(getStaffAdminHomeWorkStudent.rejected, (state) => {
+        state.getStaffAdminHomeWorkStudentStatus = 'error'
+        state.getStaffAdminHomeWorkStudentArray = []
       })
   },
 })

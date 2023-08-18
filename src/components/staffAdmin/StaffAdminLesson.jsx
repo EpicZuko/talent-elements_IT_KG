@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStaffAdminLesson } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
 import Lessons from '../UI/Lessons'
@@ -8,6 +8,7 @@ import Lessons from '../UI/Lessons'
 const StaffAdminLesson = () => {
   const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { lessonsId } = useParams()
 
   useEffect(() => {
@@ -18,6 +19,11 @@ const StaffAdminLesson = () => {
     )
   }, [lessonsId])
 
+  const navigateHomeWorkStudentId = (element) => {
+    navigate(
+      `/lessons/submission/${element.submissionId}/assigment/${element.assigmentId}`
+    )
+  }
   return (
     <DivLesson>
       <H6>
@@ -29,7 +35,8 @@ const StaffAdminLesson = () => {
             <Lessons
               variant='Mentor'
               element={element}
-              variantClick='disabled'
+              variantClick='click'
+              onClickStudent={(element) => navigateHomeWorkStudentId(element)}
             />
           ))
         ) : (
