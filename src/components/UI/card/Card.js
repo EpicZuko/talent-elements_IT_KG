@@ -45,18 +45,18 @@ const Card = (props) => {
               {props.variant === 'mentor_instructor' && (
                 <Mentor>
                   <Div1
-                    onClick={props.onClickHandler}
+                    onClick={() =>
+                      props.variantClick === 'disabled'
+                        ? ''
+                        : props.onClickHandler(element)
+                    }
                     role='button'
                     tabIndex='0'
                   >
                     <ImgCard src={ImgCardGroup} alt='error' />
                     <Lesson>Курсы - {element.lesson}</Lesson>
                   </Div1>
-                  <Div2
-                    onClick={props.onClickHandler}
-                    role='button'
-                    tabIndex='0'
-                  >
+                  <Div2 role='button' tabIndex='0'>
                     <ImgGroup
                       src={IconCardGroup}
                       alt='error'

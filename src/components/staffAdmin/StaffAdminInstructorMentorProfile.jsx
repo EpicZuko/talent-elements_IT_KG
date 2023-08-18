@@ -65,7 +65,7 @@ const StyledDivStudent = styled.div`
   margin-top: 100px;
   margin-left: 396px;
   @media (max-width: 391px) {
-    margin-left: 20px;
+    margin-left: 3px;
     margin-top: 23px;
   }
 `

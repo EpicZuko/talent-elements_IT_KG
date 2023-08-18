@@ -5,7 +5,7 @@ import Frame2 from '../../assets/icon/lessonIcons/Frame 141.svg'
 import Frame from '../../assets/icon/lessonIcons/video-square.svg'
 import Frame1 from '../../assets/icon/lessonIcons/Слой_x0020_1.svg'
 
-const Lessons = ({ variant, element }) => {
+const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
     setShow((prevState) => !prevState)
@@ -55,14 +55,17 @@ const Lessons = ({ variant, element }) => {
           {variant === 'Mentor' && (
             <MentorLesson>
               <H1>{element.text}</H1>
-              <Lesson>
-                <D6>
-                  <Img src={Frame} alt='error' />
-                  <Title>{element.title}</Title>
-                </D6>
+              <StyledTagA href={element.urlLesson}>
+                <Lesson>
+                  <D6>
+                    <Img src={Frame} alt='error' />
+                    <Title>{element.title}</Title>
+                  </D6>
 
-                <Data>{element.date}</Data>
-              </Lesson>
+                  <Data>{element.date}</Data>
+                </Lesson>
+              </StyledTagA>
+
               <LessonLeft>
                 <D7>
                   <Img src={Frame3} alt='error' />
@@ -83,7 +86,17 @@ const Lessons = ({ variant, element }) => {
                   {show && (
                     <ShowedStudents>
                       {element.students.map((el) => {
-                        return <p>{el}</p>
+                        return (
+                          <p
+                            onClick={() =>
+                              variantClick === 'disbled'
+                                ? ''
+                                : onClickStudent(element)
+                            }
+                          >
+                            {el.username}
+                          </p>
+                        )
                       })}
                     </ShowedStudents>
                   )}
@@ -106,7 +119,7 @@ const Container = styled.div`
   width: 1200px;
   margin-bottom: 35px;
   @media screen and (max-width: 391px) {
-    width: 390px;
+    width: 370px;
     display: flex;
     margin-bottom: 20px;
     display: inline-block;
@@ -331,4 +344,7 @@ const ShowedStudents = styled.div`
   @media screen and (max-width: 391px) {
     margin-left: 155px;
   }
+`
+const StyledTagA = styled.a`
+  text-decoration: none;
 `
