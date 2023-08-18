@@ -18,7 +18,6 @@ function BasikSelect({
   const handleChange = (event) => {
     onChange(event.target.value)
   }
-
   return (
     <Box>
       <FormControl variant={variant === '' ? '' : variant}>

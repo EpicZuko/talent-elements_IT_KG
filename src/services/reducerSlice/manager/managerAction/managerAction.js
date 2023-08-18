@@ -3,19 +3,30 @@ import {
   managerGetProfile,
   managerGetAllGroups,
   managerGetStudents,
+  managerGetNotifications,
+  managerPostNotificationSelect,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
   name: 'managerSlice',
   initialState: {
+    status: null,
+    Insuccess: false,
     managerCard: [],
     error: null,
     managerProfile: {},
     managerStudentsStatus: null,
     managerStudents: [],
+    managerNotifications: [],
+    managerNotificationsStatus: null,
   },
 
-  reducers: {},
+  reducers: {
+    snackBarClose(state, action) {
+      state.Insuccess = action.payload.Isuccess
+      state.status = action.payload.status
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(managerGetAllGroups.pending, (state) => {
@@ -54,6 +65,30 @@ const managerSlice = createSlice({
       .addCase(managerGetStudents.rejected, (state, action) => {
         state.managerStudentsStatus = 'error'
         state.error = action.payload?.error.message
+      })
+      // managerNotifications
+      .addCase(managerGetNotifications.pending, (state) => {
+        state.managerNotificationsStatus = 'pending'
+      })
+      .addCase(managerGetNotifications.fulfilled, (state, action) => {
+        state.managerNotificationsStatus = 'success'
+        state.managerNotifications = action.payload.managerNotifications
+      })
+      .addCase(managerGetNotifications.rejected, (state, action) => {
+        state.managerNotificationsStatus = 'error'
+        state.error = action.payload?.error.message
+      })
+      // managerNotificationsSelected
+      .addCase(managerPostNotificationSelect.pending, (state) => {
+        state.status = 'pending'
+      })
+      .addCase(managerPostNotificationSelect.fulfilled, (state) => {
+        state.Insuccess = true
+        state.status = 'success'
+      })
+      .addCase(managerPostNotificationSelect.rejected, (state) => {
+        state.status = 'error'
+        state.Insuccess = true
       })
   },
 })

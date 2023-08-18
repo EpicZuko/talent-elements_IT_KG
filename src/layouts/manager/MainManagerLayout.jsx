@@ -82,4 +82,3 @@ const StyledSiderBar = styled.div`
     display: none;
   }
 `
- 
