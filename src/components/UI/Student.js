@@ -440,20 +440,20 @@ const Student = ({
                 )}
                 {variant === 'Instructors' && (
                   <StyledActions>
-                    {element.action === 'Блокировать' && (
+                    {element.action === false && (
                       <Button
                         onClick={() => onClickInstructorBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Блокировать</P>
                       </Button>
                     )}
-                    {element.action === 'Разблокировать' && (
+                    {element.action === true && (
                       <Button
                         onClick={() => onClickInstructorUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Разблокировать</P>
                       </Button>
                     )}
                   </StyledActions>

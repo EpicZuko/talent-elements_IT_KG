@@ -5,6 +5,7 @@ import {
   managergetCardGroupsUrl,
   managerStudentsUrl,
   getManagerNotificationUrl,
+  managerInstructorMentorUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -264,6 +265,74 @@ export const managerPostNotificationSelect = createAsyncThunk(
       }
     } catch (error) {
       return rejectWithValue(error?.message)
+    }
+  }
+)
+
+export const managerInstructorMentor = createAsyncThunk(
+  'managerSlice/managerInstructorMentor',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: managerInstructorMentorUrl,
+      })
+      const instructorMentorArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].createdAt
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        instructorMentorArray.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          group: response[i].groupName,
+          name: response[i].email,
+          doctrine: response[i].lessonNames,
+          dateOfRegistration: formattedDate,
+          action: response[i].blocked,
+        })
+      }
+      return { instructorMentorArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const managerInstructorMentorPutUnBlockOrBlock = createAsyncThunk(
+  'managerSlice/managerInstuctorMentorPutUnblockOrBlock',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.block === 'block') {
+        const response = await ApiFetch({
+          url: `api/managers/block/teacher/by/${props.id}`,
+          method: 'PUT',
+          body: props.id,
+        })
+        const successBlock = 'successs'
+        dispatch(managerInstructorMentor())
+        return { response, successBlock }
+      }
+      if (props.block === 'unblock') {
+        const response = await ApiFetch({
+          url: `api/managers/unblock/teacher/by/${props.id}`,
+          method: 'PUT',
+          body: props.id,
+        })
+        const successUnblock = 'success'
+        dispatch(managerInstructorMentor())
+        return { response, successUnblock }
+      }
+    } catch (error) {
+      return rejectWithValue(error)
     }
   }
 )
