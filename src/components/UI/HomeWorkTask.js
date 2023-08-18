@@ -84,8 +84,9 @@ export default HomeWorkTask
 
 const Container = styled.div`
   width: 100%;
-  @media screen and (min-width: 391px) {
-    margin-left: 90px;
+  @media (max-width: 391px) {
+    /* margin-left: 90px; */
+    width: 100%;
   }
   @media screen and (max-width: 391px) {
     display: flex;
@@ -129,7 +130,7 @@ const StyledDivN2 = styled.div`
   margin-top: 41px;
   margin-bottom: 27px;
   @media screen and (max-width: 391px) {
-    width: 350px;
+    width: 300px;
     height: auto;
   }
 `
@@ -137,9 +138,10 @@ const StyledTaskImg = styled.img`
   width: 507px;
   height: 380px;
   flex-shrink: 0;
-  @media screen and (max-width: 391px) {
-    width: 350px;
+  @media (max-width: 391px) {
+    width: 300px;
     height: auto;
+    background-color: blue;
   }
 `
 const StyledDivN3 = styled.div`
@@ -148,7 +150,7 @@ const StyledDivN3 = styled.div`
   color: rgba(55, 55, 55, 1);
   margin-top: 47px;
   @media screen and (max-width: 391px) {
-    width: 350px;
+    width: 300px;
     height: auto;
   }
 `

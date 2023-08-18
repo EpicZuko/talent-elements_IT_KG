@@ -23,6 +23,9 @@ const StaffAdminLayouts = () => {
   const navigateInstructorMentor = () => {
     navigate('/inctructor')
   }
+  const navigateCardStudent = () => {
+    navigate('/')
+  }
   return (
     <div>
       <Header
@@ -38,6 +41,7 @@ const StaffAdminLayouts = () => {
             <SiderBar
               variant='staf/admin'
               onClickStafAdminInstructor={navigateInstructorMentor}
+              onClickStafAdminGroup={navigateCardStudent}
             />
           </StyledSection>
           {stateSideBarStaffAdmin && (
@@ -45,6 +49,7 @@ const StaffAdminLayouts = () => {
               variant='staf/admin'
               onCloseBackdrop={sideBarCloseMenuBar}
               onClickStafAdminInstructor={navigateInstructorMentor}
+              onClickStafAdminGroup={navigateCardStudent}
             />
           )}
         </div>

@@ -91,7 +91,7 @@ const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
                             onClick={() =>
                               variantClick === 'disbled'
                                 ? ''
-                                : onClickStudent(element)
+                                : onClickStudent(el)
                             }
                           >
                             {el.username}
