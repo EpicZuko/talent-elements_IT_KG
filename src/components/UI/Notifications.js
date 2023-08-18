@@ -6,7 +6,20 @@ import Button from './Button'
 import Input from './Input'
 import BasikSelect from './Select'
 
-const Notifications = ({ variant, mentorData, studentData, managerData }) => {
+const Notifications = ({
+  selectArray,
+  variant,
+  index,
+  mentorData,
+  studentData,
+  managerData,
+  handlerAllowAccess,
+  selectstate,
+  selectIndex,
+  setSelectIndex,
+  setSelectState,
+  handlerBlockUser,
+}) => {
   const [showStudentNotifications, setShowStudentNotifications] =
     useState(false)
   const [mentorShow, setMentorShow] = useState(false)
@@ -16,7 +29,14 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
   const showMentor = () => {
     setMentorShow((prev) => !prev)
   }
-  const changeSelect = () => {}
+  const changeSelect = (event) => {
+    if (selectstate === index) {
+      setSelectState(null)
+    } else {
+      setSelectState(event)
+      setSelectIndex(index)
+    }
+  }
   return (
     <Container>
       {variant === 'StudentNotifications' && (
@@ -106,14 +126,32 @@ const Notifications = ({ variant, mentorData, studentData, managerData }) => {
             <BasikSelect
               variant=''
               label='Выберите роль'
-              options={managerData.options}
-              getOptionLabel={(options) => options.name}
-              getOptionValue={(options) => options.name}
+              options={selectArray}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.option}
+              // value={selectstate}
               onChange={changeSelect}
             />
             <div style={{ display: 'flex', gap: '18px' }}>
-              <Button variant='RequestRefusal-Buttons'>Блокировать</Button>
-              <Button variant='RequestAllow-Button'>Разрешить</Button>
+              <Button
+                variant='RequestRefusal-Buttons'
+                onClick={() => handlerBlockUser(managerData)}
+              >
+                Блокировать
+              </Button>
+              {selectIndex !== index && (
+                <Button variant='allow' disabled>
+                  Разрешить
+                </Button>
+              )}
+              {selectIndex === index && (
+                <Button
+                  variant='RequestAllow-Buttons'
+                  onClick={() => handlerAllowAccess(managerData)}
+                >
+                  Разрешить
+                </Button>
+              )}
             </div>
           </ButtonsBlock>
         </ManagerNotificationsBlock>

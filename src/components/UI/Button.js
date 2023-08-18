@@ -4,10 +4,10 @@ import CreateGroup from '../../assets/icon/button-icons/add.svg'
 import EditButton from '../../assets/icon/button-icons/edit.svg'
 import DeleteButton from '../../assets/icon/button-icons/trash.svg'
 
-const Button = ({ children, variant, onClick }) => {
+const Button = ({ children, variant, onClick, ...props }) => {
   return (
     <div>
-      <StyledButton variant={variant} onClick={onClick}>
+      <StyledButton variant={variant} onClick={onClick} {...props}>
         {variant === 'edit button' && (
           <DeleteIcon src={EditButton} alt='error-DeleteButton.svg' />
         )}
@@ -130,6 +130,13 @@ const getSeoAdminButton = (props) => {
     'width:350px; background-color:#134764; height:40px;'
   )
 }
+const getManagerNotificationAllow = (props) => {
+  return (
+    props.variant === 'allow' &&
+    'width: 120px; height: 38px; background-color: rgba(224, 224, 224, 1);'
+  )
+}
+// media
 const getStyleMediaButton = (props) => {
   return (
     props.variant === 'sing in' &&
@@ -214,6 +221,9 @@ const getSeoAdminMediaButton = (props) => {
     'width:315px; background-color:#134764; height:40px;'
   )
 }
+const getManagerNotificationMediaAllow = (props) => {
+  return props.variant === 'allow' && 'width: 144px; height: 38px'
+}
 const StyledButton = styled.button`
   ${getStyleButton}
   ${getBlockButton}
@@ -232,6 +242,7 @@ const StyledButton = styled.button`
    ${getPaidButton}
    ${getNotPaidButton}
    ${getSeoAdminButton}
+   ${getManagerNotificationAllow}
   @media screen and (max-width:415px) {
     ${getStyleMediaButton}
     ${getPaidMediaButton}
@@ -250,6 +261,7 @@ const StyledButton = styled.button`
     ${getChangeButton}
    ${getCreateGroupPage}
    ${getSeoAdminMediaButton}
+   ${getManagerNotificationMediaAllow}
   }
   @media screen and (max-width: 390px) {
     ${getStyleMediaButton}
@@ -269,6 +281,7 @@ const StyledButton = styled.button`
    ${getCreateGroupPage}
    ${getChangeButton}
    ${getSeoAdminMediaButton}
+   ${getManagerNotificationMediaAllow}
   }
   @media screen and (max-width: 375px) {
     ${getStyleMediaButton}
@@ -287,6 +300,7 @@ const StyledButton = styled.button`
     ${getDeleteButton}
     ${getChangeButton}
    ${getSeoAdminMediaButton}
+   ${getManagerNotificationMediaAllow}
   }
   font-family: 'Zen Kaku Gothic New';
   font-weight: 700;
