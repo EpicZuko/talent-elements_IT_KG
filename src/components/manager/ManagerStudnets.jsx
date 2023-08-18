@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import {
   managerBlockStudents,
@@ -16,9 +17,10 @@ const ManagerStudnets = () => {
   const [paid, setPaid] = useState(null)
   const dispatch = useDispatch()
   const state = useSelector((state) => state.manager)
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(managerGetStudents())
-  }, [paid])
+  }, [paid, dispatch])
   const searchChangeValue = (event) => {
     setSearch(event.target.value)
   }
@@ -43,6 +45,9 @@ const ManagerStudnets = () => {
   const handlerUnlockStudents = (elementId) => {
     dispatch(managerUnlockStudents({ id: elementId.id }))
   }
+  const navigateStudentProfile = (id) => {
+    navigate(`/students/${id}`)
+  }
   return (
     <div>
       <ContainerDiv>
@@ -59,21 +64,27 @@ const ManagerStudnets = () => {
           </div>
         </ContainerDiv2>
         <div>
-          <Student
-            onClickStudentNotPaidButton={(element) =>
-              handlerNotPaidButton(element)
-            }
-            onClickStudentPaidButton={(element) => handlerPaidButton(element)}
-            onClickStudentBlockButton={(element) =>
-              handlerBlockStudents(element)
-            }
-            onClickStudentUnlockButton={(element) =>
-              handlerUnlockStudents(element)
-            }
-            variant='Students'
-            variantClick='disbled'
-            UserDataArray={filterSearch}
-          />
+          {filterSearch.length > 0 ? (
+            <Student
+              onClickStudentNotPaidButton={(element) =>
+                handlerNotPaidButton(element)
+              }
+              onClickStudentPaidButton={(element) => handlerPaidButton(element)}
+              onClickStudentBlockButton={(element) =>
+                handlerBlockStudents(element)
+              }
+              onClickStudentUnlockButton={(element) =>
+                handlerUnlockStudents(element)
+              }
+              variant='Students'
+              variantClick='disbled'
+              variantName='click'
+              UserDataArray={filterSearch}
+              onClickImgName={(element) => navigateStudentProfile(element.id)}
+            />
+          ) : (
+            <h3>Такого студента нет</h3>
+          )}
         </div>
       </ContainerDiv>
     </div>

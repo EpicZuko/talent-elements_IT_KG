@@ -94,7 +94,7 @@ export const managerPutPaidStudents = createAsyncThunk(
         method: 'PUT',
         body: { studentId: props.id },
       })
-      dispatch(managerGetStudents())
+      dispatch(managerGetStudents(), managerStudentProfile())
       return response
     } catch (error) {
       return rejectWithValue(error?.message)
@@ -110,7 +110,7 @@ export const managerPutNotPaidStudents = createAsyncThunk(
         method: 'PUT',
         body: { studentId: props.id },
       })
-      dispatch(managerGetStudents())
+      dispatch(managerGetStudents(), managerStudentProfile())
       return response
     } catch (error) {
       return rejectWithValue(error?.message)
@@ -146,6 +146,45 @@ export const managerUnlockStudents = createAsyncThunk(
       return response
     } catch (error) {
       return rejectWithValue(error?.message)
+    }
+  }
+)
+
+export const managerStudentProfile = createAsyncThunk(
+  'managerSlice/managerStudentProfile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/get/by/id/student?studetId=${props.studentId}`,
+      })
+      const dateString = response?.date
+      const dateObject = new Date(dateString)
+      const dateAddOne =
+        dateObject.getMonth() < 10
+          ? `0${dateObject.getMonth() + 1}`
+          : dateObject.getMonth() + 1
+      const formattedDate = `${dateObject.toLocaleString('en-US', {
+        day: '2-digit',
+      })}.${dateAddOne}.${dateObject.getFullYear()}`
+      const studentProfile = {
+        email: response?.email,
+        profileImg: response?.image,
+        studentProfileArray: [],
+        studentProfileRegister: [],
+      }
+      studentProfile.studentProfileArray.push({
+        block: response?.pay,
+        name: response?.name,
+        email: response?.email,
+      })
+      studentProfile.studentProfileRegister.push({
+        groups: response?.groupName,
+        date: formattedDate,
+      })
+      return { studentProfile }
+    } catch (error) {
+      return rejectWithValue(error)
     }
   }
 )

@@ -22,6 +22,8 @@ const Student = ({
   onClickMentorDeleteButton,
   onClickElement,
   variantClick,
+  onClickImgName,
+  variantName,
 }) => {
   return (
     <div>
@@ -266,7 +268,11 @@ const Student = ({
                   </StyledId>
                 )}
                 {variant === 'Students' && (
-                  <StyledName>
+                  <StyledName
+                    onClick={() =>
+                      variantName === 'disbled' ? '' : onClickImgName(element)
+                    }
+                  >
                     <StyledImg src={element.img} alt='error img' />
                     {element.name}
                   </StyledName>

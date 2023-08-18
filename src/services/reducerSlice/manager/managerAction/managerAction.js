@@ -3,6 +3,7 @@ import {
   managerGetProfile,
   managerGetAllGroups,
   managerGetStudents,
+  managerStudentProfile,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -13,6 +14,13 @@ const managerSlice = createSlice({
     managerProfile: {},
     managerStudentsStatus: null,
     managerStudents: [],
+    managerStudentProfile: {
+      email: null,
+      profileImg: null,
+      studentProfileArray: [],
+      studentProfileRegister: [],
+    },
+    managerStudentProfleStatus: null,
   },
 
   reducers: {},
@@ -54,6 +62,25 @@ const managerSlice = createSlice({
       .addCase(managerGetStudents.rejected, (state, action) => {
         state.managerStudentsStatus = 'error'
         state.error = action.payload?.error.message
+      })
+      // manager student profile
+      .addCase(managerStudentProfile.pending, (state) => {
+        state.managerStudentProfleStatus = 'pending'
+      })
+      .addCase(managerStudentProfile.fulfilled, (state, action) => {
+        state.managerStudentProfleStatus = 'success'
+        state.managerStudentProfile.email = action.payload.studentProfile.email
+        state.managerStudentProfile.profileImg =
+          action.payload.studentProfile.profileImg
+        state.managerStudentProfile.studentProfileArray =
+          action.payload.studentProfile.studentProfileArray
+        state.managerStudentProfile.studentProfileRegister =
+          action.payload.studentProfile.studentProfileRegister
+      })
+      .addCase(managerStudentProfile.rejected, (state) => {
+        state.managerStudentProfleStatus = 'error'
+        state.managerStudentProfile.studentProfileArray = []
+        state.managerStudentProfile.studentProfileRegister = []
       })
   },
 })
