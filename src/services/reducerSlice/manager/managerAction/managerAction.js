@@ -9,6 +9,7 @@ import {
   managerBlockUser,
   managerInstructorMentor,
   managerInstructorMentorPutUnBlockOrBlock,
+  managerInstructorMentorProfile,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -36,6 +37,13 @@ const managerSlice = createSlice({
     managerInstructorMentorSnackBar: {
       managerStatusBlockOrUnBlock: null,
       open: false,
+      status: null,
+    },
+    instructorMentorProfile: {
+      profileImg: null,
+      email: null,
+      lessonNames: [],
+      tableNames: [],
       status: null,
     },
   },
@@ -176,6 +184,28 @@ const managerSlice = createSlice({
         state.managerInstructorMentorSnackBar.managerInstructorMentorStatusBlockOrUnBlock =
           'error'
         state.managerInstructorMentorSnackBar.open = true
+      })
+      // managerInstructorMentorProfile
+      .addCase(managerInstructorMentorProfile.pending, (state) => {
+        state.instructorMentorProfile.status = 'pending'
+      })
+      .addCase(managerInstructorMentorProfile.fulfilled, (state, action) => {
+        state.instructorMentorProfile.status = 'success'
+        state.instructorMentorProfile.email =
+          action.payload.instructorMentorProfile.email
+        state.instructorMentorProfile.lessonNames =
+          action.payload.instructorMentorProfile.lessonNames
+        state.instructorMentorProfile.profileImg =
+          action.payload.instructorMentorProfile.profileImg
+        state.instructorMentorProfile.tableNames =
+          action.payload.instructorMentorProfile.tableNames
+      })
+      .addCase(managerInstructorMentorProfile.rejected, (state) => {
+        state.instructorMentorProfile.status = 'error'
+        state.instructorMentorProfile.email = ''
+        state.instructorMentorProfile.lessonNames = []
+        state.instructorMentorProfile.profileImg = ''
+        state.instructorMentorProfile.tableNames = []
       })
   },
 })
