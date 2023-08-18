@@ -36,6 +36,8 @@ const initialState = {
   },
   getStudentNotification: [],
   getStudentNotificationStatus: null,
+  getStaffAdminLesson: [],
+  getStaffAdminLessonStatus: null,
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
