@@ -4,7 +4,7 @@ import {
   managergetProfileUrl,
   managergetCardGroupsUrl,
   managerStudentsUrl,
-  // managerPutStudentsUrl,
+  getManagerNotificationUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -85,6 +85,41 @@ export const managerGetStudents = createAsyncThunk(
     }
   }
 )
+export const managerGetNotifications = createAsyncThunk(
+  'manager/managerGetNotification',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: getManagerNotificationUrl,
+      })
+      const managerNotifications = []
+      // eslint-disable-next-line no-plusplus, no-unreachable-loop
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].createdAt
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        managerNotifications.push({
+          id: response[i].id,
+          number: response[i].studentId,
+          username: response[i].name,
+          nickname: response[i].username,
+          email: response[i].email,
+          date: formattedDate,
+        })
+      }
+      return { managerNotifications }
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
 export const managerPutPaidStudents = createAsyncThunk(
   'manager/managerPutStudents',
   async (props, { rejectWithValue, dispatch }) => {
@@ -144,6 +179,50 @@ export const managerUnlockStudents = createAsyncThunk(
       })
       dispatch(managerGetStudents())
       return response
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+export const managerBlockUser = createAsyncThunk(
+  'manager/managerBlockUser',
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/block/${props.id}`,
+        method: 'PUT',
+        body: { userId: props.id },
+      })
+      dispatch(managerGetNotifications())
+      return response
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+export const managerPostNotificationSelect = createAsyncThunk(
+  'login/managerPostNotificationSelect',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.fetchRole === 'user') {
+        const response = await ApiFetch({
+          url: `api/managers/select/role?id=${props.body.id}&roleRequest=${props.body.roleRequest}`,
+          method: 'POST',
+          body: props.body,
+        })
+        dispatch(managerGetNotifications())
+        return response
+      }
+      if (props.fetchRole === 'teacher') {
+        const response = await ApiFetch({
+          url: `api/managers/select/role/teacher/?id=${props.body.id}&roleRequest=${props.body.roleRequest}`,
+          method: 'POST',
+          body: props.body,
+        })
+        dispatch(managerGetNotifications())
+        return response
+      }
     } catch (error) {
       return rejectWithValue(error?.message)
     }

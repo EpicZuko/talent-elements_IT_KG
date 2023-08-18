@@ -27,9 +27,16 @@ const MainManagerLayout = () => {
   const handlerStudentsLayout = () => {
     navigate('/students')
   }
+  const handlerNotifications = () => {
+    navigate('/notification')
+  }
   return (
     <div>
-      <Header data={state?.managerProfile} onBurgerMenuClick={sideBarOpen} />
+      <Header
+        data={state?.managerProfile}
+        onBurgerMenuClick={sideBarOpen}
+        onClickNotification={handlerNotifications}
+      />
       <Container>
         <ContainerDiv2>
           <Outlet />
