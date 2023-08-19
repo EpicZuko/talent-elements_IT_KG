@@ -7,6 +7,7 @@ import {
   getManagerNotificationUrl,
   managerInstructorMentorUrl,
   managerStaffAdminUrl,
+  getManagerSeoAdminUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -450,6 +451,72 @@ export const managerStaffAdminPutBlockOrUnBlock = createAsyncThunk(
         })
         const unblock = 'success'
         dispatch(managerStaffAdmin())
+        return { response, unblock }
+      }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const getManagerSeoAdmin = createAsyncThunk(
+  'managerSlice/getManagerSeoAdmin',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: getManagerSeoAdminUrl,
+      })
+      const seoAdminArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].date
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        seoAdminArray.push({
+          id: response[i].id,
+          raiting: response[i].id,
+          img: response[i].photo,
+          name: response[i].name,
+          dateOfRegistration: formattedDate,
+          action: response[i].block,
+        })
+      }
+      return { seoAdminArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const managerSeoAdminBlockOrUnBlock = createAsyncThunk(
+  'managerSlice/managerSeoAdminBlockOrUnBlock',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.block === 'block') {
+        const response = await ApiFetch({
+          url: `api/managers/block/User/${props.id}`,
+          method: 'PUT',
+          body: { id: props.id },
+        })
+        const block = 'success'
+        dispatch(getManagerSeoAdmin())
+        return { response, block }
+      }
+      if (props.block === 'unblock') {
+        const response = await ApiFetch({
+          url: `api/managers/unblock/User/${props.id}`,
+          method: 'PUT',
+          body: { id: props.id },
+        })
+        const unblock = 'success'
+        dispatch(getManagerSeoAdmin())
         return { response, unblock }
       }
     } catch (error) {

@@ -14,9 +14,11 @@ const MainManagerLayout = () => {
   useEffect(() => {
     dispatch(managerGetProfile())
   }, [])
+
   const sideBarOpen = () => {
     setStateManagerSideBar(true)
   }
+
   const sideBarClose = () => {
     setStateManagerSideBar(false)
   }
@@ -24,17 +26,25 @@ const MainManagerLayout = () => {
   const handlerManagerGroupLayout = () => {
     navigate('/')
   }
+
   const handlerStudentsLayout = () => {
     navigate('/students')
   }
+
   const handlerNotifications = () => {
     navigate('/notification')
   }
+
   const navigetInstructorOrMentor = () => {
     navigate('/instructorOrMentor')
   }
+
   const navigateStaffAdmin = () => {
     navigate('/staffAdmin')
+  }
+
+  const navigetSeoAdmin = () => {
+    navigate('/seoAdmin')
   }
   return (
     <div>
@@ -56,6 +66,7 @@ const MainManagerLayout = () => {
               onCloseBackdrop={sideBarClose}
               onClickManagerInstructor={navigetInstructorOrMentor}
               onClickManagerStafAdmin={navigateStaffAdmin}
+              onClickManagerSeoAdmin={navigetSeoAdmin}
             />
           )}
           <StyledSiderBar>
@@ -65,6 +76,7 @@ const MainManagerLayout = () => {
               onClickManagerStudent={handlerStudentsLayout}
               onClickManagerInstructor={navigetInstructorOrMentor}
               onClickManagerStafAdmin={navigateStaffAdmin}
+              onClickManagerSeoAdmin={navigetSeoAdmin}
             />
           </StyledSiderBar>
         </div>
