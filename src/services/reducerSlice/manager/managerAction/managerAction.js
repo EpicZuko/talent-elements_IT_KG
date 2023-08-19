@@ -15,6 +15,8 @@ import {
   managerStaffAdminPutBlockOrUnBlock,
   getManagerSeoAdmin,
   managerSeoAdminBlockOrUnBlock,
+  getAllManagerGroup,
+  managerAddToStudents,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -69,6 +71,12 @@ const managerSlice = createSlice({
       statusUnBlock: null,
       open: false,
     },
+    getAllGroup: {
+      group: [],
+      status: null,
+      statusAddGroups: null,
+      open: false,
+    },
   },
 
   reducers: {
@@ -87,6 +95,10 @@ const managerSlice = createSlice({
     snackBarCloseSeoAdmin(state, action) {
       state.managerSeoAdmin.open = action.payload.open
       state.managerSeoAdmin.seoAdminStatus = action.payload.status
+    },
+    snackBarCloseAddGroup(state, action) {
+      state.getAllGroup.open = action.payload.open
+      state.getAllGroup.statusAddGroups = action.payload.status
     },
   },
   extraReducers: (builder) => {
@@ -312,6 +324,29 @@ const managerSlice = createSlice({
         state.managerSeoAdmin.open = true
         state.managerSeoAdmin.statusBlock = 'error'
         state.managerSeoAdmin.statusUnBlock = 'error'
+      })
+      // get all manager group
+      .addCase(getAllManagerGroup.pending, (state) => {
+        state.getAllGroup.status = 'pending'
+      })
+      .addCase(getAllManagerGroup.fulfilled, (state, action) => {
+        state.getAllGroup.status = 'success'
+        state.getAllGroup.group = action.payload.group
+      })
+      .addCase(getAllManagerGroup.rejected, (state) => {
+        state.getAllGroup.status = 'error'
+      })
+      // managerAddToStudents
+      .addCase(managerAddToStudents.pending, (state) => {
+        state.getAllGroup.statusAddGroups = 'pending'
+      })
+      .addCase(managerAddToStudents.fulfilled, (state) => {
+        state.getAllGroup.statusAddGroups = 'success'
+        state.getAllGroup.open = true
+      })
+      .addCase(managerAddToStudents.rejected, (state) => {
+        state.getAllGroup.statusAddGroups = 'error'
+        state.getAllGroup.open = true
       })
   },
 })

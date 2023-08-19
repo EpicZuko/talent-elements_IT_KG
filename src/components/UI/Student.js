@@ -357,7 +357,7 @@ const Student = ({
                       element.group
                     ) : (
                       <Button
-                        onClick={onClickStudentGroupButton}
+                        onClick={() => onClickStudentGroupButton(element)}
                         variant='Add-Button'
                       >
                         +
