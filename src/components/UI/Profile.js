@@ -2,11 +2,12 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import IconGroup from '../../assets/icon/Vector.svg'
 
-const Profile = ({ files, setFiles }) => {
+const Profile = ({ files, setFiles, setFormat }) => {
   const fileGroup = useRef(null)
 
   const changeHandlerFile = (event) => {
     const fileGroup = event.target.files[0]
+    setFormat(fileGroup)
     const url = URL.createObjectURL(fileGroup)
     setFiles(url)
   }
