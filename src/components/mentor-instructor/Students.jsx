@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,16 +17,14 @@ export const MentorInstructorStudents = () => {
     navigate('/')
   }
   const { name, groupId } = useParams()
-  const [put, setPut] = useState(false)
 
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getMentorStudents({ id: groupId }))
-  }, [put])
+  }, [])
 
-  const deleteStudents = (id) => {
-    dispatch(putMentorStudents({ id }))
-    setPut((prev) => !prev)
+  const deleteStudents = (element) => {
+    dispatch(putMentorStudents({ id: element.studentId }))
   }
 
   return (
@@ -39,8 +37,8 @@ export const MentorInstructorStudents = () => {
         <Student
           variant='mentor/instructors'
           UserDataArray={state.getStudents}
-          variantClick='disbled'
           onClickMentorDeleteButton={deleteStudents}
+          variantClick='disbled'
         />
       </StudentBlock>
     </div>
