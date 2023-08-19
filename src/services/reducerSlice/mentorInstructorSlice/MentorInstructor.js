@@ -101,15 +101,15 @@ export const getMentorNotifications = createAsyncThunk(
         getNotifications.push({
           id: response[i].id,
           email: response[i].email,
-          value: response[i].assigment,
+          value: response[i].assignmentResponse.title,
           username: response[i].name,
           date: response[i].createdAt,
           group: response[i].groupName,
-          comment: response[i].description || 'no comments',
+          comment: response[i].assignmentResponse.description,
           lesson: response[i].lessonName || 'null',
           nickname: response[i].username,
           studentId: response[i].studentId,
-          submissionId: response[i].submissionId,
+          submissionId: response[i].submissionResponse.id,
         })
       }
       return { getNotifications }

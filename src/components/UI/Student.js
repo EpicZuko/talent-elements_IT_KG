@@ -22,6 +22,8 @@ const Student = ({
   onClickMentorDeleteButton,
   onClickElement,
   variantClick,
+  onClickImgName,
+  variantName,
 }) => {
   return (
     <div>
@@ -266,13 +268,21 @@ const Student = ({
                   </StyledId>
                 )}
                 {variant === 'Students' && (
-                  <StyledName>
+                  <StyledName
+                    onClick={() =>
+                      variantName === 'disbled' ? '' : onClickImgName(element)
+                    }
+                  >
                     <StyledImg src={element.img} alt='error img' />
                     {element.name}
                   </StyledName>
                 )}
                 {variant === 'Instructors' && (
-                  <StyledName>
+                  <StyledName
+                    onClick={() =>
+                      variantName === 'disbled' ? '' : onClickImgName(element)
+                    }
+                  >
                     <StyledImg src={element.img} alt='error img' />
                     {element.name}
                   </StyledName>
@@ -434,20 +444,20 @@ const Student = ({
                 )}
                 {variant === 'Instructors' && (
                   <StyledActions>
-                    {element.action === 'Блокировать' && (
+                    {element.action === false && (
                       <Button
                         onClick={() => onClickInstructorBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Блокировать</P>
                       </Button>
                     )}
-                    {element.action === 'Разблокировать' && (
+                    {element.action === true && (
                       <Button
                         onClick={() => onClickInstructorUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Разблокировать</P>
                       </Button>
                     )}
                   </StyledActions>

@@ -45,14 +45,6 @@ export const MentorInstructorNotifications = () => {
     }
     setComment('')
     setScore('')
-    setTimeout(() => {
-      dispatch(
-        MentorInstructorAction.SnackbarClose({
-          isSuccess: false,
-          status: state.status,
-        })
-      )
-    }, 6000)
   }
   const closeSnackbar = () => {
     dispatch(

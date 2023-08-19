@@ -108,7 +108,7 @@ const AvatarUsers = ({
                 <StyledName>{element.name}</StyledName>
                 <StyledEmail>{element.email}</StyledEmail>
                 <ButtonDiv>
-                  {variant === 'manager_group' && !element.block && (
+                  {variant === 'manager_group' && element.block && (
                     <Button
                       onClick={onClickBlockButtton}
                       variant='ActionBlock-Button'
