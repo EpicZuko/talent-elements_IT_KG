@@ -2,54 +2,128 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
+import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
 import {
+  getAllManagerGroup,
+  managerAddToStudents,
   managerBlockStudents,
   managerGetStudents,
   managerPutNotPaidStudents,
   managerPutPaidStudents,
   managerUnlockStudents,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
+import Button from '../UI/Button'
 import Input from '../UI/Input'
+import Modall from '../UI/Modal'
+import BasikSelect from '../UI/Select'
+import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
 const ManagerStudnets = () => {
+  const [groupState, setGroupState] = useState(false)
+  const [groupStudentName, setStudentName] = useState('')
+  const [groupId, setGroupId] = useState('')
+  const [studentId, setStudentId] = useState('')
   const [search, setSearch] = useState('')
-  const [paid, setPaid] = useState(null)
+
   const dispatch = useDispatch()
   const state = useSelector((state) => state.manager)
   const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(managerGetStudents())
-  }, [paid, dispatch])
+    dispatch(getAllManagerGroup())
+  }, [groupState, dispatch, studentId, groupId, groupStudentName])
+
   const searchChangeValue = (event) => {
     setSearch(event.target.value)
   }
+
   const searchFilter = () => {
     const filterSearch = state?.managerStudents?.filter((elem) => {
       return elem?.name?.toLowerCase()?.includes(search)
     })
     return filterSearch
   }
+
   const filterSearch = searchFilter()
+
   const handlerPaidButton = (buttonId) => {
-    setPaid(state.managerStudents)
     dispatch(managerPutNotPaidStudents({ id: buttonId.id }))
   }
+
   const handlerNotPaidButton = (elementId) => {
-    setPaid(state.managerStudents)
     dispatch(managerPutPaidStudents({ id: elementId.id }))
   }
+
   const handlerBlockStudents = (elementId) => {
     dispatch(managerBlockStudents({ id: elementId.id }))
   }
+
   const handlerUnlockStudents = (elementId) => {
     dispatch(managerUnlockStudents({ id: elementId.id }))
   }
+
   const navigateStudentProfile = (id) => {
     navigate(`/students/${id}`)
   }
+
+  const addGroupChange = (element) => {
+    setGroupState(true)
+    setStudentName(element)
+    setStudentId(element.id)
+  }
+
+  const closeModalGroup = () => {
+    setGroupState(false)
+  }
+
+  const clickAddGroupId = () => {
+    dispatch(managerAddToStudents({ studentId, groupId }))
+    setGroupState(false)
+  }
+
+  const snackbarCloseAddGroup = () => {
+    dispatch(
+      managerAction.snackBarCloseAddGroup({
+        open: false,
+        status: state?.getAllGroup?.statusAddGroups,
+      })
+    )
+  }
+
   return (
     <div>
+      <CustomizedSnackbars
+        variant={state?.getAllGroup?.statusAddGroups}
+        open={state?.getAllGroup?.open}
+        closeSnackbar={snackbarCloseAddGroup}
+        message={
+          state.getAllGroup.statusAddGroups === 'success'
+            ? 'Отлично! Пользователь теперь является участником группы.'
+            : 'Произошла ошибка при добавлении пользователя в группу. Пожалуйста, проверьте данные и попробуйте снова.'
+        }
+        text=' '
+      />
+      {groupState && (
+        <Modall variant='' onClose={closeModalGroup}>
+          <DivGroupStudentStyled>
+            <H4> Добавить группу</H4>
+            <BasikSelect
+              variant='standard'
+              options={state?.getAllGroup?.group}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.groupId}
+              label='Группа'
+              onChange={(event) => setGroupId(event)}
+            />
+            <h5>{groupStudentName.name}</h5>
+            <Button variant='RequestAllow-Buttons' onClick={clickAddGroupId}>
+              Добавить
+            </Button>
+          </DivGroupStudentStyled>
+        </Modall>
+      )}
       <ContainerDiv>
         <ContainerDiv2>
           <div>
@@ -81,6 +155,7 @@ const ManagerStudnets = () => {
               variantName='click'
               UserDataArray={filterSearch}
               onClickImgName={(element) => navigateStudentProfile(element.id)}
+              onClickStudentGroupButton={(element) => addGroupChange(element)}
             />
           ) : (
             <h3>Такого студента нет</h3>
@@ -123,4 +198,21 @@ const H5 = styled.h5`
     line-height: normal;
     margin-bottom: 22px;
   }
+`
+const DivGroupStudentStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 200px;
+  margin-top: 44px;
+`
+const H4 = styled.h4`
+  color: var(--light-blue, #134764);
+  text-align: center;
+  font-family: Zen Kaku Gothic New;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `

@@ -8,6 +8,7 @@ import {
   managerInstructorMentorUrl,
   managerStaffAdminUrl,
   getManagerSeoAdminUrl,
+  getAllManagerGroupUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -41,7 +42,7 @@ export const managerGetAllGroups = createAsyncThunk(
         managerCardGroup.push({
           id: response[i]?.id,
           img: response[i].photo,
-          students: response[i].studentsId,
+          students: response[i].count,
           title: response[i].name,
         })
       }
@@ -519,6 +520,46 @@ export const managerSeoAdminBlockOrUnBlock = createAsyncThunk(
         dispatch(getManagerSeoAdmin())
         return { response, unblock }
       }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getAllManagerGroup = createAsyncThunk(
+  'managerSlice/getAllManagerGroup',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: getAllManagerGroupUrl,
+      })
+      const group = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        group.push({
+          groupId: response[i].groupId,
+          name: response[i].name,
+        })
+      }
+      return { group }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const managerAddToStudents = createAsyncThunk(
+  'managerSlice/managerAddToStudents',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/addStudents/Id/ToGroup?studentId=${props.studentId}&groupId=${props.groupId}`,
+        method: 'PUT',
+        body: { studentId: props.studentId, groupId: props.groupId },
+      })
+      dispatch(managerGetStudents())
+      return response
     } catch (error) {
       return rejectWithValue(error)
     }
