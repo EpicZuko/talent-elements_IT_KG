@@ -33,7 +33,6 @@ export const MentorInstructorNotifications = () => {
     navigate(-1)
   }
   const checkSubmissonStudent = (data) => {
-    console.log(data)
     if (comment.trim() !== '' && score.trim() !== '') {
       dispatch(
         postMentorStudentSubmission({
@@ -46,6 +45,14 @@ export const MentorInstructorNotifications = () => {
     }
     setComment('')
     setScore('')
+    setTimeout(() => {
+      dispatch(
+        MentorInstructorAction.SnackbarClose({
+          isSuccess: false,
+          status: state.status,
+        })
+      )
+    }, 6000)
   }
   const closeSnackbar = () => {
     dispatch(
@@ -55,7 +62,6 @@ export const MentorInstructorNotifications = () => {
       })
     )
   }
-  console.log(state.getNotifications)
   return (
     <div>
       <Location>
