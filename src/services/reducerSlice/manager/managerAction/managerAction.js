@@ -11,6 +11,8 @@ import {
   managerInstructorMentorPutUnBlockOrBlock,
   managerInstructorMentorProfile,
   managerCreatedGroup,
+  managerStaffAdmin,
+  managerStaffAdminPutBlockOrUnBlock,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -51,6 +53,12 @@ const managerSlice = createSlice({
     snackBarCreatedGroup: {
       open: false,
     },
+    managerStaffAdmin: [],
+    managerStaffAdminStatus: null,
+    statusStaffAdmin: null,
+    managerStaffAdminStatusBlock: null,
+    managerStaffAdminStatusUnBlock: null,
+    managerStaffAdminOpen: false,
   },
 
   reducers: {
@@ -61,6 +69,10 @@ const managerSlice = createSlice({
     snackBarCloseCreatedGroup(state, action) {
       state.snackBarCreatedGroup.open = action.payload.open
       state.managerCreatedGroupStatus = action.payload.status
+    },
+    snackBarCloseStaffAdmin(state, action) {
+      state.statusStaffAdmin = action.payload.status
+      state.managerStaffAdminOpen = action.payload.open
     },
   },
   extraReducers: (builder) => {
@@ -227,6 +239,37 @@ const managerSlice = createSlice({
       .addCase(managerCreatedGroup.rejected, (state) => {
         state.managerCreatedGroupStatus = 'error'
         state.snackBarCreatedGroup.open = true
+      })
+      // manager staff admin get
+      .addCase(managerStaffAdmin.pending, (state) => {
+        state.managerStaffAdminStatus = 'pending'
+      })
+      .addCase(managerStaffAdmin.fulfilled, (state, action) => {
+        state.managerStaffAdminStatus = 'success'
+        state.managerStaffAdmin = action.payload.staffAdminArray
+      })
+      .addCase(managerStaffAdmin.rejected, (state) => {
+        state.managerStaffAdminStatus = 'error'
+        state.managerStaffAdmin = []
+      })
+      // mananger put block unblock
+      .addCase(managerStaffAdminPutBlockOrUnBlock.pending, (state) => {
+        state.statusStaffAdmin = 'pending'
+      })
+      .addCase(
+        managerStaffAdminPutBlockOrUnBlock.fulfilled,
+        (state, action) => {
+          state.statusStaffAdmin = 'success'
+          state.managerStaffAdminStatusBlock = action.payload.block
+          state.managerStaffAdminStatusUnBlock = action.payload.unblock
+          state.managerStaffAdminOpen = true
+        }
+      )
+      .addCase(managerStaffAdminPutBlockOrUnBlock.rejected, (state) => {
+        state.statusStaffAdmin = 'error'
+        state.managerStaffAdminOpen = true
+        state.managerStaffAdminStatusBlock = 'error'
+        state.managerStaffAdminStatusUnBlock = 'error'
       })
   },
 })

@@ -464,20 +464,20 @@ const Student = ({
                 )}
                 {variant === 'Manager_staff-admin' && (
                   <StyledActions>
-                    {element.action === 'Блокировать' && (
+                    {element.action === false && (
                       <Button
                         onClick={() => onClickManagerBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Блокировать</P>
                       </Button>
                     )}
-                    {element.action === 'Разблокировать' && (
+                    {element.action === true && (
                       <Button
                         onClick={() => onClickManagerUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>{element.action}</P>
+                        <P>Разблокировать</P>
                       </Button>
                     )}
                   </StyledActions>
