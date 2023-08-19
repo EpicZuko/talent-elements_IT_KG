@@ -13,6 +13,8 @@ import {
   managerCreatedGroup,
   managerStaffAdmin,
   managerStaffAdminPutBlockOrUnBlock,
+  getManagerSeoAdmin,
+  managerSeoAdminBlockOrUnBlock,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -59,6 +61,14 @@ const managerSlice = createSlice({
     managerStaffAdminStatusBlock: null,
     managerStaffAdminStatusUnBlock: null,
     managerStaffAdminOpen: false,
+    managerSeoAdmin: {
+      seoAdmin: [],
+      status: null,
+      seoAdminStatus: null,
+      statusBlock: null,
+      statusUnBlock: null,
+      open: false,
+    },
   },
 
   reducers: {
@@ -73,6 +83,10 @@ const managerSlice = createSlice({
     snackBarCloseStaffAdmin(state, action) {
       state.statusStaffAdmin = action.payload.status
       state.managerStaffAdminOpen = action.payload.open
+    },
+    snackBarCloseSeoAdmin(state, action) {
+      state.managerSeoAdmin.open = action.payload.open
+      state.managerSeoAdmin.seoAdminStatus = action.payload.status
     },
   },
   extraReducers: (builder) => {
@@ -270,6 +284,34 @@ const managerSlice = createSlice({
         state.managerStaffAdminOpen = true
         state.managerStaffAdminStatusBlock = 'error'
         state.managerStaffAdminStatusUnBlock = 'error'
+      })
+      // getManagerSeoAdmin
+      .addCase(getManagerSeoAdmin.pending, (state) => {
+        state.managerSeoAdmin.status = 'pending'
+      })
+      .addCase(getManagerSeoAdmin.fulfilled, (state, action) => {
+        state.managerSeoAdmin.status = 'success'
+        state.managerSeoAdmin.seoAdmin = action.payload.seoAdminArray
+      })
+      .addCase(getManagerSeoAdmin.rejected, (state) => {
+        state.managerSeoAdmin.status = 'error'
+        state.managerSeoAdmin.seoAdmin = []
+      })
+      // managerSeoAdminBlockOrUnBlock
+      .addCase(managerSeoAdminBlockOrUnBlock.pending, (state) => {
+        state.managerSeoAdmin.seoAdminStatus = 'pending'
+      })
+      .addCase(managerSeoAdminBlockOrUnBlock.fulfilled, (state, action) => {
+        state.managerSeoAdmin.seoAdminStatus = 'success'
+        state.managerSeoAdmin.open = true
+        state.managerSeoAdmin.statusBlock = action.payload.block
+        state.managerSeoAdmin.statusUnBlock = action.payload.unblock
+      })
+      .addCase(managerSeoAdminBlockOrUnBlock.rejected, (state) => {
+        state.managerSeoAdmin.seoAdminStatus = 'error'
+        state.managerSeoAdmin.open = true
+        state.managerSeoAdmin.statusBlock = 'error'
+        state.managerSeoAdmin.statusUnBlock = 'error'
       })
   },
 })
