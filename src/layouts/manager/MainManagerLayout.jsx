@@ -33,6 +33,9 @@ const MainManagerLayout = () => {
   const navigetInstructorOrMentor = () => {
     navigate('/instructorOrMentor')
   }
+  const navigateStaffAdmin = () => {
+    navigate('/staffAdmin')
+  }
   return (
     <div>
       <Header
@@ -52,6 +55,7 @@ const MainManagerLayout = () => {
               onClickManagerStudent={handlerStudentsLayout}
               onCloseBackdrop={sideBarClose}
               onClickManagerInstructor={navigetInstructorOrMentor}
+              onClickManagerStafAdmin={navigateStaffAdmin}
             />
           )}
           <StyledSiderBar>
@@ -60,6 +64,7 @@ const MainManagerLayout = () => {
               onClickManagerGroup={handlerManagerGroupLayout}
               onClickManagerStudent={handlerStudentsLayout}
               onClickManagerInstructor={navigetInstructorOrMentor}
+              onClickManagerStafAdmin={navigateStaffAdmin}
             />
           </StyledSiderBar>
         </div>

@@ -6,6 +6,7 @@ import {
   managerStudentsUrl,
   getManagerNotificationUrl,
   managerInstructorMentorUrl,
+  managerStaffAdminUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -380,9 +381,77 @@ export const managerCreatedGroup = createAsyncThunk(
       formData.append('file', props.body.file)
       const response = await appFile({
         url: `api/managers/create_group?name=${props.body.name}`,
+        method: 'POST',
         body: formData,
       })
       return response
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const managerStaffAdmin = createAsyncThunk(
+  'managerStaffAdmin/managerStaffAdmin',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: managerStaffAdminUrl,
+      })
+      const staffAdminArray = []
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].date
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        staffAdminArray.push({
+          id: response[i]?.id,
+          raiting: response[i]?.id,
+          img: response[i]?.photo,
+          name: response[i]?.name,
+          dateOfRegistration: formattedDate,
+          action: response[i]?.block,
+        })
+      }
+      return { staffAdminArray }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const managerStaffAdminPutBlockOrUnBlock = createAsyncThunk(
+  'managerSlice/managerStaffAdminPutBlockOrUnBlock',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.block === 'block') {
+        const response = await ApiFetch({
+          url: `api/managers/block/User/${props.id}`,
+          method: 'PUT',
+          body: { id: props.id },
+        })
+        const block = 'success'
+        dispatch(managerStaffAdmin())
+        return { response, block }
+      }
+      if (props.block === 'unblock') {
+        const response = await ApiFetch({
+          url: `api/managers/unblock/User/${props.id}`,
+          method: 'PUT',
+          body: { id: props.id },
+        })
+        const unblock = 'success'
+        dispatch(managerStaffAdmin())
+        return { response, unblock }
+      }
     } catch (error) {
       return rejectWithValue(error)
     }
