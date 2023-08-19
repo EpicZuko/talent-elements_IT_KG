@@ -10,6 +10,7 @@ import {
   managerInstructorMentor,
   managerInstructorMentorPutUnBlockOrBlock,
   managerInstructorMentorProfile,
+  managerCreatedGroup,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -46,12 +47,20 @@ const managerSlice = createSlice({
       tableNames: [],
       status: null,
     },
+    managerCreatedGroupStatus: null,
+    snackBarCreatedGroup: {
+      open: false,
+    },
   },
 
   reducers: {
     snackBarClose(state, action) {
       state.Insuccess = action.payload.Isuccess
       state.status = action.payload.status
+    },
+    snackBarCloseCreatedGroup(state, action) {
+      state.snackBarCreatedGroup.open = action.payload.open
+      state.managerCreatedGroupStatus = action.payload.status
     },
   },
   extraReducers: (builder) => {
@@ -206,6 +215,18 @@ const managerSlice = createSlice({
         state.instructorMentorProfile.lessonNames = []
         state.instructorMentorProfile.profileImg = ''
         state.instructorMentorProfile.tableNames = []
+      })
+      // manager created group
+      .addCase(managerCreatedGroup.pending, (state) => {
+        state.managerCreatedGroupStatus = 'pending'
+      })
+      .addCase(managerCreatedGroup.fulfilled, (state) => {
+        state.managerCreatedGroupStatus = 'success'
+        state.snackBarCreatedGroup.open = true
+      })
+      .addCase(managerCreatedGroup.rejected, (state) => {
+        state.managerCreatedGroupStatus = 'error'
+        state.snackBarCreatedGroup.open = true
       })
   },
 })

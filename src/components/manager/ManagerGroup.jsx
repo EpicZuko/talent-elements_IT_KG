@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { managerGetAllGroups } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
 import Button from '../UI/Button'
@@ -10,6 +11,7 @@ const ManagerGroup = () => {
   const [search, setSearch] = useState('')
   const state = useSelector((state) => state.manager)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(managerGetAllGroups())
   }, [])
@@ -23,6 +25,10 @@ const ManagerGroup = () => {
     return filterSearch
   }
   const filterSearch = searchFilter()
+
+  const navigateCreatedGroup = () => {
+    navigate('/createdGroup')
+  }
   return (
     <div>
       <ContainerDiv1>
@@ -37,8 +43,8 @@ const ManagerGroup = () => {
               onChange={searchChangeValue}
             />
           </StyledDivInput>
-          <Button variant='create group'>
-            <StyledSpan>Создать группу</StyledSpan>
+          <Button variant='create group' onClick={navigateCreatedGroup}>
+            <StyledSpan> Создать группу</StyledSpan>
           </Button>
         </ContainerDiv2>
       </ContainerDiv1>
