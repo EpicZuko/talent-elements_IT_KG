@@ -25,6 +25,7 @@ const MentorInstrucorGroups = () => {
         variant='mentor_instructor'
         user={state.getCardGroups}
         navToStudents={navToStudents}
+        onClickStudents={navToStudents}
       />
     </div>
   )

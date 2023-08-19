@@ -38,7 +38,7 @@ const ManagerGroup = () => {
             />
           </StyledDivInput>
           <Button variant='create group'>
-            <StyledSpan> Создать группу</StyledSpan>
+            <StyledSpan>Создать группу</StyledSpan>
           </Button>
         </ContainerDiv2>
       </ContainerDiv1>

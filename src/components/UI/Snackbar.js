@@ -74,6 +74,7 @@ export default function CustomizedSnackbars({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                width: '1000px',
               }}
             >
               <SnackBarText1>{message || ''}</SnackBarText1>

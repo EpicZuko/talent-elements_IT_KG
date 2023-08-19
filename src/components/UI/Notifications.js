@@ -19,6 +19,9 @@ const Notifications = ({
   setSelectIndex,
   setSelectState,
   handlerBlockUser,
+  sendButtonClick,
+  scoreInputHandler,
+  commentInputHandler,
 }) => {
   const [showStudentNotifications, setShowStudentNotifications] =
     useState(false)
@@ -210,11 +213,16 @@ const Notifications = ({
             {mentorShow && (
               <div>
                 <MentorInput>
-                  <Input placeholder='Балл' />
+                  <Input onChange={scoreInputHandler} placeholder='Балл' />
                 </MentorInput>
-                <Input placeholder='Комментарии' />
+                <Input
+                  onChange={commentInputHandler}
+                  placeholder='Комментарии'
+                />
                 <MentorButton>
-                  <Button variant='seo/admin'>Отправить</Button>
+                  <Button onClick={sendButtonClick} variant='seo/admin'>
+                    Отправить
+                  </Button>
                 </MentorButton>
                 <MentorNotificationIcon>
                   <div />
@@ -442,6 +450,7 @@ const ManagerNotificationsEmailBlock = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 150px;
 `
 const ManagerNotificationsEmail = styled.p`
   font-family: 'Zen Kaku Gothic New', sans-serif;
@@ -522,6 +531,9 @@ const MentorNotificationsComment = styled.p`
 const MentorNotificationIcon = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 415px) {
+    width: 155px;
+  }
 `
 const MentorNotificationsShowIcon = styled.img`
   width: 13px;
@@ -531,7 +543,6 @@ const MentorNotificationsShowIcon = styled.img`
     rotate: -90deg;
     position: relative;
     bottom: 6px;
-    margin-left: 220px;
   }
 `
 const MentorNotificationsHideIcon = styled.img`
