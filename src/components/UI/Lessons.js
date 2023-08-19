@@ -63,7 +63,6 @@ const Lessons = ({
                     <Img src={Frame} alt='error' />
                     <Title>{element.title}</Title>
                   </D6>
-
                   <Data>{element.date}</Data>
                 </Lesson>
               </StyledTagA>
@@ -74,36 +73,36 @@ const Lessons = ({
                     <Title>{element.lesson}</Title>
                   </D7>
                 </StyledTagA>
-                <div>
+                <DateBlock>
                   <Data>{element.date}</Data>
-                </div>
-                <Left>
-                  <DivStudent>
-                    <P onClick={() => showStudents(element)}>
-                      ответили{' '}
-                      {element.votedStudents < 5
-                        ? `${element.votedStudents} студента`
-                        : `${element.votedStudents} студентов`}
-                    </P>
-                  </DivStudent>
-                  {show && (
-                    <ShowedStudents>
-                      {element.students.map((el) => {
-                        return (
-                          <p
-                            onClick={() =>
-                              variantClick === 'disbled'
-                                ? ''
-                                : onClickStudent(el)
-                            }
-                          >
-                            {el.username}
-                          </p>
-                        )
-                      })}
-                    </ShowedStudents>
-                  )}
-                </Left>
+                  <Left>
+                    <DivStudent>
+                      <P onClick={() => showStudents(element)}>
+                        ответили{' '}
+                        {element.votedStudents < 5
+                          ? `${element.votedStudents} студента`
+                          : `${element.votedStudents} студентов`}
+                      </P>
+                    </DivStudent>
+                    {show && (
+                      <ShowedStudents>
+                        {element.students.map((el) => {
+                          return (
+                            <p
+                              onClick={() =>
+                                variantClick === 'disbled'
+                                  ? ''
+                                  : onClickStudent(el)
+                              }
+                            >
+                              {el.username}
+                            </p>
+                          )
+                        })}
+                      </ShowedStudents>
+                    )}
+                  </Left>
+                </DateBlock>
               </LessonLeft>
             </MentorLesson>
           )}
@@ -177,6 +176,10 @@ const DivScore = styled.div`
     width: auto;
   }
 `
+const DateBlock = styled.div`
+  display: flex;
+  align-items: baseline;
+`
 const DivStudent = styled.div`
   display: flex;
   align-items: baseline;
@@ -228,10 +231,6 @@ const P = styled.p`
   margin-left: 40px;
   display: flex;
   justify-content: end;
-  @media screen and (max-width: 391px) {
-    margin-left: 155px;
-    margin-top: -25px;
-  }
 `
 const Img = styled.img`
   width: 24.04px;
@@ -345,7 +344,7 @@ const ShowedStudents = styled.div`
   letter-spacing: 0em;
   text-align: left;
   @media screen and (max-width: 391px) {
-    margin-left: 155px;
+    /* margin-left: 155px; */
   }
 `
 const StyledTagA = styled.a`
