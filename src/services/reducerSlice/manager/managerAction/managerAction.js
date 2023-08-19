@@ -7,6 +7,8 @@ import {
   managerGetNotifications,
   managerPostNotificationSelect,
   managerBlockUser,
+  managerInstructorMentor,
+  managerInstructorMentorPutUnBlockOrBlock,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -29,6 +31,13 @@ const managerSlice = createSlice({
     managerStudentProfleStatus: null,
     managerNotifications: [],
     managerNotificationsStatus: null,
+    managerInstructorMentorArray: [],
+    managerInstructorMentorStatus: null,
+    managerInstructorMentorSnackBar: {
+      managerStatusBlockOrUnBlock: null,
+      open: false,
+      status: null,
+    },
   },
 
   reducers: {
@@ -131,6 +140,42 @@ const managerSlice = createSlice({
       .addCase(managerBlockUser.rejected, (state) => {
         state.statusblock = 'error'
         state.Insuccess = true
+      })
+      // get manager instructor mentor
+      // managerInstructorMentor
+      .addCase(managerInstructorMentor.pending, (state) => {
+        state.managerInstructorMentorStatus = 'pending'
+      })
+      .addCase(managerInstructorMentor.fulfilled, (state, action) => {
+        state.managerInstructorMentorStatus = 'success'
+        state.managerInstructorMentorArray =
+          action.payload.instructorMentorArray
+      })
+      .addCase(managerInstructorMentor.rejected, (state) => {
+        state.managerInstructorMentorStatus = 'error'
+        state.managerInstructorMentorArray = []
+      })
+      // managerInstructorMentorPutUnBlockOrBlock
+      .addCase(managerInstructorMentorPutUnBlockOrBlock.pending, (state) => {
+        state.managerInstructorMentorSnackBar.managerInstructorMentorStatusBlockOrUnBlock =
+          'pending'
+        state.managerInstructorMentorSnackBar.open = false
+      })
+      .addCase(
+        managerInstructorMentorPutUnBlockOrBlock.fulfilled,
+        (state, action) => {
+          state.managerInstructorMentorSnackBar.managerStatusBlockOrUnBlock =
+            action.payload.successBlock
+          state.managerInstructorMentorSnackBar.managerStatusBlockOrUnBlock =
+            action.payload.successUnblock
+          state.managerInstructorMentorSnackBar.open = true
+          state.managerInstructorMentorSnackBar.status = 'success'
+        }
+      )
+      .addCase(managerInstructorMentorPutUnBlockOrBlock.rejected, (state) => {
+        state.managerInstructorMentorSnackBar.managerInstructorMentorStatusBlockOrUnBlock =
+          'error'
+        state.managerInstructorMentorSnackBar.open = true
       })
   },
 })
