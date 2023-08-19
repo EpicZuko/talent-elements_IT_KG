@@ -1,4 +1,6 @@
+import MentorInstrucorRoute from './routes/MentorInstrucorRoute'
+
 const App = () => {
-  return <div />
+  return <MentorInstrucorRoute />
 }
 export default App

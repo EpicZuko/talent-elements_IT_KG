@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
 import styled from 'styled-components'
 import Frame3 from '../../assets/icon/lessonIcons/_2759160148944.svg'
 import Frame2 from '../../assets/icon/lessonIcons/Frame 141.svg'
 import Frame from '../../assets/icon/lessonIcons/video-square.svg'
 import Frame1 from '../../assets/icon/lessonIcons/Слой_x0020_1.svg'
 
-const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
-  const [show, setShow] = useState(false)
-  const showStudents = () => {
-    setShow((prevState) => !prevState)
-  }
+const Lessons = ({
+  variant,
+  element,
+  onClickStudent,
+  variantClick,
+  showStudents,
+  show,
+}) => {
   return (
     <div>
       <Container variant={variant}>
@@ -76,7 +78,7 @@ const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
                 </div>
                 <Left>
                   <DivStudent>
-                    <P onClick={showStudents}>
+                    <P onClick={() => showStudents(element)}>
                       ответили{' '}
                       {element.votedStudents < 5
                         ? `${element.votedStudents} студента`

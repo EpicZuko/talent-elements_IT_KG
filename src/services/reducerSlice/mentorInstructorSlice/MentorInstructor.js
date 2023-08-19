@@ -118,6 +118,61 @@ export const getMentorNotifications = createAsyncThunk(
     }
   }
 )
+export const getMentorLessons = createAsyncThunk(
+  'mentor-instructor/getLessons',
+  async (props, { rejectWithValue }) => {
+    try {
+      const lessons = {
+        lesson: {},
+        material: {},
+        assignment: {},
+      }
+      const getLessons = await ApiFetch({
+        url: `api/teachers/get/lessons/by/groupId?groupId=${props.groupId}`,
+      })
+      for (let i = 0; i < getLessons.length; i++) {
+        lessons.lesson = {
+          id: getLessons[i].lesson.id,
+          text: getLessons[i].lesson.title,
+          youtube: getLessons[i].lesson.youtube,
+        }
+        for (let ind = 0; ind < getLessons[i].assignments.length; ind++) {
+          lessons.assignment = {
+            id: getLessons[ind].assignments[ind].id,
+            title: getLessons[ind].assignments[ind].title,
+            votedStudents: getLessons[ind].assignments[ind].countSubmission,
+            date: getLessons[ind].assignments[ind].created,
+          }
+        }
+        for (let index = 0; index < getLessons[i].materials.length; index++) {
+          lessons.material = {
+            id: getLessons[index].materials[index].id,
+            title: getLessons[index].materials[index].title,
+            file: getLessons[index].materials[index].file,
+          }
+        }
+      }
+
+      return { getLessons: lessons }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const getMentorVotedStudentsByAssignmentId = createAsyncThunk(
+  'mentor-instructor/getVotedStudentsByAssignmentId',
+  async (props, { rejectWithValue }) => {
+    try {
+      const getVotedStudents = await ApiFetch({
+        url: `api/teachers/assigment/id/find/student/submission?assigmentId=${props.id}`,
+      })
+      return { getVotedStudents }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
 export const postMentorStudentSubmission = createAsyncThunk(
   'mentor-instructor/postStudentSubmission',
   // eslint-disable-next-line consistent-return
@@ -143,6 +198,10 @@ const initialState = {
   getStudentsStatus: null,
   getNotifications: [],
   getNotificationsStatus: null,
+  getLessons: [],
+  getLessonsStatus: null,
+  getVotedStudents: {},
+  getVotedStudentsStatus: null,
   isSuccess: false,
   status: null,
 }
@@ -208,6 +267,28 @@ export const MentorInstructorSlice = createSlice({
     [postMentorStudentSubmission.rejected]: (state) => {
       state.status = 'error'
       state.isSuccess = true
+    },
+    // get mentor lessons
+    [getMentorLessons.pending]: (state) => {
+      state.getLessonsStatus = 'pending'
+    },
+    [getMentorLessons.fulfilled]: (state, action) => {
+      state.getLessonsStatus = 'success'
+      state.getLessons = action.payload?.getLessons
+    },
+    [getMentorLessons.rejected]: (state) => {
+      state.getLessonsStatus = 'error'
+    },
+    // get voted students by assignmentId
+    [getMentorVotedStudentsByAssignmentId.pending]: (state) => {
+      state.getVotedStudentsStatus = 'pending'
+    },
+    [getMentorVotedStudentsByAssignmentId.fulfilled]: (state, action) => {
+      state.getVotedStudentsStatus = 'success'
+      state.getVotedStudents = action.payload?.getVotedStudents
+    },
+    [getMentorVotedStudentsByAssignmentId.rejected]: (state) => {
+      state.getVotedStudentsStatus = 'error'
     },
   },
 })
