@@ -67,12 +67,13 @@ const Lessons = ({
                   <Data>{element.date}</Data>
                 </Lesson>
               </StyledTagA>
-
               <LessonLeft>
-                <D7>
-                  <Img src={Frame3} alt='error' />
-                  <Title>{element.lesson}</Title>
-                </D7>
+                <StyledTagA href={element.urlFile}>
+                  <D7>
+                    <Img src={Frame3} alt='error' />
+                    <Title>{element.lesson}</Title>
+                  </D7>
+                </StyledTagA>
                 <div>
                   <Data>{element.date}</Data>
                 </div>

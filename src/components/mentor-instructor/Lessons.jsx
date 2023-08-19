@@ -32,16 +32,6 @@ const MentorInstructorLessons = () => {
   const navToCourse = () => {
     navigate('/')
   }
-  const createLesson = () => {
-    navigate('/create-lesson')
-  }
-
-  const navigateToHomeWorkPage = ({ id, username }) => {
-    navigate(`homework/${username}/${id}`)
-  }
-  const navigateToEditLessonPage = (element) => {
-    navigate(`edit_lesson/${element.id}`)
-  }
   return (
     <div>
       <Block>
@@ -50,14 +40,10 @@ const MentorInstructorLessons = () => {
           <LocationText2>Уроки</LocationText2>
         </Location>
         <ButtonsBlock>
-          <Button onClick={createLesson} variant='Add-Button'>
-            +
-          </Button>
+          <Button variant='Add-Button'>+</Button>
         </ButtonsBlock>
         <ButtonsBlock2>
-          <Button onClick={createLesson} variant='create group'>
-            Ввести урок
-          </Button>
+          <Button variant='create group'>Ввести урок</Button>
         </ButtonsBlock2>
       </Block>
       <LessonsBlock>
@@ -76,14 +62,12 @@ const MentorInstructorLessons = () => {
                   votedStudents: state.getLessons.assignment?.votedStudents,
                   students: state.getVotedStudents?.responseStudents || [],
                   urlLesson: state.getLessons.lesson?.youtube,
-                  fileUrl: state.getLessons.assignment?.file,
+                  urlFile: state.getLessons.material?.file,
                 }
               : {}
           }
           show={show}
           showStudents={showStudents}
-          onClickStudent={navigateToHomeWorkPage}
-          onEdit={navigateToEditLessonPage}
         />
       </LessonsBlock>
     </div>
