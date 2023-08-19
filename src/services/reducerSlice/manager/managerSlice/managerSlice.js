@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import ApiFetch from '../../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../../api/ApiFetch'
 import {
   managergetProfileUrl,
   managergetCardGroupsUrl,
@@ -366,6 +366,23 @@ export const managerInstructorMentorProfile = createAsyncThunk(
         })
       })
       return { instructorMentorProfile }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const managerCreatedGroup = createAsyncThunk(
+  'managerSlice/managerCreatedGroup',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', props.body.file)
+      const response = await appFile({
+        url: `api/managers/create_group?name=${props.body.name}`,
+        body: formData,
+      })
+      return response
     } catch (error) {
       return rejectWithValue(error)
     }

@@ -23,70 +23,78 @@ export default function CustomizedSnackbars({
   message,
 }) {
   return (
-    <Snackbar
-      TransitionComponent={TransitionLeft}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={open}
-      onClose={closeSnackbar}
-      autoHideDuration={6000}
-    >
-      <div>
-        <Alert
-          sx={{
-            height: variant === 'success' ? '' : '95px',
-            width: '500px',
-            paddingTop: '13px',
-            color:
-              (variant === 'error' && '#FF0000') ||
-              (variant === 'info' && '#33BBFD') ||
-              (variant === 'warning' && '#FF8800') ||
-              'black',
-            background:
-              (variant === 'success' &&
-                'linear-gradient(0deg, #EAFBE7, #EAFBE7)') ||
-              (variant === 'error' && '#FFEBEB') ||
-              (variant === 'info' && '#E7EFFF') ||
-              (variant === 'warning' && '#FFF3D8'),
-            border: '1px solid',
-            borderColor:
-              (variant === 'success' && '#16FF00') ||
-              (variant === 'error' && '#FF0000') ||
-              (variant === 'info' && '#33BBFD') ||
-              (variant === 'warning' && '#ED9E44'),
-            boxShadow: '0px 2px 15px 0px #2121341A',
-            borderRadius: '7px',
-          }}
-          severity={variant}
-          icon
-        >
-          <SnackTopBlock>
-            <img
-              src={
-                (variant === 'success' && successIcon) ||
-                (variant === 'info' && infoIcon) ||
-                (variant === 'error' && errorIcon) ||
-                (variant === 'warning' && warningIcon)
-              }
-              alt='none'
-            />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <SnackBarText1>{message || ''}</SnackBarText1>
-              <img onClick={closeSnackbar} src={closeAlertIcon} alt='none' />
-            </div>
-          </SnackTopBlock>
-          <SnackBarText2>{text || ''}</SnackBarText2>
-        </Alert>
-      </div>
-    </Snackbar>
+    <DivSnackbar>
+      <Snackbar
+        TransitionComponent={TransitionLeft}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={open}
+        onClose={closeSnackbar}
+        autoHideDuration={6000}
+      >
+        <div>
+          <Alert
+            sx={{
+              height: variant === 'success' ? '' : '95px',
+              width: '500px',
+              paddingTop: '13px',
+              color:
+                (variant === 'error' && '#FF0000') ||
+                (variant === 'info' && '#33BBFD') ||
+                (variant === 'warning' && '#FF8800') ||
+                'black',
+              background:
+                (variant === 'success' &&
+                  'linear-gradient(0deg, #EAFBE7, #EAFBE7)') ||
+                (variant === 'error' && '#FFEBEB') ||
+                (variant === 'info' && '#E7EFFF') ||
+                (variant === 'warning' && '#FFF3D8'),
+              border: '1px solid',
+              borderColor:
+                (variant === 'success' && '#16FF00') ||
+                (variant === 'error' && '#FF0000') ||
+                (variant === 'info' && '#33BBFD') ||
+                (variant === 'warning' && '#ED9E44'),
+              boxShadow: '0px 2px 15px 0px #2121341A',
+              borderRadius: '7px',
+            }}
+            severity={variant}
+            icon
+          >
+            <SnackTopBlock>
+              <img
+                src={
+                  (variant === 'success' && successIcon) ||
+                  (variant === 'info' && infoIcon) ||
+                  (variant === 'error' && errorIcon) ||
+                  (variant === 'warning' && warningIcon)
+                }
+                alt='none'
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <SnackBarText1>{message}</SnackBarText1>
+                <img onClick={closeSnackbar} src={closeAlertIcon} alt='none' />
+              </div>
+            </SnackTopBlock>
+            <SnackBarText2>{text}</SnackBarText2>
+          </Alert>
+        </div>
+      </Snackbar>
+    </DivSnackbar>
   )
 }
-
+const DivSnackbar = styled.div`
+  @media (max-width: 391px) {
+    .css-yrx55x-MuiPaper-root-MuiAlert-root {
+      width: 100% !important;
+    }
+  }
+`
 const SnackBarText1 = styled.span`
   font-family: 'Inter', sans-serif;
   font-size: 14px;
