@@ -278,7 +278,11 @@ const Student = ({
                   </StyledName>
                 )}
                 {variant === 'Instructors' && (
-                  <StyledName>
+                  <StyledName
+                    onClick={() =>
+                      variantName === 'disbled' ? '' : onClickImgName(element)
+                    }
+                  >
                     <StyledImg src={element.img} alt='error img' />
                     {element.name}
                   </StyledName>

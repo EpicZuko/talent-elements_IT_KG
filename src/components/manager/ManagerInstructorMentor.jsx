@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import {
   managerInstructorMentor,
@@ -12,6 +13,7 @@ const ManagerInstructorMentor = () => {
   const [search, setSearch] = useState('')
   const state = useSelector((state) => state.manager)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(managerInstructorMentor())
   }, [])
@@ -32,6 +34,10 @@ const ManagerInstructorMentor = () => {
     return filterSearch
   }
   const filterSearch = searchFilter()
+
+  const navigateInstructorMentorProfile = (id) => {
+    navigate(`/instructorOrMentor/${id}`)
+  }
   return (
     <div>
       <DivInput>
@@ -53,6 +59,10 @@ const ManagerInstructorMentor = () => {
           }
           onClickInstructorUnlockButton={(element) =>
             insturctorUnLockButton(element.id)
+          }
+          variantName='click'
+          onClickImgName={(element) =>
+            navigateInstructorMentorProfile(element.id)
           }
         />
       ) : (

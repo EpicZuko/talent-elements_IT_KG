@@ -336,3 +336,38 @@ export const managerInstructorMentorPutUnBlockOrBlock = createAsyncThunk(
     }
   }
 )
+export const managerInstructorMentorProfile = createAsyncThunk(
+  'managerSlice/managerInstructorMentorProfile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/get/teacher/byId?teacherId=${props.id}`,
+      })
+      const instructorMentorProfile = {
+        profileImg: response.photo,
+        email: response.email,
+        lessonNames: [],
+        tableNames: [],
+      }
+      response.groupName.forEach((group) => {
+        group.lessonTipResponses.forEach((lesson) => {
+          instructorMentorProfile.tableNames.push({
+            id: group.groupId,
+            number: group.groupId,
+            groups: group.groupName,
+            lessons: lesson.lessonName,
+          })
+          instructorMentorProfile.lessonNames.push({
+            id: response.id,
+            name: response.fullName,
+            email: response.email,
+          })
+        })
+      })
+      return { instructorMentorProfile }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
