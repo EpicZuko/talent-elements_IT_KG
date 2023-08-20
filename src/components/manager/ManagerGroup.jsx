@@ -29,6 +29,9 @@ const ManagerGroup = () => {
   const navigateCreatedGroup = () => {
     navigate('/createdGroup')
   }
+  const handlerManagerStudentGroup = (element) => {
+    navigate(`/${element.id}`)
+  }
   return (
     <div>
       <ContainerDiv1>
@@ -49,7 +52,13 @@ const ManagerGroup = () => {
         </ContainerDiv2>
       </ContainerDiv1>
       {filterSearch.length ? (
-        <Card user={filterSearch} variant='Manager_group' />
+        <Card
+          user={filterSearch}
+          variantClick='disabled'
+          navToCurrentGroup={(element) => handlerManagerStudentGroup(element)}
+          navToStudents={(element) => handlerManagerStudentGroup(element)}
+          variant='Manager_group'
+        />
       ) : (
         <H3>Совпадений не найдено</H3>
       )}

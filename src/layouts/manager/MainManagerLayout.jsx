@@ -13,7 +13,7 @@ const MainManagerLayout = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(managerGetProfile())
-  }, [])
+  }, [state.headerNotification])
 
   const sideBarOpen = () => {
     setStateManagerSideBar(true)

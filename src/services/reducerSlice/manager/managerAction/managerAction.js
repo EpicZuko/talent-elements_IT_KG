@@ -17,6 +17,8 @@ import {
   managerSeoAdminBlockOrUnBlock,
   getAllManagerGroup,
   managerAddToStudents,
+  managerGetStudentGroups,
+  managerDeleteStudentGroups,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -42,8 +44,8 @@ const managerSlice = createSlice({
     managerInstructorMentorArray: [],
     managerInstructorMentorStatus: null,
     managerInstructorMentorSnackBar: {
-      managerStatusBlockOrUnBlock: null,
-      open: false,
+      managerStatusBlock: null,
+      managerStatusUnBlock: null,
       status: null,
     },
     instructorMentorProfile: {
@@ -77,6 +79,17 @@ const managerSlice = createSlice({
       statusAddGroups: null,
       open: false,
     },
+    SnackBarStatus: null,
+    SnackBarOpen: false,
+    managerStudentGroupStatus: null,
+    managerStudentGroup: {
+      group: '',
+      students: [],
+    },
+    deleteStudentGroup: false,
+    deleteStudentGroupStatus: null,
+    headerNotificationStatus: null,
+    headerNotification: false,
   },
 
   reducers: {
@@ -99,6 +112,18 @@ const managerSlice = createSlice({
     snackBarCloseAddGroup(state, action) {
       state.getAllGroup.open = action.payload.open
       state.getAllGroup.statusAddGroups = action.payload.status
+    },
+    snackBarCloseInstructorMentor(state, action) {
+      state.SnackBarOpen = action.payload.SnackBarOpen
+      state.SnackBarStatus = action.payload.SnackBarStatus
+    },
+    snackBarCloseStudentGroup(state, action) {
+      state.deleteStudentGroup = action.payload.deleteStudentGroup
+      state.deleteStudentGroupStatus = action.payload.deleteStudentGroupStatus
+    },
+    snackBarCloseHeaderNotification(state, action) {
+      state.headerNotification = action.payload.headerNotification
+      state.headerNotificationStatus = action.payload.headerNotificationStatus
     },
   },
   extraReducers: (builder) => {
@@ -174,27 +199,27 @@ const managerSlice = createSlice({
       })
       // managerNotificationsSelected
       .addCase(managerPostNotificationSelect.pending, (state) => {
-        state.status = 'pending'
+        state.headerNotificationStatus = 'pending'
       })
       .addCase(managerPostNotificationSelect.fulfilled, (state) => {
-        state.Insuccess = true
-        state.status = 'success'
+        state.headerNotificationStatus = 'success'
+        state.headerNotification = true
       })
       .addCase(managerPostNotificationSelect.rejected, (state) => {
-        state.status = 'error'
-        state.Insuccess = true
+        state.headerNotificationStatus = 'error'
+        state.headerNotification = true
       })
       // managerNotificationBlock
       .addCase(managerBlockUser.pending, (state) => {
         state.statusblock = 'pending'
       })
       .addCase(managerBlockUser.fulfilled, (state) => {
-        state.Insuccess = true
+        state.headerNotification = true
         state.statusblock = 'success'
       })
       .addCase(managerBlockUser.rejected, (state) => {
         state.statusblock = 'error'
-        state.Insuccess = true
+        state.headerNotification = true
       })
       // get manager instructor mentor
       // managerInstructorMentor
@@ -210,27 +235,29 @@ const managerSlice = createSlice({
         state.managerInstructorMentorStatus = 'error'
         state.managerInstructorMentorArray = []
       })
-      // managerInstructorMentorPutUnBlockOrBlock
+      // // managerInstructorMentorPutUnBlockOrBlock
       .addCase(managerInstructorMentorPutUnBlockOrBlock.pending, (state) => {
-        state.managerInstructorMentorSnackBar.managerInstructorMentorStatusBlockOrUnBlock =
-          'pending'
-        state.managerInstructorMentorSnackBar.open = false
+        state.managerInstructorMentorSnackBar.status = 'pending'
+        state.SnackBarStatus = 'pending'
       })
       .addCase(
         managerInstructorMentorPutUnBlockOrBlock.fulfilled,
         (state, action) => {
-          state.managerInstructorMentorSnackBar.managerStatusBlockOrUnBlock =
+          state.managerInstructorMentorSnackBar.managerStatusBlock =
             action.payload.successBlock
-          state.managerInstructorMentorSnackBar.managerStatusBlockOrUnBlock =
+          state.managerInstructorMentorSnackBar.managerStatusUnBlock =
             action.payload.successUnblock
-          state.managerInstructorMentorSnackBar.open = true
           state.managerInstructorMentorSnackBar.status = 'success'
+          state.SnackBarOpen = true
+          state.SnackBarStatus = 'success'
         }
       )
       .addCase(managerInstructorMentorPutUnBlockOrBlock.rejected, (state) => {
-        state.managerInstructorMentorSnackBar.managerInstructorMentorStatusBlockOrUnBlock =
-          'error'
-        state.managerInstructorMentorSnackBar.open = true
+        state.managerInstructorMentorSnackBar.managerStatusBlock = 'error'
+        state.managerInstructorMentorSnackBar.managerStatusUnBlock = 'error'
+        state.managerInstructorMentorSnackBar.status = 'error'
+        state.SnackBarStatus = 'error'
+        state.SnackBarOpen = true
       })
       // managerInstructorMentorProfile
       .addCase(managerInstructorMentorProfile.pending, (state) => {
@@ -347,6 +374,30 @@ const managerSlice = createSlice({
       .addCase(managerAddToStudents.rejected, (state) => {
         state.getAllGroup.statusAddGroups = 'error'
         state.getAllGroup.open = true
+      })
+      // manager Student Group
+      .addCase(managerGetStudentGroups.pending, (state) => {
+        state.managerStudentGroupStatus = 'pending'
+      })
+      .addCase(managerGetStudentGroups.fulfilled, (state, action) => {
+        state.managerStudentGroupStatus = 'success'
+        state.managerStudentGroup.group = action.payload?.groupId.group
+        state.managerStudentGroup.students = action.payload?.groupId.studentdata
+      })
+      .addCase(managerGetStudentGroups.rejected, (state) => {
+        state.managerStudentGroupStatus = 'error'
+      })
+      // manager Delete StudentGroup
+      .addCase(managerDeleteStudentGroups.pending, (state) => {
+        state.deleteStudentGroupStatus = 'pending'
+      })
+      .addCase(managerDeleteStudentGroups.fulfilled, (state) => {
+        state.deleteStudentGroupStatus = 'success'
+        state.deleteStudentGroup = true
+      })
+      .addCase(managerDeleteStudentGroups.rejected, (state) => {
+        state.deleteStudentGroupStatus = 'error'
+        state.deleteStudentGroup = true
       })
   },
 })
