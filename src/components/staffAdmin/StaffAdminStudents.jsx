@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { getRatingGroupById } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
 import Student from '../UI/Student'
@@ -9,13 +9,19 @@ const StaffAdminStudents = () => {
   const state = useSelector((state) => state.staffAdmin)
   const { student } = useParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(getRatingGroupById({ id: +student }))
   }, [student])
+
+  const goBackGroup = () => {
+    navigate(-1)
+  }
   return (
     <DivBlockContainer>
       <div>
-        <AllGroups>
+        <AllGroups onClick={goBackGroup}>
           Все группы /
           <StudensJava5>
             Студенты: {state?.getStudentIdRainting?.groupName}

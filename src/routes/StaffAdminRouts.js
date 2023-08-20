@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import Autorization from '../components/auth/Autorization'
 import StaffAdminCard from '../components/staffAdmin/StaffAdminCard'
 import StaffAdminHomeWorkStudentId from '../components/staffAdmin/StaffAdminHomeWorkStudentId'
 import StaffAdminInstructorMentor from '../components/staffAdmin/StaffAdminInstructorMentor'
@@ -7,6 +6,7 @@ import StaffAdminInstructorMentorProfile from '../components/staffAdmin/StaffAdm
 import StaffAdminLesson from '../components/staffAdmin/StaffAdminLesson'
 import StaffAdminStudents from '../components/staffAdmin/StaffAdminStudents'
 import StaffAdminLayouts from '../layouts/StaffAdminLayouts'
+import Error from './Error'
 
 const StaffAdminRouts = () => {
   return (
@@ -27,8 +27,9 @@ const StaffAdminRouts = () => {
           path='/lessons/submission/:submissionId/assigment/:assigmentId'
           element={<StaffAdminHomeWorkStudentId />}
         />
-        <Route path='login' element={<Autorization variant='Login' />} />
+        <Route path='*' element={<Error />} />
       </Route>
+      <Route path='*' element={<Error />} />
     </Routes>
   )
 }

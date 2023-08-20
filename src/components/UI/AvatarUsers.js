@@ -17,10 +17,12 @@ const AvatarUsers = ({
   setEditButton,
   profileImg,
   onClickBlockButtton,
+  setFormat,
 }) => {
   const filePicker = useRef(null)
   const handlerFiles = (event) => {
     const file = event.target.files[0]
+    setFormat(file)
     if (file) {
       const url = URL.createObjectURL(file)
       setFileImg(url)
