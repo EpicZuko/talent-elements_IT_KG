@@ -66,7 +66,7 @@ const Card = (props) => {
                           : props.onClickStudents(element)
                       }
                     />
-                    <Studentss>Стдуенты -{element.students}</Studentss>
+                    <Studentss>Стдуенты - {element.students}</Studentss>
                   </Div2>
                 </Mentor>
               )}

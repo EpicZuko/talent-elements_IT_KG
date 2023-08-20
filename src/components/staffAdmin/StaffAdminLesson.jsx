@@ -24,14 +24,18 @@ const StaffAdminLesson = () => {
       `/lessons/submission/${element.submissionId}/assigment/${element.assigmentId}`
     )
   }
+
+  const goBackGroupStaffAdmin = () => {
+    navigate(-1)
+  }
   return (
     <DivLesson>
-      <H6>
-        JAVA 5 /<H5> Уроки</H5>
+      <H6 onClick={goBackGroupStaffAdmin}>
+        {state?.getStaffAdminLesson?.groupName} /<H5> Уроки</H5>
       </H6>
       <DivStyled>
-        {state.getStaffAdminLesson.length > 0 ? (
-          state?.getStaffAdminLesson.map((element) => (
+        {state.getStaffAdminLesson.staffAdminLesson.length > 0 ? (
+          state?.getStaffAdminLesson.staffAdminLesson.map((element) => (
             <Lessons
               variant='Mentor'
               element={element}

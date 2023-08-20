@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProfileInstructorMentor } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
 import AvatarUsers from '../UI/AvatarUsers'
@@ -11,7 +11,7 @@ const StaffAdminInstructorMentorProfile = () => {
   const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
   const { instructorMentorProfileID } = useParams()
-
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getProfileInstructorMentor({ id: +instructorMentorProfileID }))
   }, [instructorMentorProfileID])
@@ -29,9 +29,13 @@ const StaffAdminInstructorMentorProfile = () => {
 
   const profileInstructor = profileInstructorMentor()
 
+  const goBackInstructorMentor = () => {
+    navigate(-1)
+  }
+
   return (
     <div>
-      <H6>
+      <H6 onClick={goBackInstructorMentor}>
         Инструкторы, Мен. /
         <H5>
           {state?.getProfileInstructorMentor?.profileInstructorOrMentor?.email}
