@@ -236,7 +236,7 @@ export const managerBlockUser = createAsyncThunk(
         method: 'PUT',
         body: { userId: props.id },
       })
-      dispatch(managerGetNotifications())
+      dispatch(managerGetNotifications(), managerGetProfile())
       return response
     } catch (error) {
       return rejectWithValue(error?.message)
@@ -254,7 +254,7 @@ export const managerPostNotificationSelect = createAsyncThunk(
           method: 'POST',
           body: props.body,
         })
-        dispatch(managerGetNotifications())
+        dispatch(managerGetNotifications(), managerGetProfile())
         return response
       }
       if (props.fetchRole === 'teacher') {
@@ -263,7 +263,7 @@ export const managerPostNotificationSelect = createAsyncThunk(
           method: 'POST',
           body: props.body,
         })
-        dispatch(managerGetNotifications())
+        dispatch(managerGetNotifications(), managerGetProfile())
         return response
       }
     } catch (error) {
@@ -320,7 +320,7 @@ export const managerInstructorMentorPutUnBlockOrBlock = createAsyncThunk(
           method: 'PUT',
           body: props.id,
         })
-        const successBlock = 'successs'
+        const successBlock = 'success'
         dispatch(managerInstructorMentor())
         return { response, successBlock }
       }
@@ -562,6 +562,60 @@ export const managerAddToStudents = createAsyncThunk(
       return response
     } catch (error) {
       return rejectWithValue(error)
+    }
+  }
+)
+export const managerGetStudentGroups = createAsyncThunk(
+  'manager/managerGetStudentGroup',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/rating/students/by/groupId?groupId=${props.id}`,
+      })
+      const groupId = {
+        group: '',
+        studentdata: [],
+      }
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        groupId.group = response[i].groupName
+        const dateString = response[i].date
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        groupId.studentdata.push({
+          id: response[i]?.studentId,
+          raiting: response[i].rating,
+          img: response[i].photo,
+          name: response[i].name,
+          dateOfRegistration: formattedDate,
+          group: response[i].groupName,
+        })
+      }
+      return { groupId }
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+export const managerDeleteStudentGroups = createAsyncThunk(
+  'manager/managerDeleteStudentGroup',
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/delete/student/id?studentId=${props.id}`,
+        method: 'PUT',
+        body: { body: props.id },
+      })
+      dispatch(managerGetStudentGroups())
+      return response
+    } catch (error) {
+      return rejectWithValue(error?.message)
     }
   }
 )

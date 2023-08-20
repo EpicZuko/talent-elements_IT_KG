@@ -11,12 +11,15 @@ const ManagerInstructorMentorProfile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { insturctorMentorProfileId } = useParams()
+
   useEffect(() => {
     dispatch(managerInstructorMentorProfile({ id: +insturctorMentorProfileId }))
   }, [insturctorMentorProfileId])
+
   const goBackInstructorMentor = () => {
     navigate(-1)
   }
+
   return (
     <div>
       <H6 onClick={goBackInstructorMentor}>

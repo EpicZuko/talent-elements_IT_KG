@@ -21,7 +21,7 @@ export const getAllCouseCardStaffAdmin = createAsyncThunk(
           id: response[i].id,
           title: response[i].description,
           img: response[i].photo,
-          students: response[i].studentsId,
+          students: response[i].count,
           lesson: response[i].lessonId,
         })
       }
@@ -170,7 +170,10 @@ export const getStaffAdminLesson = createAsyncThunk(
         url: `api/v1/staff/admin/get/lessons/by/groupId?groupId=${props.id}`,
       })
 
-      const staffAdminLesson = []
+      const staffAdminLesson = {
+        groupName: null,
+        staffAdminLesson: [],
+      }
 
       // eslint-disable-next-line no-restricted-syntax
       for (const item of response) {
@@ -182,6 +185,7 @@ export const getStaffAdminLesson = createAsyncThunk(
             const responseAssiment = await ApiFetch({
               url: `api/v1/staff/admin/assigment/id/find/student/submission?assigmentId=${el.id}`,
             })
+            staffAdminLesson.groupName = item.courseOrGroupName
             const dateString = el.created
             const dateObject = new Date(dateString)
             const dateAddOne =
@@ -192,7 +196,7 @@ export const getStaffAdminLesson = createAsyncThunk(
               day: '2-digit',
             })}.${dateAddOne}.${dateObject.getFullYear()}`
 
-            staffAdminLesson.push({
+            staffAdminLesson.staffAdminLesson.push({
               lessonId: item?.lesson?.id,
               materialsId: elem?.id,
               assignmentsId: el?.id,
@@ -234,7 +238,7 @@ export const getStaffAdminHomeWorkStudent = createAsyncThunk(
       })
       homeWorkId.answer.push({
         taskTitle: response.submissionResponse?.text,
-        img: response.submissionResponse?.file,
+        img: response?.submissionResponse?.file,
       })
       return { homeWorkId }
     } catch (error) {
@@ -263,7 +267,10 @@ const staffAdminSlice = createSlice({
       lesson: [],
       statusInstructorMentor: null,
     },
-    getStaffAdminLesson: [],
+    getStaffAdminLesson: {
+      groupName: null,
+      staffAdminLesson: [],
+    },
     getStaffAdminLessonStatus: null,
     getStaffAdminHomeWorkStudent: {
       studentName: null,
@@ -342,7 +349,10 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getStaffAdminLesson.fulfilled, (state, action) => {
         state.getStaffAdminLessonStatus = 'success'
-        state.getStaffAdminLesson = action.payload.staffAdminLesson
+        state.getStaffAdminLesson.staffAdminLesson =
+          action.payload.staffAdminLesson.staffAdminLesson
+        state.getStaffAdminLesson.groupName =
+          action.payload.staffAdminLesson.groupName
       })
       .addCase(getStaffAdminLesson.rejected, (state) => {
         state.getStaffAdminLessonStatus = 'error'

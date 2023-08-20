@@ -31,11 +31,16 @@ const SeoAdminLayouts = () => {
   const clickNavigateManager = () => {
     navigate('/manager')
   }
+
+  const clickSeoAdminProfile = () => {
+    navigate('/profile')
+  }
   return (
     <div>
       <Header
         data={state?.profileSeoAdmin}
         onBurgerMenuClick={OpenSideBarHandler}
+        onClickProfile={clickSeoAdminProfile}
       />
       <DivSeoAdmin>
         <div>

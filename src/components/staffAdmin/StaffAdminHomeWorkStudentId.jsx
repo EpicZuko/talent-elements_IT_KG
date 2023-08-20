@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStaffAdminHomeWorkStudent } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
 import HomeWorkTask from '../UI/HomeWorkTask'
@@ -10,12 +10,18 @@ const StaffAdminHomeWorkStudentId = () => {
   const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
   const { assigmentId, submissionId } = useParams()
+  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(getStaffAdminHomeWorkStudent({ assigmentId, submissionId }))
   }, [assigmentId, submissionId])
+
+  const goBackLesson = () => {
+    navigate(-1)
+  }
   return (
     <DivStyledHomeWork>
-      <H6>
+      <H6 onClick={goBackLesson}>
         Уроки / <H5>{state?.getStaffAdminHomeWorkStudent?.studentName}</H5>
       </H6>
       <HomeWorkTask
