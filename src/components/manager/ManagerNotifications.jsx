@@ -20,15 +20,23 @@ const ManagerNotifications = () => {
   const [selectstate, setSelectState] = useState(null)
   const [selectIndex, setSelectIndex] = useState('')
   const state = useSelector((state) => state.manager)
-  const { status, Insuccess, statusblock } = useSelector(
-    (state) => state.manager
-  )
+
+  const { headerNotificationStatus, headerNotification, statusblock } =
+    useSelector((state) => state.manager)
+
   const closeSnackBarHandler = () => {
-    dispatch(managerAction.snackBarClose({ Isuccess: false, status }))
+    dispatch(
+      managerAction.snackBarCloseHeaderNotification({
+        headerNotification: false,
+        headerNotificationStatus,
+      })
+    )
   }
+
   const goBack = () => {
     navigate(-1)
   }
+
   useEffect(() => {
     dispatch(managerGetNotifications())
   }, [dispatch])
@@ -97,7 +105,7 @@ const ManagerNotifications = () => {
       <CustomizedSnackbars
         message={
           // eslint-disable-next-line no-nested-ternary
-          status === 'success'
+          headerNotificationStatus === 'success'
             ? 'Поздравляем! Запрос на разрешения пользовотеля отправлен!'
             : statusblock === 'success'
             ? 'Поздравляем!  Данный  пользователь  успешно  заблокировано! '
@@ -105,8 +113,8 @@ const ManagerNotifications = () => {
             ? 'Произошло ошибка при заблокировании! Повторите попытку'
             : 'Извините призошло ошибка при разрешении пользователя. Пожалуйста, проверьте введенные данные и повторите попытку'
         }
-        variant={status || statusblock}
-        open={Insuccess}
+        variant={headerNotificationStatus || statusblock}
+        open={headerNotification}
         closeSnackbar={closeSnackBarHandler}
       />
       <div>
@@ -157,6 +165,7 @@ const H5 = styled.h5`
   font-weight: 700;
   line-height: normal;
   color: rgba(19, 71, 100, 1);
+  margin-left: 10px;
 `
 const StyledDiv = styled.div`
   width: 100%;

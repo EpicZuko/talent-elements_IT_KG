@@ -131,7 +131,7 @@ const Notifications = ({
               label='Выберите роль'
               options={selectArray}
               getOptionLabel={(option) => option.name}
-              getOptionValue={(option) => option.option}
+              getOptionValue={(option) => (option.option ? option.option : '')}
               // value={selectstate}
               onChange={changeSelect}
             />

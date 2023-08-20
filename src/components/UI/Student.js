@@ -16,9 +16,7 @@ const Student = ({
   onClickInstructorBlockButton,
   onClickManagerUnlockButton,
   onClickManagerBlockButton,
-  onClickManagerEditButton,
   onClickManagerDeleteButton,
-  onClickMentorEditButton,
   onClickMentorDeleteButton,
   onClickElement,
   variantClick,
@@ -490,12 +488,6 @@ const Student = ({
                         alignItems: 'center',
                       }}
                     >
-                      <span>
-                        <Button
-                          onClick={() => onClickManagerEditButton(element)}
-                          variant='edit button'
-                        />
-                      </span>
                       <span style={{ marginLeft: '27px', background: 'none' }}>
                         <Button
                           onClick={() => onClickManagerDeleteButton(element)}
@@ -513,12 +505,6 @@ const Student = ({
                         alignItems: 'center',
                       }}
                     >
-                      <span>
-                        <Button
-                          onClick={() => onClickMentorEditButton(element)}
-                          variant='edit button'
-                        />
-                      </span>
                       <span style={{ marginLeft: '27px', background: 'none' }}>
                         <Button
                           onClick={() => onClickMentorDeleteButton(element)}
