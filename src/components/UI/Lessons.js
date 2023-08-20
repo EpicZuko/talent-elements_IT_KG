@@ -11,6 +11,7 @@ const Lessons = ({
   variantClick,
   showStudents,
   show,
+  getVotedStudents,
 }) => {
   return (
     <div>
@@ -57,7 +58,10 @@ const Lessons = ({
           {variant === 'Mentor' && (
             <MentorLesson>
               <H1>{element.text}</H1>
-              <StyledTagA href={element.urlLesson}>
+              <StyledTagA
+                style={{ textDecoration: 'none' }}
+                href={element.videoUrl}
+              >
                 <Lesson>
                   <D6>
                     <Img src={Frame} alt='error' />
@@ -67,42 +71,51 @@ const Lessons = ({
                 </Lesson>
               </StyledTagA>
               <LessonLeft>
-                <StyledTagA href={element.urlFile}>
+                <StyledTagA
+                  style={{ textDecoration: 'none' }}
+                  href={element.urlFile}
+                >
                   <D7>
                     <Img src={Frame3} alt='error' />
                     <Title>{element.lesson}</Title>
                   </D7>
                 </StyledTagA>
-                <DateBlock>
-                  <Data>{element.date}</Data>
-                  <Left>
+                <Left>
+                  <DateBlock>
+                    <Data>{element.date}</Data>
                     <DivStudent>
-                      <P onClick={() => showStudents(element)}>
+                      <P
+                        onClickCapture={() => {
+                          getVotedStudents(element)
+                        }}
+                        onClick={() => showStudents(element)}
+                      >
                         ответили{' '}
                         {element.votedStudents < 5
                           ? `${element.votedStudents} студента`
                           : `${element.votedStudents} студентов`}
                       </P>
+                      {show && (
+                        <ShowedStudents>
+                          {element.students.map((el) => {
+                            return (
+                              <p
+                                onClick={
+                                  variantClick === 'disbled'
+                                    ? ''
+                                    : () => onClickStudent(el)
+                                }
+                                style={{ cursor: 'pointer' }}
+                              >
+                                {el.username}
+                              </p>
+                            )
+                          })}
+                        </ShowedStudents>
+                      )}
                     </DivStudent>
-                    {show && (
-                      <ShowedStudents>
-                        {element.students.map((el) => {
-                          return (
-                            <p
-                              onClick={() =>
-                                variantClick === 'disbled'
-                                  ? ''
-                                  : onClickStudent(el)
-                              }
-                            >
-                              {el.username}
-                            </p>
-                          )
-                        })}
-                      </ShowedStudents>
-                    )}
-                  </Left>
-                </DateBlock>
+                  </DateBlock>
+                </Left>
               </LessonLeft>
             </MentorLesson>
           )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -24,13 +24,21 @@ const MentorInstructorLessons = () => {
       })
     )
   }, [])
-  const [show, setShow] = useState(false)
-  const showStudents = (element) => {
-    setShow((prev) => !prev)
-    dispatch(getMentorVotedStudentsByAssignmentId({ id: element.assignmentId }))
-  }
   const navToCourse = () => {
     navigate('/')
+  }
+  const getVotedStudents = (element) => {
+    dispatch(getMentorVotedStudentsByAssignmentId({ id: element.assignmentId }))
+  }
+  const createLesson = () => {
+    navigate('create-lesson')
+  }
+
+  const navigateToHomeWorkPage = (element) => {
+    navigate(`homework/${element.username}/${element.studentId}`)
+  }
+  const navigateToEditLessonPage = (element) => {
+    navigate(`edit_lesson/${element.id}/${element.materialId}`)
   }
   return (
     <div>
@@ -40,35 +48,43 @@ const MentorInstructorLessons = () => {
           <LocationText2>Уроки</LocationText2>
         </Location>
         <ButtonsBlock>
-          <Button variant='Add-Button'>+</Button>
+          <Button onClick={createLesson} variant='Add-Button'>
+            +
+          </Button>
         </ButtonsBlock>
         <ButtonsBlock2>
-          <Button variant='create group'>Ввести урок</Button>
+          <Button onClick={createLesson} variant='create group'>
+            Ввести урок
+          </Button>
         </ButtonsBlock2>
       </Block>
       <LessonsBlock>
-        <Lessons
-          variant='Mentor'
-          element={
-            state.getLessons?.lesson?.id
-              ? {
-                  id: state.getLessons?.lesson?.id,
-                  text: `${state.getLessons?.lesson?.id} - ${state.getLessons?.lesson?.text}`,
-                  title: state.getLessons?.material?.title,
-                  lesson: state.getLessons.assignment?.title,
-                  date: state.getLessons.assignment?.date,
-                  assignmentId: state.getLessons.assignment?.id,
-                  materialId: state.getLessons.material?.id,
-                  votedStudents: state.getLessons.assignment?.votedStudents,
+        {state.getLessons?.lesson?.map((elem) =>
+          elem?.assignment.map((assignment) =>
+            state.getMaterials.map((material) => (
+              <Lessons
+                key={elem?.id}
+                variant='Mentor'
+                element={{
+                  id: elem?.id,
+                  text: `${elem?.id} - ${elem?.text}`,
+                  videoUrl: elem?.youtube,
+                  assignmentId: assignment?.id,
+                  votedStudents: assignment?.countSubmission,
+                  lesson: assignment?.title,
+                  date: assignment?.created,
+                  urlFile: material?.file,
+                  materialId: material?.id,
+                  title: material?.title,
                   students: state.getVotedStudents?.responseStudents || [],
-                  urlLesson: state.getLessons.lesson?.youtube,
-                  urlFile: state.getLessons.material?.file,
-                }
-              : {}
-          }
-          show={show}
-          showStudents={showStudents}
-        />
+                }}
+                getVotedStudents={getVotedStudents}
+                onEdit={navigateToEditLessonPage}
+                onClickStudent={navigateToHomeWorkPage}
+              />
+            ))
+          )
+        )}
       </LessonsBlock>
     </div>
   )
@@ -83,10 +99,11 @@ const Location = styled.div`
 `
 const Block = styled.div`
   display: flex;
-  gap: 1000px;
+  width: 1400px;
+  justify-content: space-between;
   @media (max-width: 415px) {
     align-items: baseline;
-    gap: 0px;
+    width: 100%;
     justify-content: space-between;
   }
 `

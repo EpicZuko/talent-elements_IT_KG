@@ -118,41 +118,46 @@ export const getMentorNotifications = createAsyncThunk(
     }
   }
 )
+export const getMentorMaterials = createAsyncThunk(
+  'mentor-instrcutor/getMaterials',
+  async (props, { rejectWithValue }) => {
+    const getMaterials = []
+    try {
+      const response = await ApiFetch({
+        url: `api/teachers/get_all_materials/by/groupId?groupId=${props.groupId}`,
+      })
+      for (let i = 0; i < response.length; i++) {
+        getMaterials.push({
+          title: response[i].title,
+          id: response[i].id,
+          file: response[i].file,
+        })
+      }
+      return { getMaterials }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 export const getMentorLessons = createAsyncThunk(
   'mentor-instructor/getLessons',
-  async (props, { rejectWithValue }) => {
+  async (props, { rejectWithValue, dispatch }) => {
+    dispatch(getMentorMaterials(props))
     try {
       const lessons = {
-        lesson: {},
-        material: {},
-        assignment: {},
+        lesson: [],
       }
       const getLessons = await ApiFetch({
         url: `api/teachers/get/lessons/by/groupId?groupId=${props.groupId}`,
       })
       for (let i = 0; i < getLessons.length; i++) {
-        lessons.lesson = {
+        lessons.lesson.push({
           id: getLessons[i].lesson.id,
           text: getLessons[i].lesson.title,
           youtube: getLessons[i].lesson.youtube,
-        }
-        for (let ind = 0; ind < getLessons[i].assignments.length; ind++) {
-          lessons.assignment = {
-            id: getLessons[ind].assignments[ind].id,
-            title: getLessons[ind].assignments[ind].title,
-            votedStudents: getLessons[ind].assignments[ind].countSubmission,
-            date: getLessons[ind].assignments[ind].created,
-          }
-        }
-        for (let index = 0; index < getLessons[i].materials.length; index++) {
-          lessons.material = {
-            id: getLessons[index].materials[index].id,
-            title: getLessons[index].materials[index].title,
-            file: getLessons[index].materials[index].file,
-          }
-        }
+          assignment: getLessons[i].assignments,
+        })
       }
-
       return { getLessons: lessons }
     } catch (error) {
       return rejectWithValue(error.message)
