@@ -1,10 +1,4 @@
-import SeoAdminRoutes from './routes/SeoAdminRoutes'
-
 const App = () => {
-  return (
-    <div>
-      <SeoAdminRoutes />
-    </div>
-  )
+  return <div />
 }
 export default App

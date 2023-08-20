@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import ApiFetch from '../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../api/ApiFetch'
 import {
+  getSeoAdminProfileUrl,
+  postSeoAdminProfileSavePhotoUrl,
   seoAdminGetAllGroupsUrl,
   seoAdminProfileUrl,
   seoAdmingetFindAllManagerUrl,
@@ -220,6 +222,40 @@ export const getSeoAdminByIdTeachers = createAsyncThunk(
     }
   }
 )
+export const getSeoAdminProfile = createAsyncThunk(
+  'seoAdminSlice/getSeoAdminProfile',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.fileImg !== '') {
+        const formData = new FormData()
+        formData.append('photo', props.fileImg)
+        await appFile({
+          url: postSeoAdminProfileSavePhotoUrl,
+          body: formData,
+        })
+        dispatch(getProfile())
+      }
+
+      const response = await ApiFetch({
+        url: getSeoAdminProfileUrl,
+      })
+      const getProfileObject = {
+        seoAdminProfile: [],
+        profileImg: response.photo,
+      }
+      getProfileObject.seoAdminProfile.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
+      return { getProfileObject }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 const getSeoAdminGroupSlice = createSlice({
   name: 'seoAdminGroupsSlce',
   initialState: {
@@ -247,6 +283,10 @@ const getSeoAdminGroupSlice = createSlice({
       lessonNames: [],
     },
     byIdTeachersStatus: null,
+    getProfile: {
+      seoAdminProfile: [],
+      profileImg: null,
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -340,6 +380,19 @@ const getSeoAdminGroupSlice = createSlice({
       })
       .addCase(getSeoAdminByIdTeachers.rejected, (state) => {
         state.byIdTeachersStatus = 'error'
+      })
+      // get seo admin profile
+      .addCase(getSeoAdminProfile.pending, (state) => {
+        state.getProfileStatus = 'pending'
+      })
+      .addCase(getSeoAdminProfile.fulfilled, (state, action) => {
+        state.getProfileStatus = 'success'
+        state.getProfile.seoAdminProfile =
+          action.payload.getProfileObject.seoAdminProfile
+        state.getProfile.profileImg = action.payload.getProfileObject.profileImg
+      })
+      .addCase(getSeoAdminProfile.rejected, (state) => {
+        state.getProfileStatus = 'error'
       })
   },
 })
