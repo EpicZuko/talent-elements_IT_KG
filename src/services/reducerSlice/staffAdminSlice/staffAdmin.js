@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import ApiFetch from '../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../api/ApiFetch'
 import {
   staffAdminGetAllGroups,
   staffAdmingetProfile,
   staffAdminfindallteachers,
+  getMyprofileStaffAdminUrl,
+  postStaffAdminProfile,
 } from '../../../utils/constants/url'
 
 export const getAllCouseCardStaffAdmin = createAsyncThunk(
@@ -21,7 +23,7 @@ export const getAllCouseCardStaffAdmin = createAsyncThunk(
           id: response[i].id,
           title: response[i].description,
           img: response[i].photo,
-          students: response[i].studentsId,
+          students: response[i].count,
           lesson: response[i].lessonId,
         })
       }
@@ -170,7 +172,10 @@ export const getStaffAdminLesson = createAsyncThunk(
         url: `api/v1/staff/admin/get/lessons/by/groupId?groupId=${props.id}`,
       })
 
-      const staffAdminLesson = []
+      const staffAdminLesson = {
+        groupName: null,
+        staffAdminLesson: [],
+      }
 
       // eslint-disable-next-line no-restricted-syntax
       for (const item of response) {
@@ -182,6 +187,7 @@ export const getStaffAdminLesson = createAsyncThunk(
             const responseAssiment = await ApiFetch({
               url: `api/v1/staff/admin/assigment/id/find/student/submission?assigmentId=${el.id}`,
             })
+            staffAdminLesson.groupName = item.courseOrGroupName
             const dateString = el.created
             const dateObject = new Date(dateString)
             const dateAddOne =
@@ -192,7 +198,7 @@ export const getStaffAdminLesson = createAsyncThunk(
               day: '2-digit',
             })}.${dateAddOne}.${dateObject.getFullYear()}`
 
-            staffAdminLesson.push({
+            staffAdminLesson.staffAdminLesson.push({
               lessonId: item?.lesson?.id,
               materialsId: elem?.id,
               assignmentsId: el?.id,
@@ -234,7 +240,7 @@ export const getStaffAdminHomeWorkStudent = createAsyncThunk(
       })
       homeWorkId.answer.push({
         taskTitle: response.submissionResponse?.text,
-        img: response.submissionResponse?.file,
+        img: response?.submissionResponse?.file,
       })
       return { homeWorkId }
     } catch (error) {
@@ -243,6 +249,38 @@ export const getStaffAdminHomeWorkStudent = createAsyncThunk(
   }
 )
 
+export const profileStaffAdmin = createAsyncThunk(
+  'staffAdmin/profileStaffAdmin',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.file !== '') {
+        const formData = new FormData()
+        formData.append('photo', props.file)
+        await appFile({
+          url: postStaffAdminProfile,
+          body: formData,
+        })
+        dispatch(getProfileStaffAdmin())
+      }
+      const response = await ApiFetch({
+        url: getMyprofileStaffAdminUrl,
+      })
+      const StaffAdminProfileObject = {
+        groupProfile: [],
+        profileImg: response.photo,
+      }
+      StaffAdminProfileObject.groupProfile.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
+      return { StaffAdminProfileObject }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -263,7 +301,10 @@ const staffAdminSlice = createSlice({
       lesson: [],
       statusInstructorMentor: null,
     },
-    getStaffAdminLesson: [],
+    getStaffAdminLesson: {
+      groupName: null,
+      staffAdminLesson: [],
+    },
     getStaffAdminLessonStatus: null,
     getStaffAdminHomeWorkStudent: {
       studentName: null,
@@ -271,6 +312,11 @@ const staffAdminSlice = createSlice({
       answer: [],
     },
     getStaffAdminHomeWorkStudentStatus: [],
+    profile: {
+      groupProfile: [],
+      profileImg: null,
+      getMyProfileArrayStatus: null,
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -342,7 +388,10 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getStaffAdminLesson.fulfilled, (state, action) => {
         state.getStaffAdminLessonStatus = 'success'
-        state.getStaffAdminLesson = action.payload.staffAdminLesson
+        state.getStaffAdminLesson.staffAdminLesson =
+          action.payload.staffAdminLesson.staffAdminLesson
+        state.getStaffAdminLesson.groupName =
+          action.payload.staffAdminLesson.groupName
       })
       .addCase(getStaffAdminLesson.rejected, (state) => {
         state.getStaffAdminLessonStatus = 'error'
@@ -363,7 +412,24 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getStaffAdminHomeWorkStudent.rejected, (state) => {
         state.getStaffAdminHomeWorkStudentStatus = 'error'
-        state.getStaffAdminHomeWorkStudentArray = []
+        state.getStaffAdminHomeWorkStudent.homeWorkArray = []
+        state.getStaffAdminHomeWorkStudent.answer = []
+      })
+      // profile staff admin
+      .addCase(profileStaffAdmin.pending, (state) => {
+        state.profile.getMyProfileArrayStatus = 'pending'
+      })
+      .addCase(profileStaffAdmin.fulfilled, (state, action) => {
+        state.profile.getMyProfileArrayStatus = 'success'
+        state.profile.groupProfile =
+          action.payload.StaffAdminProfileObject.groupProfile
+
+        state.profile.profileImg =
+          action.payload.StaffAdminProfileObject.profileImg
+      })
+      .addCase(profileStaffAdmin.rejected, (state) => {
+        state.profile.getMyProfileArrayStatus = 'error'
+        state.profile.groupProfile = []
       })
   },
 })
