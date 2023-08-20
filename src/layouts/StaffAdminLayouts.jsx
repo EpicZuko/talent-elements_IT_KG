@@ -11,26 +11,36 @@ const StaffAdminLayouts = () => {
   const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(getProfileStaffAdmin())
   }, [])
+
   const sideBarOpenMenuBar = () => {
     setStateSiderBar(true)
   }
+
   const sideBarCloseMenuBar = () => {
     setStateSiderBar(false)
   }
+
   const navigateInstructorMentor = () => {
     navigate('/inctructor')
   }
+
   const navigateCardStudent = () => {
     navigate('/')
+  }
+
+  const navigateProfile = () => {
+    navigate('/profileStaffAdmin')
   }
   return (
     <div>
       <Header
         data={state?.getProfileStaffAdmin}
         onBurgerMenuClick={sideBarOpenMenuBar}
+        onClickProfile={navigateProfile}
       />
       <DivStyled>
         <div>
