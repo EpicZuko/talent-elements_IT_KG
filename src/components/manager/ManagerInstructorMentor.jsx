@@ -1,12 +1,15 @@
+/* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
+import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
 import {
   managerInstructorMentor,
   managerInstructorMentorPutUnBlockOrBlock,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
 import Input from '../UI/Input'
+import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
 const ManagerInstructorMentor = () => {
@@ -17,6 +20,8 @@ const ManagerInstructorMentor = () => {
   useEffect(() => {
     dispatch(managerInstructorMentor())
   }, [])
+  const { managerInstructorMentorSnackBar, SnackBarOpen, SnackBarStatus } =
+    useSelector((state) => state.manager)
 
   const instructorBlockButton = (id) => {
     dispatch(managerInstructorMentorPutUnBlockOrBlock({ id, block: 'block' }))
@@ -38,8 +43,30 @@ const ManagerInstructorMentor = () => {
   const navigateInstructorMentorProfile = (id) => {
     navigate(`/instructorOrMentor/${id}`)
   }
+  const closeSnackBarHandler = () => {
+    dispatch(
+      managerAction.snackBarCloseInstructorMentor({
+        SnackBarOpen: false,
+        SnackBarStatus,
+      })
+    )
+  }
   return (
     <div>
+      <CustomizedSnackbars
+        message={
+          managerInstructorMentorSnackBar.managerStatusBlock === 'success'
+            ? 'Поздравляем!  Данный  пользователь  успешно  заблокировано! '
+            : managerInstructorMentorSnackBar.managerStatusUnBlock === 'success'
+            ? 'Поздравляем!  Данный  пользователь  успешно  разблокировано! '
+            : managerInstructorMentorSnackBar.status === 'error'
+            ? 'Извините ! Произошло ошибка при запросе! Повторите попытку'
+            : ''
+        }
+        variant={managerInstructorMentorSnackBar.status}
+        open={SnackBarOpen}
+        closeSnackbar={closeSnackBarHandler}
+      />
       <DivInput>
         <H6>Инструкторы, Мен.</H6>
         <Input

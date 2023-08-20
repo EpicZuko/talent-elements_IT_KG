@@ -8,8 +8,10 @@ const Profile = ({ files, setFiles, setFormat }) => {
   const changeHandlerFile = (event) => {
     const fileGroup = event.target.files[0]
     setFormat(fileGroup)
-    const url = URL.createObjectURL(fileGroup)
-    setFiles(url)
+    if (fileGroup) {
+      const url = URL.createObjectURL(fileGroup)
+      setFiles(url)
+    }
   }
   const handleFileGroup = () => {
     fileGroup.current.click()
