@@ -46,7 +46,7 @@ const Notifications = ({
         <StudentNotificationsBlock>
           <StudentNotificationsLeftBlock>
             <StudentNotificationsName>
-              {studentData.name}:
+              assigmentName:{studentData.name}
               <StudentNotificationsValue days={studentData?.days}>
                 {studentData.name !== 'Бухалтерия'
                   ? `${

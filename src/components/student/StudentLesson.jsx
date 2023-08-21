@@ -7,6 +7,7 @@ import Lessons from '../UI/Lessons'
 
 const StudentLesson = () => {
   const state = useSelector((state) => state.student)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
@@ -30,12 +31,14 @@ const StudentLesson = () => {
             key={item.title}
             variant='User'
             element={{
+              count: item.count,
               text: item.title,
               title: item.titleYoutube,
               urlLesson: item.youtube,
               explain: item.titleFile,
               urlPdf: item.file,
               assignments: item.assignments,
+              submissionResponseList: item.submissionResponseList,
             }}
             chageExplain={(element) => navigateHomeWork(element.id)}
           />
