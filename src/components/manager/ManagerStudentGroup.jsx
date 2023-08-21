@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
@@ -8,6 +8,8 @@ import {
   managerDeleteStudentGroups,
   managerGetStudentGroups,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
+import Button from '../UI/Button'
+import Modall from '../UI/Modal'
 import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
@@ -15,7 +17,8 @@ const ManagerStudentGroup = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useDispatch()
-
+  const [modal, setModal] = useState(null)
+  const [dataId, setDataId] = useState(null)
   const { deleteStudentGroup, deleteStudentGroupStatus, managerStudentGroup } =
     useSelector((state) => state.manager)
 
@@ -23,10 +26,17 @@ const ManagerStudentGroup = () => {
     dispatch(managerGetStudentGroups({ id: +id }))
   }, [deleteStudentGroup])
 
+  const modalOpen = (element) => {
+    setModal(true)
+    setDataId(element)
+  }
+  const modalClose = () => {
+    setModal(false)
+  }
   const handlerDeleteStudents = (element) => {
     dispatch(managerDeleteStudentGroups({ id: +element }))
+    setModal(false)
   }
-
   const closeSnackBarHandler = () => {
     dispatch(
       managerAction.snackBarCloseStudentGroup({
@@ -68,13 +78,31 @@ const ManagerStudentGroup = () => {
               variantClick='disbled'
               variantName='click'
               UserDataArray={managerStudentGroup?.students}
-              onClickManagerDeleteButton={(element) =>
-                handlerDeleteStudents(element.id)
-              }
+              onClickManagerDeleteButton={(element) => modalOpen(element.id)}
               onClickImgName={{}}
             />
           ) : (
             'Пока в этой группе нет студентов'
+          )}
+          {modal && (
+            <Modall onClose={modalClose}>
+              <StyledModallDiv>
+                <StyledH2>
+                  Вы дейтительно хотите удалить этого студента?
+                </StyledH2>
+                <StydetModallButtonDiv>
+                  <Button variant='paid' onClick={modalClose}>
+                    ОТМЕНА
+                  </Button>
+                  <Button
+                    variant='not paid'
+                    onClick={() => handlerDeleteStudents(dataId)}
+                  >
+                    УДАЛИТЬ
+                  </Button>
+                </StydetModallButtonDiv>
+              </StyledModallDiv>
+            </Modall>
           )}
         </div>
       </div>
@@ -105,4 +133,25 @@ const StyledH6 = styled.h6`
   font-weight: 700;
   line-height: normal;
   color: rgba(19, 71, 100, 1);
+`
+const StyledH2 = styled.h2`
+  font-family: Zen Kaku Gothic New;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: rgba(19, 71, 100, 1);
+`
+const StyledModallDiv = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`
+const StydetModallButtonDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 `

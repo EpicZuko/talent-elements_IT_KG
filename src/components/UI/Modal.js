@@ -47,7 +47,7 @@ const StyledBackdrop = styled.div`
 `
 const StyledModalContent = styled.div`
   position: fixed;
-  top: 45vh;
+  top: 30vh;
   margin-left: 50%;
   transform: ${(props) =>
     props.variant !== '' ? 'translate(-50%, 0%)' : 'translate(-50%, -60%)'};
