@@ -14,7 +14,7 @@ const StudentLayouts = () => {
 
   useEffect(() => {
     dispatch(getStudentProfile())
-  }, [])
+  }, [dispatch])
 
   const sideBarUserOpenMenu = () => {
     setStateUserSideBar(true)

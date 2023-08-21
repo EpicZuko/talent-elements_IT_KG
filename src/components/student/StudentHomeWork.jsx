@@ -135,6 +135,7 @@ const StudentHomeWork = () => {
           <StyledInputFiles
             ref={FilePicker}
             type='file'
+            accept='.pdf'
             multiple
             onChange={handlerFileUpload}
           />
