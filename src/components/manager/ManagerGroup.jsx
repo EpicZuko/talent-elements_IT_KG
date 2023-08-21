@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -51,7 +52,9 @@ const ManagerGroup = () => {
           </Button>
         </ContainerDiv2>
       </ContainerDiv1>
-      {filterSearch.length ? (
+      {state.managerCard.length === 0 ? (
+        <H3>Пока здесь нет групп </H3>
+      ) : filterSearch.length ? (
         <Card
           user={filterSearch}
           variantClick='disabled'

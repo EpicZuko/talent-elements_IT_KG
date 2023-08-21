@@ -329,8 +329,16 @@ const Student = ({
                 )}
                 {variant === 'Instructors' && (
                   <StyledDoctrines>
-                    {element.group}/
-                    <StyledDoctrinesP>{element.doctrine}</StyledDoctrinesP>
+                    {element.group}
+
+                    {element.doctrine.length > 0 && <Ps>/</Ps>}
+                    {element.doctrine.length > 0 && (
+                      <StyleddoctrineDiv doctrine={element.doctrine}>
+                        {element.doctrine.map((doctrine) => (
+                          <StyledDoctrinesP>{doctrine}</StyledDoctrinesP>
+                        ))}
+                      </StyleddoctrineDiv>
+                    )}
                     <StyledDivButton variant={variant}>
                       <Button
                         onClick={onClickInstructorGroupButton}
@@ -547,7 +555,7 @@ const UserScores = (props) => {
     : ''
 }
 const StaffAdmin = (props) => {
-  return props.variant === 'Staff_admin' ? '375px; margin-left: 40px;' : '195px'
+  return props.variant === 'Staff_admin' ? '375px; margin-left: 40px;' : '255px'
 }
 const Instructor = (props) => {
   return props.variant === 'Instructors' ? 'margin-left: 10px;' : ''
@@ -763,10 +771,12 @@ const StyledName = styled.td`
 const StyledDoctrines = styled.td`
   text-align: start;
   width: ${StaffAdmin};
+  min-width: 120px;
   height: 23px;
   font-size: 16px;
   display: flex;
   align-items: center;
+  margin-right: 5px;
   font-family: Zen Kaku Gothic New;
   font-weight: 500;
   color: rgba(55, 55, 55, 1);
@@ -787,8 +797,19 @@ const StyledStaffdoctrine = styled.p`
   line-height: normal;
   color: rgba(135, 135, 135, 1);
 `
+const StyleddoctrineDiv = styled.div`
+  width: ${({ doctrine }) =>
+    doctrine.length > 1 && '120px; word-break: break-all; overflow-y: scroll;'};
+  height: 22px;
+  overflow-x: none;
+`
+const Ps = styled.p`
+  margin: 0px 5px 0 5px;
+`
 const StyledDoctrinesP = styled.p`
+  display: block;
   font-size: 14px;
+  margin-left: 4px;
   font-family: Zen Kaku Gothic New;
   font-weight: 400;
   color: rgba(135, 135, 135, 1);
