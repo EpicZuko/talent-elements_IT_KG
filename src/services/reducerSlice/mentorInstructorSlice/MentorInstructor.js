@@ -83,7 +83,7 @@ export const putMentorStudents = createAsyncThunk(
         url: `api/teachers/remove_student/${props.id}`,
         method: 'PUT',
       })
-      dispatch(getMentorStudents())
+      dispatch(getMentorStudents({ groupId: props.groupId }))
     } catch (error) {
       return rejectWithValue(error.message)
     }

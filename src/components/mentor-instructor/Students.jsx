@@ -24,7 +24,7 @@ export const MentorInstructorStudents = () => {
   }, [])
 
   const deleteStudents = (element) => {
-    dispatch(putMentorStudents({ id: element.studentId }))
+    dispatch(putMentorStudents({ id: element.studentId,groupId }))
   }
 
   return (
