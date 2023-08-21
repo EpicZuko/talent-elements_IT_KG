@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
 import {
-  // managerDeleteStudentGroups,
+  managerDeleteStudentGroups,
   managerGetStudentGroups,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
 import Button from '../UI/Button'
@@ -18,7 +18,7 @@ const ManagerStudentGroup = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const [modal, setModal] = useState(null)
-  // const [dataId, setDataId] = useState(null)
+  const [dataId, setDataId] = useState(null)
   const { deleteStudentGroup, deleteStudentGroupStatus, managerStudentGroup } =
     useSelector((state) => state.manager)
 
@@ -26,17 +26,17 @@ const ManagerStudentGroup = () => {
     dispatch(managerGetStudentGroups({ id: +id }))
   }, [deleteStudentGroup])
 
-  const modalOpen = () => {
+  const modalOpen = (element) => {
     setModal(true)
-    // setDataId(element)
+    setDataId(element)
   }
   const modalClose = () => {
     setModal(false)
   }
-  // const handlerDeleteStudents = (element) => {
-  //   dispatch(managerDeleteStudentGroups({ id: +element }))
-  //   setModal(false)
-  // }
+  const handlerDeleteStudents = (element) => {
+    dispatch(managerDeleteStudentGroups({ id: +element }))
+    setModal(false)
+  }
   const closeSnackBarHandler = () => {
     dispatch(
       managerAction.snackBarCloseStudentGroup({
@@ -96,7 +96,7 @@ const ManagerStudentGroup = () => {
                   </Button>
                   <Button
                     variant='not paid'
-                    // onClick={() => handlerDeleteStudents(dataId)}
+                    onClick={() => handlerDeleteStudents(dataId)}
                   >
                     УДАЛИТЬ
                   </Button>
