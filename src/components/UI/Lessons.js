@@ -23,32 +23,34 @@ const Lessons = ({
           {variant === 'User' && (
             <Container>
               <div>
-                <H1>{element.text}</H1>
+                <H1>
+                  {element?.count} - {element?.text}
+                </H1>
               </div>
-              {element.urlLesson && (
-                <StyledTagA href={element.urlLesson}>
+              {element?.urlLesson && (
+                <StyledTagA href={element?.urlLesson}>
                   <Lesson>
                     <D>
                       <Img src={Frame} alt='error' />
-                      <Title>{element.title}</Title>
+                      <Title>{element?.title}</Title>
                     </D>
-                    <Date>{element.date}</Date>
+                    <Date>{element?.date}</Date>
                   </Lesson>
                 </StyledTagA>
               )}
-              {element.urlPdf && (
-                <StyledTagA href={element.urlPdf}>
+              {element?.urlPdf && (
+                <StyledTagA href={element?.urlPdf}>
                   <Lesson>
                     <D3>
                       <Img src={Frame2} alt='error' />
-                      <Title>{element.explain}</Title>
+                      <Title>{element?.explain}</Title>
                     </D3>
 
-                    <Data>{element.date}</Data>
+                    <Data>{element?.date}</Data>
                   </Lesson>
                 </StyledTagA>
               )}
-              {element.assignments &&
+              {element?.assignments &&
                 element?.assignments?.map((elem) => {
                   const dateString = elem?.created
                   const [year, month, day] = dateString.split('T')[0].split('-')
@@ -57,20 +59,18 @@ const Lessons = ({
                     <Lesson onClick={() => chageExplain(elem)} key={elem.id}>
                       <D1>
                         <Img src={Frame1} alt='error' />
-                        <Title>{elem?.title}</Title>
+                        <Title>{elem?.title} sm</Title>
                       </D1>
                       <Date>{formattedDate}</Date>
-                      <DivScore>
-                        <Score score={elem?.countSubmission}>
-                          {elem?.countSubmission > 0
-                            ? `${elem?.countSubmission} ball `
-                            : `${
-                                elem?.countSubmission === ''
-                                  ? 'ожидание'
-                                  : elem?.countSubmission
-                              }`}
-                        </Score>
-                      </DivScore>
+                      {elem?.submissionResponseList?.map((item) => (
+                        <DivScore>
+                          {item?.score !== 0 ? (
+                            <Score score={item?.score}>
+                              {`${item?.score} ball `}
+                            </Score>
+                          ) : null}
+                        </DivScore>
+                      ))}
                     </Lesson>
                   )
                 })}
@@ -211,7 +211,7 @@ const DivStudent = styled.div`
 const Lesson = styled.div`
   width: 1077px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   margin-left: 60px;
   margin-top: 5px;
   &:hover {

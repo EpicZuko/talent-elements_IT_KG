@@ -143,11 +143,12 @@ export const getStudentMyProfile = createAsyncThunk(
 export const getStudentNotification = createAsyncThunk(
   'studentSlice/getStudentNotification',
   // eslint-disable-next-line consistent-return
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
       const response = await ApiFetch({
         url: getStudentNotificationUrl,
       })
+      dispatch(getStudentProfile())
       const getStudentNotificationArray = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
