@@ -109,6 +109,8 @@ export const getMentorNotifications = createAsyncThunk(
           nickname: response[i].username,
           studentId: response[i].studentId,
           submissionId: response[i].submissionResponse.id,
+          file: response[i].submissionResponse.file,
+          type: response[i].submissionResponse.submissionType,
         })
       }
       return { getNotifications }

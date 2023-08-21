@@ -54,6 +54,7 @@ export const MentorInstructorNotifications = () => {
       })
     )
   }
+  console.log(state)
   return (
     <div>
       <Location>

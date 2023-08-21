@@ -171,7 +171,7 @@ const Notifications = ({
             <MentorNotificationsComment>
               {mentorData.type && (
                 <MentorNotificationsCommentType>
-                  {mentorData.type}
+                  <a href={mentorData.file}>{mentorData.type}</a>
                 </MentorNotificationsCommentType>
               )}
               <span>
@@ -535,6 +535,7 @@ const MentorNotificationIcon = styled.div`
     width: 155px;
   }
 `
+
 const MentorNotificationsShowIcon = styled.img`
   width: 13px;
   height: 13px;

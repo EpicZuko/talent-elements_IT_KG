@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { MentorInstructorNotifications } from '../components/mentor-instructor/Notifications'
 import { MentorInstructorStudents } from '../components/mentor-instructor/Students'
 import { MentorInstructorLayout } from '../layouts/MentorInstructor'
 
@@ -10,6 +11,10 @@ const MentorRoutes = () => {
         <Route
           path='/:groupName/:groupId'
           element={<MentorInstructorStudents />}
+        />
+        <Route
+          path='/notifications'
+          element={<MentorInstructorNotifications />}
         />
       </Route>
     </Routes>
