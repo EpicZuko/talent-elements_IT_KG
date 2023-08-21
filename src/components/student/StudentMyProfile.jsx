@@ -81,7 +81,7 @@ const H5 = styled.h5`
 
 const DivProgress = styled.div`
   @media (max-width: 391px) {
-    padding-left: 10px;
+    padding-left: 30px;
   }
 `
 const H4 = styled.h4`

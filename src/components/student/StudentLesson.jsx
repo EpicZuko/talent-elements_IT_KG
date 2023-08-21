@@ -14,7 +14,7 @@ const StudentLesson = () => {
   }, [])
 
   const navigateHomeWork = (id) => {
-    navigate(`/homeWork/${id}`)
+    navigate(`/lesson/${id}`)
   }
 
   const goBackGroup = () => {

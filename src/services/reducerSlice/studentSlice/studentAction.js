@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import ApiFetch from '../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../api/ApiFetch'
 import {
   getStudentProfileUrl,
   getCousesUrl,
@@ -178,6 +178,65 @@ export const getStudentLesson = createAsyncThunk(
       }
 
       return { studentLesson }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const getStudentHomeWork = createAsyncThunk(
+  'studentSlice/getStudentHomeWork',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/user/find/assigment/by/id?assigmentId=${props.id}`,
+      })
+
+      const studentHomeWork = {
+        groupName: response.groupName,
+        homeWork: {
+          id: response?.submissionResponse?.id,
+          taskTitle: response?.titleAssigment,
+          img: response?.photo,
+          kods: response?.assigmentDescription,
+          text: response?.submissionResponse?.text,
+        },
+      }
+      const studentHomeWorkArray = []
+      studentHomeWorkArray.push(studentHomeWork?.homeWork)
+      return { studentHomeWorkArray, studentHomeWork }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const postStudentFileUpload = createAsyncThunk(
+  'studentSlice/postStudentFileUpload',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', props.file)
+      const response = appFile({
+        url: `api/v1/user/upload_file/${props.id}/`,
+        body: formData,
+      })
+      return response
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const postStudentTextForm = createAsyncThunk(
+  'studentSlice/postStudentTextForm',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = ApiFetch({
+        url: `api/v1/user/send_text_document/${props.id}/?text=${props.text}`,
+        method: 'POST',
+      })
+      return response
     } catch (error) {
       return rejectWithValue(error)
     }
