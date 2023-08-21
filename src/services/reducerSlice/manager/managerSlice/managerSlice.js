@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import ApiFetch, { appFile } from '../../../../api/ApiFetch'
 import {
+  // getManagerMyprofileUrl,
   managergetProfileUrl,
   managergetCardGroupsUrl,
   managerStudentsUrl,
@@ -9,6 +10,8 @@ import {
   managerStaffAdminUrl,
   getManagerSeoAdminUrl,
   getAllManagerGroupUrl,
+  // postManagerSavePhotoProfileUrl,
+  // postManagerSavePhotoProfileUrl,
 } from '../../../../utils/constants/url'
 
 export const managerGetProfile = createAsyncThunk(
@@ -46,7 +49,7 @@ export const managerGetAllGroups = createAsyncThunk(
           title: response[i].name,
         })
       }
-      // console.log(response)
+      // console.log(response))
       return { managerCardGroup }
     } catch (error) {
       return rejectWithValue(error?.message)
@@ -354,17 +357,17 @@ export const managerInstructorMentorProfile = createAsyncThunk(
         tableNames: [],
       }
       response.groupName.forEach((group) => {
+        instructorMentorProfile.lessonNames.push({
+          id: response.id,
+          name: response.fullName,
+          email: response.email,
+        })
         group.lessonTipResponses.forEach((lesson) => {
           instructorMentorProfile.tableNames.push({
             id: group.groupId,
             number: group.groupId,
             groups: group.groupName,
             lessons: lesson.lessonName,
-          })
-          instructorMentorProfile.lessonNames.push({
-            id: response.id,
-            name: response.fullName,
-            email: response.email,
           })
         })
       })
