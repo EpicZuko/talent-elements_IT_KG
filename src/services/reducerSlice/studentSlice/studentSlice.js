@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   getCoursesStudent,
+  getStudentHomeWork,
   getStudentLesson,
   getStudentMyGroup,
   getStudentMyProfile,
   getStudentNotification,
   getStudentProfile,
   getStudentProfileProgress,
+  postStudentFileUpload,
+  postStudentTextForm,
 } from './studentAction'
 
 const initialState = {
@@ -43,6 +46,15 @@ const initialState = {
     studentLesson: [],
     status: null,
   },
+  getStudentHomeWorkArray: [],
+  homeWorkGroupName: null,
+  getStudentHomeWorkStatus: null,
+  postStudentFileUploadStatus: null,
+  postStudentFileUploadOpen: false,
+  postStudentTextFormStatus: null,
+  postStudentTextFormSnackbar: {
+    open: false,
+  },
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
@@ -51,6 +63,14 @@ const studentSlice = createSlice({
     clearStudentNotificationProfile(state, action) {
       state.studentProfile.studentProfile.notificationNumberCount =
         action.payload.notificationNumberCount
+    },
+    snackBarPostTextForm(state, action) {
+      state.postStudentTextFormSnackbar.open = action.payload.open
+      state.postStudentTextFormStatus = action.payload.status
+    },
+    snackBarPostUploadFile(state, action) {
+      state.postStudentFileUploadOpen = action.payload.open
+      state.postStudentFileUploadStatus = action.payload.status
     },
   },
   extraReducers: (builder) => {
@@ -173,6 +193,46 @@ const studentSlice = createSlice({
       .addCase(getStudentLesson.rejected, (state) => {
         state.getStudentLessonsArray.status = 'error'
         state.getStudentLessonsArray.studentLesson = []
+      })
+      //
+      // get student home work
+      .addCase(getStudentHomeWork.pending, (state) => {
+        state.getStudentHomeWorkStatus = 'pendign'
+      })
+      .addCase(getStudentHomeWork.fulfilled, (state, action) => {
+        state.getStudentHomeWorkStatus = 'success'
+        state.getStudentHomeWorkArray = action.payload.studentHomeWorkArray
+        state.homeWorkGroupName = action.payload.studentHomeWork.groupName
+      })
+      .addCase(getStudentHomeWork.rejected, (state) => {
+        state.getStudentHomeWorkStatus = 'error'
+        state.getStudentHomeWorkArray = []
+      })
+      // post student file upload
+      .addCase(postStudentFileUpload.pending, (state) => {
+        state.postStudentFileUploadStatus = 'pending'
+        state.postStudentFileUploadOpen = false
+      })
+      .addCase(postStudentFileUpload.fulfilled, (state) => {
+        state.postStudentFileUploadStatus = 'success'
+        state.postStudentFileUploadOpen = true
+      })
+      .addCase(postStudentFileUpload.rejected, (state) => {
+        state.postStudentFileUploadStatus = 'error'
+        state.postStudentFileUploadOpen = true
+      })
+      // post Student Text Form
+      .addCase(postStudentTextForm.pending, (state) => {
+        state.postStudentTextFormStatus = 'pending'
+        state.postStudentTextFormSnackbar.open = false
+      })
+      .addCase(postStudentTextForm.fulfilled, (state) => {
+        state.postStudentTextFormStatus = 'success'
+        state.postStudentTextFormSnackbar.open = true
+      })
+      .addCase(postStudentTextForm.rejected, (state) => {
+        state.postStudentTextFormStatus = 'error'
+        state.postStudentTextFormSnackbar.open = true
       })
   },
 })
