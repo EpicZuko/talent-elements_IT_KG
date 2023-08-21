@@ -54,8 +54,8 @@ const Notifications = ({
                         ? studentData?.value
                         : `${
                             window.innerWidth < 415
-                              ? studentData?.value?.slice(0, 30)
-                              : studentData?.value?.slice(0, 100)
+                              ? studentData?.value
+                              : studentData?.value
                           }`
                     }`
                   : studentData?.value}
@@ -70,8 +70,8 @@ const Notifications = ({
                         ? studentData?.commentValue
                         : `${
                             window.innerWidth < 415
-                              ? studentData?.commentValue.slice(0, 30)
-                              : studentData?.commentValue.slice(0, 100)
+                              ? studentData?.commentValue
+                              : studentData?.commentValue
                           }`
                     }`
                   : studentData.commentValue}
@@ -83,7 +83,7 @@ const Notifications = ({
               <StudentNotificationsScore score={studentData.score}>
                 {studentData.score} балл
               </StudentNotificationsScore>
-              {studentData.value.length > 100 && (
+              {showStudentNotifications && (
                 <div>
                   {!showStudentNotifications ? (
                     <StudentNotificationsShowIcon
