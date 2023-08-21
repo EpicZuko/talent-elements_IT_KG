@@ -93,6 +93,9 @@ const DivSnackbar = styled.div`
     .css-yrx55x-MuiPaper-root-MuiAlert-root {
       width: 100% !important;
     }
+    .css-1czlyqi-MuiPaper-root-MuiAlert-root {
+      width: 100% !important;
+    }
   }
 `
 const SnackBarText1 = styled.span`
