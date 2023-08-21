@@ -4,6 +4,7 @@ import StaffAdminHomeWorkStudentId from '../components/staffAdmin/StaffAdminHome
 import StaffAdminInstructorMentor from '../components/staffAdmin/StaffAdminInstructorMentor'
 import StaffAdminInstructorMentorProfile from '../components/staffAdmin/StaffAdminInstructorMentorProfile'
 import StaffAdminLesson from '../components/staffAdmin/StaffAdminLesson'
+import StaffAdminProfile from '../components/staffAdmin/StaffAdminProfile'
 import StaffAdminStudents from '../components/staffAdmin/StaffAdminStudents'
 import StaffAdminLayouts from '../layouts/StaffAdminLayouts'
 import Error from './Error'
@@ -27,6 +28,7 @@ const StaffAdminRouts = () => {
           path='/lessons/submission/:submissionId/assigment/:assigmentId'
           element={<StaffAdminHomeWorkStudentId />}
         />
+        <Route path='/profileStaffAdmin' element={<StaffAdminProfile />} />
         <Route path='*' element={<Error />} />
       </Route>
       <Route path='*' element={<Error />} />

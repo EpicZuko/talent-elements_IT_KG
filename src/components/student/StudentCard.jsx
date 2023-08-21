@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { getCoursesStudent } from '../../services/reducerSlice/studentSlice/studentAction'
 import Card from '../UI/card/Card'
@@ -7,14 +8,25 @@ import Card from '../UI/card/Card'
 const StudentCard = () => {
   const state = useSelector((state) => state.student)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getCoursesStudent())
   }, [])
+
+  const navToGroupVideo = () => {
+    navigate('/lesson')
+  }
+
   return (
     <DivStudentCourses>
       <H5>Все уроки</H5>
-      <Card variant='User_doctrine' user={state?.getStudentCourses} />
+
+      <Card
+        variant='User_doctrine'
+        user={state?.getStudentCourses}
+        navToCurrentGroup={(element) => navToGroupVideo(element.id)}
+      />
     </DivStudentCourses>
   )
 }

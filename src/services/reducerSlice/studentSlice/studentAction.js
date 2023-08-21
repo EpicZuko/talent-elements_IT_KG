@@ -165,3 +165,21 @@ export const getStudentNotification = createAsyncThunk(
     }
   }
 )
+export const getStudentLesson = createAsyncThunk(
+  'studentSlice/getStudentLesson',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: 'api/v1/user/get/lessons/by/groupId',
+      })
+      const studentLesson = {
+        studentLesson: response.length > 0 ? [...response] : [],
+      }
+
+      return { studentLesson }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)

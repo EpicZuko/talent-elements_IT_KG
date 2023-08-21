@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   getCoursesStudent,
+  getStudentLesson,
   getStudentMyGroup,
   getStudentMyProfile,
   getStudentNotification,
@@ -38,6 +39,10 @@ const initialState = {
   getStudentNotificationStatus: null,
   getStaffAdminLesson: [],
   getStaffAdminLessonStatus: null,
+  getStudentLessonsArray: {
+    studentLesson: [],
+    status: null,
+  },
 }
 const studentSlice = createSlice({
   name: 'studentSlice',
@@ -154,6 +159,20 @@ const studentSlice = createSlice({
       .addCase(getStudentNotification.rejected, (state) => {
         state.getStudentProfileProgress.studentProfileStatus = 'error'
         state.getStudentNotification = []
+      })
+
+      // get student lessson
+      .addCase(getStudentLesson.pending, (state) => {
+        state.getStudentLessonsArray.status = 'pending'
+      })
+      .addCase(getStudentLesson.fulfilled, (state, action) => {
+        state.getStudentLessonsArray.status = 'success'
+        state.getStudentLessonsArray.studentLesson =
+          action.payload.studentLesson.studentLesson
+      })
+      .addCase(getStudentLesson.rejected, (state) => {
+        state.getStudentLessonsArray.status = 'error'
+        state.getStudentLessonsArray.studentLesson = []
       })
   },
 })

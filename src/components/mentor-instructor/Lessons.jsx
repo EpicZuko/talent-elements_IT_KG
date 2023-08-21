@@ -33,7 +33,6 @@ const MentorInstructorLessons = () => {
   const createLesson = () => {
     navigate('create-lesson')
   }
-
   const navigateToHomeWorkPage = (element) => {
     navigate(`homework/${element.username}/${element.studentId}`)
   }

@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import ApiFetch from '../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../api/ApiFetch'
 import {
   staffAdminGetAllGroups,
   staffAdmingetProfile,
   staffAdminfindallteachers,
+  getMyprofileStaffAdminUrl,
+  postStaffAdminProfile,
 } from '../../../utils/constants/url'
 
 export const getAllCouseCardStaffAdmin = createAsyncThunk(
@@ -247,6 +249,38 @@ export const getStaffAdminHomeWorkStudent = createAsyncThunk(
   }
 )
 
+export const profileStaffAdmin = createAsyncThunk(
+  'staffAdmin/profileStaffAdmin',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.file !== '') {
+        const formData = new FormData()
+        formData.append('photo', props.file)
+        await appFile({
+          url: postStaffAdminProfile,
+          body: formData,
+        })
+        dispatch(getProfileStaffAdmin())
+      }
+      const response = await ApiFetch({
+        url: getMyprofileStaffAdminUrl,
+      })
+      const StaffAdminProfileObject = {
+        groupProfile: [],
+        profileImg: response.photo,
+      }
+      StaffAdminProfileObject.groupProfile.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
+      return { StaffAdminProfileObject }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -278,6 +312,11 @@ const staffAdminSlice = createSlice({
       answer: [],
     },
     getStaffAdminHomeWorkStudentStatus: [],
+    profile: {
+      groupProfile: [],
+      profileImg: null,
+      getMyProfileArrayStatus: null,
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -373,7 +412,24 @@ const staffAdminSlice = createSlice({
       })
       .addCase(getStaffAdminHomeWorkStudent.rejected, (state) => {
         state.getStaffAdminHomeWorkStudentStatus = 'error'
-        state.getStaffAdminHomeWorkStudentArray = []
+        state.getStaffAdminHomeWorkStudent.homeWorkArray = []
+        state.getStaffAdminHomeWorkStudent.answer = []
+      })
+      // profile staff admin
+      .addCase(profileStaffAdmin.pending, (state) => {
+        state.profile.getMyProfileArrayStatus = 'pending'
+      })
+      .addCase(profileStaffAdmin.fulfilled, (state, action) => {
+        state.profile.getMyProfileArrayStatus = 'success'
+        state.profile.groupProfile =
+          action.payload.StaffAdminProfileObject.groupProfile
+
+        state.profile.profileImg =
+          action.payload.StaffAdminProfileObject.profileImg
+      })
+      .addCase(profileStaffAdmin.rejected, (state) => {
+        state.profile.getMyProfileArrayStatus = 'error'
+        state.profile.groupProfile = []
       })
   },
 })

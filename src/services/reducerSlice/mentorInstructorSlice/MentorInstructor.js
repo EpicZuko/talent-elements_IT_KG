@@ -54,19 +54,18 @@ export const getMentorStudents = createAsyncThunk(
   async (props, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `api/teachers/rating/group/by/id?groupId=${props.id}`,
+        url: `api/teachers/rating/group/by/id?groupId=${props.groupId}`,
       })
       const getStudents = []
       for (let i = 0; i < response.length; i++) {
-        const obj = {
+        getStudents.push({
           name: response[i].name,
           id: response[i].id,
           img: response[i].photo,
           score: response[i].score,
           raiting: response[i].rating,
           studentId: response[i].studentId,
-        }
-        getStudents.push(obj)
+        })
       }
       return { getStudents }
     } catch (error) {
