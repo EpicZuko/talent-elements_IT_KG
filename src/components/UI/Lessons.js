@@ -5,7 +5,13 @@ import Frame2 from '../../assets/icon/lessonIcons/Frame 141.svg'
 import Frame from '../../assets/icon/lessonIcons/video-square.svg'
 import Frame1 from '../../assets/icon/lessonIcons/Слой_x0020_1.svg'
 
-const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
+const Lessons = ({
+  variant,
+  element,
+  onClickStudent,
+  variantClick,
+  chageExplain,
+}) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
     setShow((prevState) => !prevState)
@@ -19,37 +25,55 @@ const Lessons = ({ variant, element, onClickStudent, variantClick }) => {
               <div>
                 <H1>{element.text}</H1>
               </div>
-              <Lesson>
-                <D>
-                  <Img src={Frame} alt='error' />
-                  <Title>{element.title}</Title>
-                </D>
-                <Date>{element.date}</Date>
-              </Lesson>
-              {element.text === '3 -  HTML-документ и ег границы' && (
-                <Lesson>
-                  <D3>
-                    <Img src={Frame2} alt='error' />
-                    <Title>{element.explain}</Title>
-                  </D3>
-
-                  <Data>{element.date}</Data>
-                </Lesson>
+              {element.urlLesson && (
+                <StyledTagA href={element.urlLesson}>
+                  <Lesson>
+                    <D>
+                      <Img src={Frame} alt='error' />
+                      <Title>{element.title}</Title>
+                    </D>
+                    <Date>{element.date}</Date>
+                  </Lesson>
+                </StyledTagA>
               )}
-              <Lesson>
-                <D1>
-                  <Img src={Frame1} alt='error' />
-                  <Title>{element.lesson}</Title>
-                </D1>
-                <Date>{element.date}</Date>
-                <DivScore>
-                  <Score score={element.score}>
-                    {element.score > 0
-                      ? `${element.score} ball `
-                      : `${element.score === '' ? 'ожидание' : element.score}`}
-                  </Score>
-                </DivScore>
-              </Lesson>
+              {element.urlPdf && (
+                <StyledTagA href={element.urlPdf}>
+                  <Lesson>
+                    <D3>
+                      <Img src={Frame2} alt='error' />
+                      <Title>{element.explain}</Title>
+                    </D3>
+
+                    <Data>{element.date}</Data>
+                  </Lesson>
+                </StyledTagA>
+              )}
+              {element.assignments &&
+                element?.assignments?.map((elem) => {
+                  const dateString = elem?.created
+                  const [year, month, day] = dateString.split('T')[0].split('-')
+                  const formattedDate = `${day}.${month}.${year}`
+                  return (
+                    <Lesson onClick={() => chageExplain(elem)} key={elem.id}>
+                      <D1>
+                        <Img src={Frame1} alt='error' />
+                        <Title>{elem?.title}</Title>
+                      </D1>
+                      <Date>{formattedDate}</Date>
+                      <DivScore>
+                        <Score score={elem?.countSubmission}>
+                          {elem?.countSubmission > 0
+                            ? `${elem?.countSubmission} ball `
+                            : `${
+                                elem?.countSubmission === ''
+                                  ? 'ожидание'
+                                  : elem?.countSubmission
+                              }`}
+                        </Score>
+                      </DivScore>
+                    </Lesson>
+                  )
+                })}
             </Container>
           )}
           {variant === 'Mentor' && (
