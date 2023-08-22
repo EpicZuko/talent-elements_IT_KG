@@ -25,7 +25,7 @@ const Header = ({
           <StyledH3>{name}</StyledH3>
         </Div>
         {variant !== 'Seo admin' && (
-          <div>
+          <>
             <StyledNotication
               onClick={onClickNotification}
               src={notificationIcon}
@@ -34,7 +34,7 @@ const Header = ({
             {notificationNumberCount > 0 && (
               <NotificationCount>{notificationNumberCount}</NotificationCount>
             )}
-          </div>
+          </>
         )}
         <BurgerMenu
           onClick={onBurgerMenuClick}

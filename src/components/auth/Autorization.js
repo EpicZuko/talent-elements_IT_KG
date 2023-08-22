@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import AurtorozationLogoAdptiv from '../../assets/icon/autorizationIcons/autorizationBgAdaptiv.svg'
 import ABgE from '../../assets/icon/autorizationIcons/autorizationBgELems.svg'
@@ -14,7 +13,7 @@ import Button from '../UI/Button'
 import Input from '../UI/Input'
 import CustomizedSnackbars from '../UI/Snackbar'
 
-const Autorization = ({ variant }) => {
+const Autorization = ({ variant, onClickVariant }) => {
   const [createAccount, setCreateAccount] = useState({
     emailOrUsername: '',
     password: '',
@@ -25,12 +24,11 @@ const Autorization = ({ variant }) => {
     email: '',
     password: '',
   })
-  const navigate = useNavigate()
   const loginHandler = () => {
-    navigate('/login')
+    onClickVariant()
   }
   const regHandler = () => {
-    navigate('/')
+    onClickVariant()
   }
   const dispatch = useDispatch()
   const { status, Isuccess } = useSelector((state) => state.login)
