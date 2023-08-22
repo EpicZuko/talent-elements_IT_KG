@@ -38,3 +38,5 @@ export const getSeoAdminProfileUrl = 'api/v1/seo/admin/see/profile'
 export const postSeoAdminProfileSavePhotoUrl = 'api/v1/seo/admin/save/photo'
 export const getMyprofileStaffAdminUrl = 'api/v1/staff/admin/see/profile'
 export const postStaffAdminProfile = 'api/v1/staff/admin/save/photo'
+export const studentNotificationManagerUrl =
+  'api/v1/user/student/notifications/pay'

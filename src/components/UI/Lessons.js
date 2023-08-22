@@ -75,7 +75,7 @@ const Lessons = ({
                     <Lesson onClick={() => chageExplain(elem)} key={elem.id}>
                       <D1>
                         <Img src={Frame1} alt='error' />
-                        <Title>{elem?.title} sm</Title>
+                        <Title>{elem?.title} </Title>
                       </D1>
                       <Date>{formattedDate}</Date>
                       {elem?.submissionResponseList?.map((item) => (

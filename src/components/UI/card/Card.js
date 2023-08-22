@@ -72,7 +72,11 @@ const Card = (props) => {
               )}
               {props.variant === 'User_doctrine' && (
                 <div>
-                  <ProgressCard percent={element.percent} />
+                  <ProgressCard
+                    date_start={element?.date_start}
+                    date_finish={element?.date_finish}
+                    date_count={element?.date_count}
+                  />
                 </div>
               )}
             </Styled>
