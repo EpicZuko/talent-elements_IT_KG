@@ -4,57 +4,61 @@ import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import {
   MentorInstructorAction,
-  postMentorLessons,
+  putMentorLessons,
 } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
 import CustomizedSnackbars from '../UI/Snackbar'
 
-const MentorCreateLesson = () => {
+export const MentorEditLesson = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [TitleInputValue, setTitleInputValue] = useState('')
   const [YoutubeInputValue, setYoutubeInputValue] = useState('')
   const [FileInputValue, setFileInputValue] = useState('')
   const [UrlInputValue, setUrlInputValue] = useState('')
-  const [format, setFormat] = useState(null)
-  const { groupId } = useParams()
+  const [format, setFormat] = useState('')
   const navToLesson = () => {
     navigate(-1)
   }
+  const { lessonId } = useParams()
   const state = SelectorFuncMentor()
   const TitleInputValueHandler = (event) => {
     setTitleInputValue(event.target.value)
   }
+
   const YoutubeInputValueHandler = (event) => {
     setYoutubeInputValue(event.target.value)
   }
   const FileInputValueHandler = (event) => {
     setFileInputValue(event.target.value)
   }
+
   const UrlinputValueHandler = (event) => {
     setUrlInputValue(event.target.value)
   }
-  const fileGroup = useRef(null)
-  const createLesson = () => {
+  const editLesson = () => {
+    const formData = new FormData()
+    formData.append('file', format)
     if (TitleInputValue.trim() !== '' && UrlInputValue.trim() !== '') {
       dispatch(
-        postMentorLessons({
+        putMentorLessons({
+          id: lessonId,
           title: TitleInputValue,
-          youtube: UrlInputValue,
-          titleYoutube: YoutubeInputValue,
-          file: format,
           titleFile: FileInputValue,
-          id: groupId,
+          titleYoutube: YoutubeInputValue,
+          youtube: UrlInputValue,
+          file: format,
+          lessonId,
         })
       )
-      setTitleInputValue('')
-      setUrlInputValue('')
-      setYoutubeInputValue('')
-      setFileInputValue('')
-      setFormat(null)
     }
+    setTitleInputValue('')
+    setUrlInputValue('')
+    setYoutubeInputValue('')
+    setFileInputValue('')
+    setFormat(null)
   }
   const closeSnackbar = () => {
     dispatch(
@@ -64,6 +68,7 @@ const MentorCreateLesson = () => {
       })
     )
   }
+  const fileGroup = useRef(null)
 
   const changeHandlerFile = (event) => {
     const fileGroup = event.target.files[0]
@@ -73,45 +78,43 @@ const MentorCreateLesson = () => {
     <div>
       <Location>
         <LocationText onClick={navToLesson}>Уроки /</LocationText>
-        <LocationText2>Ввести урок</LocationText2>
+        <LocationText2>Редактировать урок</LocationText2>
       </Location>
-      <Container>
-        <Div onSubmit={createLesson}>
-          <Input
-            onChange={TitleInputValueHandler}
-            variant='enter-lesson'
-            placeholder='Введите название'
-            value={TitleInputValue}
-          />
-          <Input
-            onChange={UrlinputValueHandler}
-            variant='enter-lesson'
-            placeholder='Вставте ссылку на видео с Youtube'
-            value={UrlInputValue}
-          />
-          <Input
-            onChange={YoutubeInputValueHandler}
-            variant='enter-lesson'
-            placeholder='Введите название для видео с Youtube'
-            value={YoutubeInputValue}
-          />
-          <InputFile
-            ref={fileGroup}
-            type='file'
-            accept='pdf/*,.pdf'
-            onChange={changeHandlerFile}
-          />
-          <Input
-            onChange={FileInputValueHandler}
-            variant='enter-lesson'
-            placeholder='Введите название для файла'
-            value={FileInputValue}
-          />
-        </Div>
-      </Container>
+      <Div onSubmit={editLesson}>
+        <Input
+          onChange={TitleInputValueHandler}
+          variant='enter-lesson'
+          placeholder='Введите название'
+          value={TitleInputValue}
+        />
+        <Input
+          onChange={UrlinputValueHandler}
+          variant='enter-lesson'
+          placeholder='Вставте ссылку на видео с Youtube'
+          value={UrlInputValue}
+        />
+        <Input
+          onChange={YoutubeInputValueHandler}
+          variant='enter-lesson'
+          placeholder='Введите название для видео с Youtube'
+          value={YoutubeInputValue}
+        />
+        <InputFile
+          ref={fileGroup}
+          type='file'
+          accept='pdf/*,.pdf'
+          onChange={changeHandlerFile}
+        />
+        <Input
+          onChange={FileInputValueHandler}
+          variant='enter-lesson'
+          placeholder='Введите название для файла'
+          value={FileInputValue}
+        />
+      </Div>
       <ButtonDiv>
-        <Button onClick={createLesson} variant='create group-page'>
-          Ввести урок
+        <Button onClick={editLesson} variant='create group-page'>
+          Отредактировать урок
         </Button>
       </ButtonDiv>
       <CustomizedSnackbars
@@ -124,7 +127,7 @@ const MentorCreateLesson = () => {
         }
         text={
           state.status === 'success'
-            ? 'Сабагыныз ийгиликтүү жүктөлдү'
+            ? 'Сабагыныз ийгиликтүү жаңыланды'
             : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
         }
         closeSnackbar={closeSnackbar}
@@ -133,8 +136,8 @@ const MentorCreateLesson = () => {
   )
 }
 
-export default MentorCreateLesson
 const Location = styled.div`
+  margin-bottom: 138px;
   display: flex;
   gap: 5px;
 `
@@ -167,33 +170,23 @@ const LocationText2 = styled.p`
     font-size: 16px;
   }
 `
-const Container = styled.div`
-  display: flex;
-  @media (max-width: 415px) {
-    display: block;
-  }
-`
 const Div = styled.form`
   display: flex;
   flex-direction: column;
   margin-left: 100px;
   gap: 50px;
-  margin-top: 180px;
   @media (max-width: 415px) {
     margin-left: 15px;
-    margin-top: 50px;
   }
 `
-
 const ButtonDiv = styled.div`
-  width: 1300px;
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-left: 550px;
+  margin-top: 200px;
   @media (max-width: 415px) {
     margin-left: 0;
-    margin-top: 200px;
-    width: 100%;
+    margin-top: 100px;
   }
 `
 const InputFile = styled.input`
