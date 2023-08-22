@@ -4,6 +4,7 @@ import ManagerGroup from '../components/manager/ManagerGroup'
 import ManagerInstructorMentor from '../components/manager/ManagerInstructorMentor'
 import ManagerInstructorMentorProfile from '../components/manager/ManagerInstructorMentorProfile'
 import ManagerNotifications from '../components/manager/ManagerNotifications'
+import ManagerProfile from '../components/manager/ManagerProfile'
 import ManagerSeoAdmin from '../components/manager/ManagerSeoAdmin'
 import ManagerStaffAdmin from '../components/manager/ManagerStaffAdmin'
 import ManagerStudentGroup from '../components/manager/ManagerStudentGroup'
@@ -35,6 +36,7 @@ const ManagerRoutes = () => {
         <Route path='/notification' element={<ManagerNotifications />} />
         <Route path='/staffAdmin' element={<ManagerStaffAdmin />} />
         <Route path='/seoAdmin' element={<ManagerSeoAdmin />} />
+        <Route path='/profile' element={<ManagerProfile />} />
         <Route path='*' element={<Error />} />
       </Route>
       <Route path='*' element={<Error />} />

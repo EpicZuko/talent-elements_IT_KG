@@ -46,12 +46,17 @@ const MainManagerLayout = () => {
   const navigetSeoAdmin = () => {
     navigate('/seoAdmin')
   }
+
+  const navigateManagerProfile = () => {
+    navigate('/profile')
+  }
   return (
     <div>
       <Header
         data={state?.managerProfile}
         onBurgerMenuClick={sideBarOpen}
         onClickNotification={handlerNotifications}
+        onClickProfile={navigateManagerProfile}
       />
       <Container>
         <ContainerDiv2>

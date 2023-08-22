@@ -19,6 +19,7 @@ import {
   managerAddToStudents,
   managerGetStudentGroups,
   managerDeleteStudentGroups,
+  managerProfileGet,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -90,6 +91,11 @@ const managerSlice = createSlice({
     deleteStudentGroupStatus: null,
     headerNotificationStatus: null,
     headerNotification: false,
+    managerProfileGet: {
+      profileImg: null,
+      profile: [],
+      status: null,
+    },
   },
 
   reducers: {
@@ -398,6 +404,17 @@ const managerSlice = createSlice({
       .addCase(managerDeleteStudentGroups.rejected, (state) => {
         state.deleteStudentGroupStatus = 'error'
         state.deleteStudentGroup = true
+      })
+      // get manager profile
+      .addCase(managerProfileGet.pending, (state) => {
+        state.managerProfileGet.status = 'pending'
+      })
+      .addCase(managerProfileGet.fulfilled, (state, action) => {
+        state.managerProfileGet.profileImg = action.payload.profile.profileImg
+        state.managerProfileGet.profile = action.payload.profile.profile
+      })
+      .addCase(managerProfileGet.rejected, (state) => {
+        state.managerProfileGet.status = 'error'
       })
   },
 })
