@@ -39,6 +39,7 @@ const initialState = {
     studentMyProfileStatus: null,
   },
   getStudentNotification: [],
+  managerMessage: [],
   getStudentNotificationStatus: null,
   getStaffAdminLesson: [],
   getStaffAdminLessonStatus: null,
@@ -175,6 +176,7 @@ const studentSlice = createSlice({
 
         state.getStudentNotification =
           action.payload.getStudentNotificationArray
+        state.managerMessage = action.payload.managerMessage
       })
       .addCase(getStudentNotification.rejected, (state) => {
         state.getStudentProfileProgress.studentProfileStatus = 'error'

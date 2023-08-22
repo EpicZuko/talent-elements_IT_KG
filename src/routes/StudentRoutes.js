@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import Autorization from '../components/auth/Autorization'
 import StudentCard from '../components/student/StudentCard'
 import StudentHomeWork from '../components/student/StudentHomeWork'
 import StudentLesson from '../components/student/StudentLesson'
@@ -24,6 +25,7 @@ const StudentRoutes = () => {
           <Route path='/profile' element={<StudentMyProfile />} />
           <Route path='/notification' element={<StuedentNotification />} />
           <Route path='/lesson/:assignmentId' element={<StudentHomeWork />} />
+          <Route path='login' element={<Autorization variant='Login' />} />
           <Route path='*' element={<Error />} />
         </Route>
         <Route path='*' element={<Error />} />

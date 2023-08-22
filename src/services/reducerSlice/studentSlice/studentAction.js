@@ -150,6 +150,7 @@ export const getStudentNotification = createAsyncThunk(
       })
       dispatch(getStudentProfile())
       const getStudentNotificationArray = []
+      const managerMessage = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
         getStudentNotificationArray.push({
@@ -160,7 +161,16 @@ export const getStudentNotification = createAsyncThunk(
           lesson: response[i].assigment,
         })
       }
-      return { getStudentNotificationArray }
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        managerMessage.push({
+          id: response[i].id,
+          name: 'менеджер',
+          commentValue: response[i].message,
+          days: 10,
+        })
+      }
+      return { getStudentNotificationArray, managerMessage }
     } catch (error) {
       return rejectWithValue(error)
     }

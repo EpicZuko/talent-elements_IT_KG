@@ -22,6 +22,9 @@ const StudentNotification = () => {
       ) : (
         <P>на данный момент у вас нет новых уведомлений</P>
       )}
+      {state?.managerMessage?.map((elem) => (
+        <Notifications variant='StudentNotifications' studentData={elem} />
+      ))}
     </StyledDivStudentNotification>
   )
 }
