@@ -13,7 +13,7 @@ export const Progress = (props) => {
           <ProgressBar>
             <Bar variant={props.variant} perc={props.percent} />
           </ProgressBar>
-          <H6>{((props.percent / 100) * 100).toFixed()}%</H6>
+          <H6>{((props.percent / 120) * 100).toFixed()}%</H6>
         </BarBlock>
       </div>
     </ProgressBlock>
@@ -76,7 +76,7 @@ const BarBlock = styled.div`
 `
 const Bar = styled.div`
   transition: 0.5s;
-  width: ${(props) => (props.perc / 100) * 100}%;
+  width: ${(props) => (props.perc / 120) * 100}%;
   max-width: 100%;
   height: 29px;
   border-radius: 20px;

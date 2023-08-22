@@ -627,3 +627,35 @@ export const managerAddToGroupMetorInstructors = createAsyncThunk(
     }
   }
 )
+
+export const managerProfileGet = createAsyncThunk(
+  'managerSlice/managerProfilePost',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.file !== '') {
+        const formData = new FormData()
+        formData.append('photo', props.file)
+        await appFile({
+          url: 'api/managers/save/photo',
+          body: formData,
+        })
+        dispatch(managerGetProfile())
+      }
+      const response = await ApiFetch({
+        url: 'api/managers/see/profile',
+      })
+      const profile = {
+        profileImg: response.photo,
+        profile: [],
+      }
+      profile.profile.push({
+        name: response.fullName,
+        email: response.email,
+      })
+      return { profile }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)

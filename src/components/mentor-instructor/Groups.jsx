@@ -18,6 +18,9 @@ const MentorInstrucorGroups = () => {
   const navToStudents = (element) => {
     navigate(`students/${element.title}/${element.id}`)
   }
+  const navToLessons = (element) => {
+    navigate(`lessons/${element.title}/${element.id}`)
+  }
   return (
     <div>
       <LocationText>Мои группы</LocationText>
@@ -26,6 +29,8 @@ const MentorInstrucorGroups = () => {
         user={state.getCardGroups}
         navToStudents={navToStudents}
         onClickStudents={navToStudents}
+        navToCurrentGroup={navToLessons}
+        onClickHandler={navToLessons}
       />
     </div>
   )

@@ -1,21 +1,37 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import Frame3 from '../../assets/icon/lessonIcons/_2759160148944.svg'
 import Frame2 from '../../assets/icon/lessonIcons/Frame 141.svg'
 import Frame from '../../assets/icon/lessonIcons/video-square.svg'
 import Frame1 from '../../assets/icon/lessonIcons/Слой_x0020_1.svg'
+import Button from './Button'
 
 const Lessons = ({
   variant,
   element,
-  onClickStudent,
   variantClick,
   chageExplain,
+  id,
+  getId,
+  deleteAssignment,
+  deleteLesson,
+  onEdit,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
     setShow((prevState) => !prevState)
   }
+  const [showDeletAssignmentButton, setShowDeleteAssignmentButton] =
+    useState(false)
+
+  const showAssignments = () => {
+    setShowDeleteAssignmentButton(true)
+  }
+  const hideDeleteAssignmentButton = () => {
+    setShowDeleteAssignmentButton(false)
+    getId(null)
+  }
+
   return (
     <div>
       <Container variant={variant}>
@@ -23,32 +39,34 @@ const Lessons = ({
           {variant === 'User' && (
             <Container>
               <div>
-                <H1>{element.text}</H1>
+                <H1>
+                  {element?.count} - {element?.text}
+                </H1>
               </div>
-              {element.urlLesson && (
-                <StyledTagA href={element.urlLesson}>
+              {element?.urlLesson && (
+                <StyledTagA href={element?.urlLesson}>
                   <Lesson>
                     <D>
                       <Img src={Frame} alt='error' />
-                      <Title>{element.title}</Title>
+                      <Title>{element?.title}</Title>
                     </D>
-                    <Date>{element.date}</Date>
+                    <Date>{element?.date}</Date>
                   </Lesson>
                 </StyledTagA>
               )}
-              {element.urlPdf && (
-                <StyledTagA href={element.urlPdf}>
+              {element?.urlPdf && (
+                <StyledTagA href={element?.urlPdf}>
                   <Lesson>
                     <D3>
                       <Img src={Frame2} alt='error' />
-                      <Title>{element.explain}</Title>
+                      <Title>{element?.explain}</Title>
                     </D3>
 
-                    <Data>{element.date}</Data>
+                    <Data>{element?.date}</Data>
                   </Lesson>
                 </StyledTagA>
               )}
-              {element.assignments &&
+              {element?.assignments &&
                 element?.assignments?.map((elem) => {
                   const dateString = elem?.created
                   const [year, month, day] = dateString.split('T')[0].split('-')
@@ -57,75 +75,121 @@ const Lessons = ({
                     <Lesson onClick={() => chageExplain(elem)} key={elem.id}>
                       <D1>
                         <Img src={Frame1} alt='error' />
-                        <Title>{elem?.title}</Title>
+                        <Title>{elem?.title} </Title>
                       </D1>
                       <Date>{formattedDate}</Date>
-                      <DivScore>
-                        <Score score={elem?.countSubmission}>
-                          {elem?.countSubmission > 0
-                            ? `${elem?.countSubmission} ball `
-                            : `${
-                                elem?.countSubmission === ''
-                                  ? 'ожидание'
-                                  : elem?.countSubmission
-                              }`}
-                        </Score>
-                      </DivScore>
+                      {elem?.submissionResponseList?.map((item) => (
+                        <DivScore>
+                          {item?.score !== 0 ? (
+                            <Score score={item?.score}>
+                              {`${item?.score} ball `}
+                            </Score>
+                          ) : null}
+                        </DivScore>
+                      ))}
                     </Lesson>
                   )
                 })}
             </Container>
           )}
           {variant === 'Mentor' && (
-            <MentorLesson>
-              <H1>{element.text}</H1>
-              <StyledTagA href={element.urlLesson}>
+            <MentorLesson onAuxClick={() => onEdit(element)}>
+              <LessonEditTools>
+                <ButtonsLessonBlock>
+                  <AddAssignmentButton>+</AddAssignmentButton>
+                  <DeleteButton>
+                    <Button
+                      onClick={() => deleteLesson(element)}
+                      variant='delete button'
+                    />
+                  </DeleteButton>
+                </ButtonsLessonBlock>
+                <H1>{element.text}</H1>
+              </LessonEditTools>
+              <StyledTagA href={element.videoUrl}>
                 <Lesson>
                   <D6>
                     <Img src={Frame} alt='error' />
                     <Title>{element.title}</Title>
                   </D6>
-
-                  <Data>{element.date}</Data>
                 </Lesson>
               </StyledTagA>
-
-              <LessonLeft>
-                <D7>
-                  <Img src={Frame3} alt='error' />
-                  <Title>{element.lesson}</Title>
-                </D7>
-                <div>
-                  <Data>{element.date}</Data>
-                </div>
-                <Left>
-                  <DivStudent>
-                    <P onClick={showStudents}>
-                      ответили{' '}
-                      {element.votedStudents < 5
-                        ? `${element.votedStudents} студента`
-                        : `${element.votedStudents} студентов`}
-                    </P>
-                  </DivStudent>
-                  {show && (
-                    <ShowedStudents>
-                      {element.students.map((el) => {
-                        return (
-                          <p
-                            onClick={() =>
-                              variantClick === 'disbled'
-                                ? ''
-                                : onClickStudent(el)
-                            }
-                          >
-                            {el.username}
-                          </p>
-                        )
-                      })}
-                    </ShowedStudents>
-                  )}
-                </Left>
-              </LessonLeft>
+              <StyledTagA href={element.urlPdf}>
+                <Lesson>
+                  <D7>
+                    <Img src={Frame3} alt='error' />
+                    <Title>{element.text}</Title>
+                  </D7>
+                </Lesson>
+              </StyledTagA>
+              {element?.assignments &&
+                element?.assignments?.map((el) => {
+                  const dateString = el?.created
+                  const [year, month, day] = dateString.split('T')[0].split('-')
+                  const formattedDate = `${day}.${month}.${year}`
+                  return (
+                    <Div onMouseLeave={hideDeleteAssignmentButton}>
+                      {showDeletAssignmentButton && (
+                        <DeleteAssignmentButton>
+                          {el.id === id && (
+                            <Button
+                              onClick={() => deleteAssignment(el)}
+                              variant='delete button'
+                            />
+                          )}
+                        </DeleteAssignmentButton>
+                      )}
+                      <LessonLeft>
+                        <D7
+                          onMouseOverCapture={() => getId(el.id)}
+                          onMouseOver={showAssignments}
+                        >
+                          <Img src={Frame1} alt='error' />
+                          <Title>{el.title}</Title>
+                        </D7>
+                        <Left>
+                          <DateBlock>
+                            <Data>{formattedDate}</Data>
+                            <DivStudent
+                              onClickCapture={() => getId(el.id)}
+                              onClick={
+                                variantClick === 'disbled' ? '' : showStudents
+                              }
+                            >
+                              <P>
+                                {(el?.submissionResponseList?.length === 1 &&
+                                  'ответил') ||
+                                  'ответили'}{' '}
+                                {el?.submissionResponseList?.length || 0}{' '}
+                                {(el?.submissionResponseList?.length < 5 &&
+                                  el?.submissionResponseList?.length > 1 &&
+                                  'студента') ||
+                                  (el?.submissionResponseList?.length < 1 &&
+                                    'студентов') ||
+                                  (el?.submissionResponseList?.length === 1 &&
+                                    'студент') ||
+                                  (el?.submissionResponseList?.length >= 5 &&
+                                    'студентов') ||
+                                  'студентов'}
+                              </P>
+                              {el?.submissionResponseList?.map((elem) => {
+                                return (
+                                  show && (
+                                    <ShowedStudents>
+                                      <p style={{ cursor: 'pointer' }}>
+                                        {el.id === id && elem.studentName}
+                                      </p>
+                                    </ShowedStudents>
+                                  )
+                                )
+                              })}
+                            </DivStudent>
+                          </DateBlock>
+                        </Left>
+                      </LessonLeft>
+                    </Div>
+                  )
+                })}
             </MentorLesson>
           )}
         </div>
@@ -198,10 +262,15 @@ const DivScore = styled.div`
     width: auto;
   }
 `
+const DateBlock = styled.div`
+  display: flex;
+  align-items: baseline;
+`
 const DivStudent = styled.div`
   display: flex;
   align-items: baseline;
   flex-direction: column;
+  cursor: pointer;
   @media screen and (max-width: 391px) {
     display: flex;
     justify-content: end;
@@ -211,7 +280,7 @@ const DivStudent = styled.div`
 const Lesson = styled.div`
   width: 1077px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   margin-left: 60px;
   margin-top: 5px;
   &:hover {
@@ -249,10 +318,6 @@ const P = styled.p`
   margin-left: 40px;
   display: flex;
   justify-content: end;
-  @media screen and (max-width: 391px) {
-    margin-left: 155px;
-    margin-top: -25px;
-  }
 `
 const Img = styled.img`
   width: 24.04px;
@@ -366,9 +431,37 @@ const ShowedStudents = styled.div`
   letter-spacing: 0em;
   text-align: left;
   @media screen and (max-width: 391px) {
-    margin-left: 155px;
+    /* margin-left: 155px; */
   }
 `
+const Div = styled.div``
 const StyledTagA = styled.a`
   text-decoration: none;
+`
+const LessonEditTools = styled.div`
+  display: flex;
+  align-items: center;
+`
+const AddAssignmentButton = styled.button`
+  background: rgba(19, 71, 100, 1);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 5px 8px 5px 8px;
+  cursor: pointer;
+`
+const ButtonsLessonBlock = styled.div`
+  position: relative;
+  top: 10px;
+`
+const DeleteButton = styled.div`
+  position: relative;
+  top: 15px;
+  height: 12px;
+`
+const DeleteAssignmentButton = styled.div`
+  position: relative;
+  top: 8px;
+  left: 20px;
+  height: 0px;
 `

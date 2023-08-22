@@ -19,7 +19,6 @@ import {
   managerAddToStudents,
   managerGetStudentGroups,
   managerDeleteStudentGroups,
-  managerAddToGroupMetorInstructors,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -91,8 +90,6 @@ const managerSlice = createSlice({
     deleteStudentGroupStatus: null,
     headerNotificationStatus: null,
     headerNotification: false,
-    mentorInstructoraddToGroupStatus: null,
-    mentorInstructoraddToGroup: false,
   },
 
   reducers: {
@@ -407,18 +404,6 @@ const managerSlice = createSlice({
       .addCase(managerDeleteStudentGroups.rejected, (state) => {
         state.deleteStudentGroupStatus = 'error'
         state.deleteStudentGroup = true
-      })
-      // managerMetorInstructor addto group
-      .addCase(managerAddToGroupMetorInstructors.pending, (state) => {
-        state.mentorInstructoraddToGroupStatus = 'pending'
-      })
-      .addCase(managerAddToGroupMetorInstructors.fulfilled, (state) => {
-        state.mentorInstructoraddToGroupStatus = 'success'
-        state.mentorInstructoraddToGroup = true
-      })
-      .addCase(managerAddToGroupMetorInstructors.rejected, (state) => {
-        state.mentorInstructoraddToGroupStatus = 'error'
-        state.mentorInstructoraddToGroup = true
       })
   },
 })

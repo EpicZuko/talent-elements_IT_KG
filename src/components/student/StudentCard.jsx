@@ -7,6 +7,7 @@ import Card from '../UI/card/Card'
 
 const StudentCard = () => {
   const state = useSelector((state) => state.student)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

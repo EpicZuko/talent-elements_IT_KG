@@ -7,6 +7,7 @@ import { Progress } from '../UI/ProgressBar'
 
 const StudentMyProfile = () => {
   const [fileImg, setFileImg] = useState('')
+  const [, setFormat] = useState('')
   const [deleteButton, setDeleteButton] = useState(false)
   const [editButton, setEditButton] = useState(false)
   const state = useSelector((state) => state.student)
@@ -23,6 +24,7 @@ const StudentMyProfile = () => {
           variant='User_admin'
           fileImg={state?.getStudentMyProfile?.profileImg}
           setFileImg={setFileImg}
+          setFormat={setFormat}
           deleteButtons={deleteButton}
           editButtons={editButton}
           setDeleteButton={setDeleteButton}

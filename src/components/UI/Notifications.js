@@ -46,9 +46,9 @@ const Notifications = ({
         <StudentNotificationsBlock>
           <StudentNotificationsLeftBlock>
             <StudentNotificationsName>
-              {studentData.name}:
+              {studentData.name !== 'менеджер' ? 'assigmentName:' : ''}
               <StudentNotificationsValue days={studentData?.days}>
-                {studentData.name !== 'Бухалтерия'
+                {studentData.name !== 'менеджер'
                   ? `${
                       showStudentNotifications
                         ? studentData?.value
@@ -62,9 +62,9 @@ const Notifications = ({
               </StudentNotificationsValue>
             </StudentNotificationsName>
             <StudentNotificationsName>
-              comment:
+              {studentData.name !== 'менеджер' ? 'comment:' : 'менеджер'}
               <StudentNotificationsValue days={studentData?.days}>
-                {studentData?.name !== 'Бухалтерия'
+                {studentData?.name !== 'менеджер'
                   ? `${
                       showStudentNotifications
                         ? studentData?.commentValue
@@ -78,7 +78,7 @@ const Notifications = ({
               </StudentNotificationsValue>
             </StudentNotificationsName>
           </StudentNotificationsLeftBlock>
-          {studentData.name !== 'Бухалтерия' && (
+          {studentData.name !== 'менеджер' && (
             <StudentNotificationsRightBlock>
               <StudentNotificationsScore score={studentData.score}>
                 {studentData.score} балл
@@ -171,7 +171,7 @@ const Notifications = ({
             <MentorNotificationsComment>
               {mentorData.type && (
                 <MentorNotificationsCommentType>
-                  {mentorData.type}
+                  <a href={mentorData.file}>{mentorData.type}</a>
                 </MentorNotificationsCommentType>
               )}
               <span>
@@ -535,6 +535,7 @@ const MentorNotificationIcon = styled.div`
     width: 155px;
   }
 `
+
 const MentorNotificationsShowIcon = styled.img`
   width: 13px;
   height: 13px;

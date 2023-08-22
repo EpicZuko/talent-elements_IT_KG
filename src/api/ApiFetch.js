@@ -46,7 +46,7 @@ export async function appFile(parameter) {
   const token = store.getState()
   const promise = new Promise((resolve, reject) => {
     fetch(InitialUrl + parameter.url, {
-      method: 'POST',
+      method: parameter.method || 'POST',
       headers: {
         Authorization: `Bearer ${token.login.login?.jwt}`,
       },
