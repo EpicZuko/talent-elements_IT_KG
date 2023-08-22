@@ -6,6 +6,7 @@ import { MentorEditLesson } from '../components/mentor-instructor/EditLesson'
 import MentorInstrucorGroups from '../components/mentor-instructor/Groups'
 import MentorInstructorLessons from '../components/mentor-instructor/Lessons'
 import { MentorInstructorNotifications } from '../components/mentor-instructor/Notifications'
+import { MentorInstrcutorProfile } from '../components/mentor-instructor/Profile'
 import { MentorInstructorStudents } from '../components/mentor-instructor/Students'
 import { MentorInstructorSubmissions } from '../components/mentor-instructor/Submissions'
 import { MentorInstructorLayout } from '../layouts/MentorInstructor'
@@ -19,6 +20,7 @@ const MentorInstrucorRoute = () => {
           path='/notifications'
           element={<MentorInstructorNotifications />}
         />
+        <Route path='/Profile' element={<MentorInstrcutorProfile />} />
         <Route
           path='/students/:groupName/:groupId'
           element={<MentorInstructorStudents />}

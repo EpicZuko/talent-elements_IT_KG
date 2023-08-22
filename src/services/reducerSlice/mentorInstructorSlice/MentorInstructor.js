@@ -37,24 +37,62 @@ export const getMentorGroups = createAsyncThunk(
     }
   }
 )
+export const postMentorAvatar = createAsyncThunk(
+  'mentor-instructor/postMentorAvatar',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    const formData = new FormData()
+    formData.append('photo', props.img)
+    try {
+      await appFile({
+        url: 'api/teachers/save/photo',
+        body: formData,
+      })
+      dispatch(getMentorHeaderProfile())
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 export const getMentorProfile = createAsyncThunk(
   'mentor-instructor/getMentorProfile',
-  async (_, { rejectWithValue }) => {
+  async (props, { rejectWithValue, dispatch }) => {
     try {
-      const response = await ApiFetch({
-        url: mentorProfileUrl,
+      const mentorProfile = await ApiFetch({
+        url: 'api/teachers/see/profile',
       })
       const getProfile = {
-        name: response.fullName,
-        avatarImg: response.photo,
-        notificationNumberCount: response.count,
+        id: mentorProfile.id,
+        name: mentorProfile.fullName,
+        avatarImg: mentorProfile.photo,
+        email: mentorProfile.email,
       }
+      dispatch(postMentorAvatar(props))
       return { getProfile }
     } catch (error) {
       return rejectWithValue(error.message)
     }
   }
 )
+export const getMentorHeaderProfile = createAsyncThunk(
+  'mentor-instructor/getMentorHeaderProfile',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: mentorProfileUrl,
+      })
+      const getHeaderProfile = {
+        name: response.fullName,
+        avatarImg: response.photo,
+        notificationNumberCount: response.count,
+      }
+      return { getHeaderProfile }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
 export const getMentorStudents = createAsyncThunk(
   'mentor-instructor/getStudents',
   async (props, { rejectWithValue }) => {
@@ -297,8 +335,10 @@ export const getStudentSubmissionById = createAsyncThunk(
 const initialState = {
   getCardGroupsStatus: null,
   getCardGroups: [],
-  getProfileStatus: null,
-  getProfile: {},
+  getMyProfile: {},
+  getMyProfileStatus: null,
+  getHeaderProfile: {},
+  getHeaderProfileStatus: null,
   getStudents: [],
   getStudentsStatus: null,
   getNotifications: [],
@@ -335,14 +375,24 @@ export const MentorInstructorSlice = createSlice({
     },
     // get mentor profile
     [getMentorProfile.pending]: (state) => {
-      state.getProfileStatus = 'pending'
+      state.getMyProfileStatus = 'pending'
     },
     [getMentorProfile.fulfilled]: (state, action) => {
-      state.getProfileStatus = 'success'
-      state.getProfile = action.payload?.getProfile
+      state.getMyProfileStatus = 'fullfilled'
+      state.getMyProfile = action.payload?.getProfile
     },
     [getMentorProfile.rejected]: (state) => {
-      state.getProfileStatus = 'error'
+      state.getMyProfileStatus = 'rejected'
+    },
+    [getMentorHeaderProfile.pending]: (state) => {
+      state.getHeaderProfileStatus = 'pending'
+    },
+    [getMentorHeaderProfile.fulfilled]: (state, action) => {
+      state.getHeaderProfileStatus = 'fullfilled'
+      state.getHeaderProfile = action.payload?.getHeaderProfile
+    },
+    [getMentorHeaderProfile.rejected]: (state) => {
+      state.getHeaderProfileStatus = 'rejected'
     },
     // get mentor students
     [getMentorStudents.pending]: (state) => {

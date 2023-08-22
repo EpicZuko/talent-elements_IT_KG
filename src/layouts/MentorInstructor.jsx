@@ -4,34 +4,38 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/UI/Header'
 import SiderBar from '../components/UI/SiderBar'
-import { getMentorProfile } from '../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import { getMentorHeaderProfile } from '../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../utils/helpers/useSelector/SelectorFunc'
 
 export const MentorInstructorLayout = () => {
   const dispatch = useDispatch()
-
-  const state = SelectorFuncMentor()
   const navigate = useNavigate()
 
+  const state = SelectorFuncMentor()
+
+  const navToGroup = () => {
+    navigate('/')
+  }
+  const navToNotifications = () => {
+    navigate('/notifications')
+  }
   const [show, setShow] = useState()
   const burger = () => {
     setShow((prev) => !prev)
   }
+  const onClickProfile = () => {
+    navigate('/Profile')
+  }
   useEffect(() => {
-    dispatch(getMentorProfile())
+    dispatch(getMentorHeaderProfile())
   }, [])
-  const navToNotifications = () => {
-    navigate('/notifications')
-  }
-  const navToGroups = () => {
-    navigate('/')
-  }
   return (
     <div>
       <Header
-        data={state?.getProfile}
-        onClickNotification={navToNotifications}
+        data={state?.getHeaderProfile || []}
         onBurgerMenuClick={burger}
+        onClickNotification={navToNotifications}
+        onClickProfile={onClickProfile}
       />
       <Block>
         <Container>
@@ -39,14 +43,14 @@ export const MentorInstructorLayout = () => {
         </Container>
         <SideBlock>
           <SiderBar
-            onClickMentorInstructorGroup={navToGroups}
             variant='mentor'
+            onClickMentorInstructorGroup={navToGroup}
           />
         </SideBlock>
         {show && (
           <SiderBar
-            onClickMentorInstructorGroup={navToGroups}
             variant='mentor'
+            onClickMentorInstructorGroup={navToGroup}
             onCloseBackdrop={burger}
           />
         )}
