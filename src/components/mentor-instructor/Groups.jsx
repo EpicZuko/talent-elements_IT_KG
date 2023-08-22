@@ -23,7 +23,7 @@ const MentorInstrucorGroups = () => {
   }
   return (
     <div>
-      <LocationText>Мои группы</LocationText>
+      <LocationText>Менин тайпаларым</LocationText>
       <Card
         variant='mentor_instructor'
         user={state.getCardGroups}

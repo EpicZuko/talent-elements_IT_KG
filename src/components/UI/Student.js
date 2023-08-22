@@ -29,114 +29,110 @@ const Student = ({
           <thead>
             <StyledHead variant={variant}>
               <StyledNamber>№</StyledNamber>
-              {variant === 'Students' && (
-                <StyledFullName>Фамиля имя</StyledFullName>
-              )}
+              {variant === 'Students' && <StyledFullName>Аты</StyledFullName>}
               {variant === 'Instructors' && (
-                <StyledFullName>Фамиля имя</StyledFullName>
+                <StyledFullName>Почтасы</StyledFullName>
               )}
               {variant === 'mentor/instructors' && (
-                <StyledFullName>Фамиля имя</StyledFullName>
+                <StyledFullName>Аты</StyledFullName>
               )}
               {variant === 'Staff_admin' && (
-                <StyledFullName>Фамиля имя</StyledFullName>
+                <StyledFullName>Аты</StyledFullName>
               )}
               {variant === 'Manager_staff-admin' && (
-                <StyledFullName>Фамиля имя</StyledFullName>
+                <StyledFullName>Аты</StyledFullName>
               )}
               {variant === 'User_Group' && (
-                <StyledFullName variant={variant}>Фамиля имя</StyledFullName>
+                <StyledFullName variant={variant}>Аты</StyledFullName>
               )}
               {variant === 'Manager_Group' && (
-                <StyledFullName variant={variant}>Фамиля имя</StyledFullName>
+                <StyledFullName variant={variant}>Аты</StyledFullName>
               )}
               {variant === 'Seo_admin_managers' && (
-                <StyledFullName variant={variant}>Фамиля имя</StyledFullName>
+                <StyledFullName variant={variant}>Аты</StyledFullName>
               )}
               {variant === 'Seo_admin_group' && (
-                <StyledFullName variant={variant}>Фамиля имя</StyledFullName>
+                <StyledFullName variant={variant}>Аты</StyledFullName>
               )}
               {variant === 'Instructors' && (
-                <StyledDoctrine>Уроки</StyledDoctrine>
+                <StyledDoctrine>Сабактар</StyledDoctrine>
               )}
               {variant === 'Staff_admin' && (
-                <StyledDoctrine variant={variant}>Уроки</StyledDoctrine>
+                <StyledDoctrine variant={variant}>Сабактар</StyledDoctrine>
               )}
               {variant === 'User_Group' && (
-                <StyledScore variant={variant}>Балл</StyledScore>
+                <StyledScore variant={variant}>Упай</StyledScore>
               )}
               {variant === 'mentor/instructors' && (
-                <StyledScore variant={variant}>Балл</StyledScore>
+                <StyledScore variant={variant}>Упай</StyledScore>
               )}
-              {variant === 'Students' && <StyledGrup>Группа</StyledGrup>}
+              {variant === 'Students' && <StyledGrup>Тайпасы</StyledGrup>}
               {variant === 'Instructors' && (
                 <StyledDateofregistration>
-                  Дата регистрация
+                  Катталган күнү
                 </StyledDateofregistration>
               )}
               {variant === 'Manager_Group' && (
                 <StyledDateofregistration variant={variant}>
-                  Дата регистрация
+                  Катталган күнү
                 </StyledDateofregistration>
               )}
               {variant === 'Students' && (
                 <StyledDateofregistration>
-                  Дата регистрация
+                  Катталган күнү
                 </StyledDateofregistration>
               )}
               {variant === 'Staff_admin' && (
                 <>
                   <StyledDateofregistrationa variant={variant}>
-                    Дата регистрация
+                    Катталган күнү
                   </StyledDateofregistrationa>
                   <StyledDateofregistrations variant={variant}>
-                    Дата рег.
+                    Катталган күнү
                   </StyledDateofregistrations>
                 </>
               )}
               {variant === 'Manager_staff-admin' && (
                 <StyledDateofregistration variant={variant}>
-                  Дата регистрация
+                  Катталган күнү
                 </StyledDateofregistration>
               )}
               {variant === 'Seo_admin_managers' && (
                 <>
                   <StyledDateofregistrationa variant={variant}>
-                    Дата регистрация
+                    Катталган күнү
                   </StyledDateofregistrationa>
                   <StyledDateofregistrations variant={variant}>
-                    Дата рег.
+                    Катталган күнү
                   </StyledDateofregistrations>
                 </>
               )}
               {variant === 'Seo_admin_group' && (
                 <>
                   <StyledDateofregistrationa variant={variant}>
-                    Дата регистрация
+                    Катталган күнү
                   </StyledDateofregistrationa>
                   <StyledDateofregistrations variant={variant}>
-                    Дата рег.
+                    Катталган күнү
                   </StyledDateofregistrations>
                 </>
               )}
-              {variant === 'Students' && (
-                <StyledPayments>Оплата</StyledPayments>
-              )}
+              {variant === 'Students' && <StyledPayments>Төлөм</StyledPayments>}
               {variant === 'Instructors' && (
-                <StyledAction>Действия</StyledAction>
+                <StyledAction>Аракеттер</StyledAction>
               )}
               {variant === 'Manager_staff-admin' && (
-                <StyledAction>Действия</StyledAction>
+                <StyledAction>Аракеттер</StyledAction>
               )}
-              {variant === 'Students' && <StyledAction>Действия</StyledAction>}
+              {variant === 'Students' && <StyledAction>Аракеттер</StyledAction>}
               {variant === 'Manager_Group' && (
                 <div>
-                  <StyledAction>Действия</StyledAction>
+                  <StyledAction>Аракеттер</StyledAction>
                 </div>
               )}
               {variant === 'mentor/instructors' && (
                 <span>
-                  <StyledAction>Действия</StyledAction>
+                  <StyledAction>Аракеттер</StyledAction>
                 </span>
               )}
             </StyledHead>
@@ -350,10 +346,15 @@ const Student = ({
                 )}
                 {variant === 'Staff_admin' && (
                   <StyledDoctrines variant={variant}>
-                    <StyledStaffGroup>{element.group}/</StyledStaffGroup>
-                    <StyledStaffdoctrine>
-                      {element.doctrine}
-                    </StyledStaffdoctrine>
+                    {element.group}
+                    {element.doctrine.length > 0 && <Ps>/</Ps>}
+                    {element.doctrine.length > 0 && (
+                      <StyleddoctrineDiv doctrine={element.doctrine}>
+                        {element.doctrine.map((doctrine) => (
+                          <StyledStaffdoctrine>{doctrine}</StyledStaffdoctrine>
+                        ))}
+                      </StyleddoctrineDiv>
+                    )}
                   </StyledDoctrines>
                 )}
                 {variant === 'Students' && (
@@ -414,7 +415,7 @@ const Student = ({
                         onClick={() => onClickStudentPaidButton(element)}
                         variant='not paid'
                       >
-                        <P>Не оплатил</P>
+                        <P>Төлөнбөдү</P>
                       </Button>
                     )}
                     {element.payment === false && (
@@ -422,7 +423,7 @@ const Student = ({
                         onClick={() => onClickStudentNotPaidButton(element)}
                         variant='paid'
                       >
-                        <P>Оплатил</P>
+                        <P>Төлөндү</P>
                       </Button>
                     )}
                   </td>
@@ -434,7 +435,7 @@ const Student = ({
                         onClick={() => onClickStudentBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>Блокировать</P>
+                        <P>Кулпулоо</P>
                       </Button>
                     )}
                     {element.action === true && (
@@ -442,7 +443,7 @@ const Student = ({
                         onClick={() => onClickStudentUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>Разблокировать</P>
+                        <P>Ачуу</P>
                       </Button>
                     )}
                   </StyledActions>
@@ -454,7 +455,7 @@ const Student = ({
                         onClick={() => onClickInstructorBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>Блокировать</P>
+                        <P>Кулпулоо</P>
                       </Button>
                     )}
                     {element.action === true && (
@@ -462,21 +463,19 @@ const Student = ({
                         onClick={() => onClickInstructorUnlockButton(element)}
                         variant='ActionUnlock-Button'
                       >
-                        <P>Разблокировать</P>
+                        <P>Ачуу</P>
                       </Button>
                     )}
                   </StyledActions>
                 )}
                 {variant === 'Manager_staff-admin' && (
                   <StyledActions>
-                    {element.action === false && (
-                      <Button
-                        onClick={() => onClickManagerBlockButton(element)}
-                        variant='ActionBlock-Button'
-                      >
-                        <P>УДАЛИТЬ</P>
-                      </Button>
-                    )}
+                    <Button
+                      onClick={() => onClickManagerBlockButton(element)}
+                      variant='ActionBlock-Button'
+                    >
+                      <P>Өчүрүү</P>
+                    </Button>
                   </StyledActions>
                 )}
                 {variant === 'Manager_Group' && (
@@ -771,14 +770,8 @@ const StyledDoctrines = styled.td`
   font-family: Zen Kaku Gothic New;
   font-weight: 500;
   color: rgba(55, 55, 55, 1);
-`
-const StyledStaffGroup = styled.p`
-  font-size: 16px;
-  font-family: Zen Kaku Gothic New;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  color: rgba(55, 55, 55, 1);
+  display: flex;
+  align-items: center;
 `
 const StyledStaffdoctrine = styled.p`
   font-size: 16px;
@@ -800,6 +793,7 @@ const Ps = styled.p`
 const StyledDoctrinesP = styled.p`
   display: block;
   font-size: 14px;
+  margin-top: 3px;
   margin-left: 4px;
   font-family: Zen Kaku Gothic New;
   font-weight: 400;

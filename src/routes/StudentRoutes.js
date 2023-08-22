@@ -29,7 +29,7 @@ const StudentRoutes = () => {
             <Route path='/notification' element={<StuedentNotification />} />
             <Route path='/lesson/:assignmentId' element={<StudentHomeWork />} />
             <Route path='login' element={<Autorization variant='Login' />} />
-            <Route path='*' element={<Error />} />
+            <Route path='*' element={<Error variant='page' />} />
           </Route>
           <Route path='*' element={<Error />} />
         </Routes>

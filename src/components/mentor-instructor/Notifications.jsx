@@ -58,7 +58,7 @@ export const MentorInstructorNotifications = () => {
     <div>
       <Location>
         <ArrowLeft onClick={navToPrevPage} src={arrowLeftIcon} alt='none' />
-        <LocationText>Уведомление</LocationText>
+        <LocationText>Билдирүү</LocationText>
       </Location>
       {state.getNotifications.map((el) => {
         return (
@@ -89,7 +89,7 @@ export const MentorInstructorNotifications = () => {
         text={
           state.status === 'success'
             ? 'Билдирүү ийгиликтүү жөнөтүлдү'
-            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+            : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
       />

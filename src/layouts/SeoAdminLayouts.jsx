@@ -38,6 +38,7 @@ const SeoAdminLayouts = () => {
   return (
     <div>
       <Header
+        variant='Seo admin'
         data={state?.profileSeoAdmin}
         onBurgerMenuClick={OpenSideBarHandler}
         onClickProfile={clickSeoAdminProfile}

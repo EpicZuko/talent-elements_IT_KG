@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentsId } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
-import { Location } from '../UI/Location'
 import Student from '../UI/Student'
 
 const SeoAdminStudent = () => {
@@ -17,13 +16,16 @@ const SeoAdminStudent = () => {
   const studentIdOrProfile = (studentId) => {
     navigate(`/studentProfile/${studentId}`)
   }
+
+  const goBackHandler = () => {
+    navigate(-1)
+  }
+
   return (
     <div>
       <DivContianer>
         <DivStyle>
-          <AllGroup>
-            Все группы / <Location />
-          </AllGroup>
+          <AllGroup onClick={goBackHandler}>Тайпалар</AllGroup>
         </DivStyle>
         <DivStudent>
           <Student

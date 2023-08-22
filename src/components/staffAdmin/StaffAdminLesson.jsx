@@ -31,7 +31,7 @@ const StaffAdminLesson = () => {
   return (
     <DivLesson>
       <H6 onClick={goBackGroupStaffAdmin}>
-        {state?.getStaffAdminLesson?.groupName} /<H5> Уроки</H5>
+        {state?.getStaffAdminLesson?.groupName} /<H5>Сабактар</H5>
       </H6>
       <DivStyled>
         {state.getStaffAdminLesson.staffAdminLesson.length > 0 ? (
@@ -44,7 +44,7 @@ const StaffAdminLesson = () => {
             />
           ))
         ) : (
-          <H3>У вас еще нет уроков</H3>
+          <H3>Азырынча бул жер бош</H3>
         )}
       </DivStyled>
     </DivLesson>

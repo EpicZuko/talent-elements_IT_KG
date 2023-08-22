@@ -100,26 +100,26 @@ const ManagerStudnets = () => {
         closeSnackbar={snackbarCloseAddGroup}
         message={
           state.getAllGroup.statusAddGroups === 'success'
-            ? 'Отлично! Пользователь теперь является участником группы.'
-            : 'Произошла ошибка при добавлении пользователя в группу. Пожалуйста, проверьте данные и попробуйте снова.'
+            ? 'Эң сонун! Бул колдонуучу эми тайпанын мүчөсү.👍🏻 '
+            : 'Катышуучуну тайпага каттоодо катачылык кетти! Сураныч маалыматты тууралап кайрадан кошуңуз. 😔'
         }
         text=' '
       />
       {groupState && (
         <Modall variant='' onClose={closeModalGroup}>
           <DivGroupStudentStyled>
-            <H4> Добавить группу</H4>
+            <H4>Тайпага кошуу</H4>
             <BasikSelect
               variant='standard'
               options={state?.getAllGroup?.group}
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option.groupId}
-              label='Группа'
+              label='Тайпа'
               onChange={(event) => setGroupId(event)}
             />
             <h5>{groupStudentName.name}</h5>
             <Button variant='RequestAllow-Buttons' onClick={clickAddGroupId}>
-              Добавить
+              Кошуу
             </Button>
           </DivGroupStudentStyled>
         </Modall>
@@ -127,13 +127,13 @@ const ManagerStudnets = () => {
       <ContainerDiv>
         <ContainerDiv2>
           <div>
-            <H5>Студенты</H5>
+            <H5>Студенттер</H5>
           </div>
           <div>
             <Input
               onChange={searchChangeValue}
               variant='add Search'
-              placeholder='Поиск...'
+              placeholder='Издөө...'
             />
           </div>
         </ContainerDiv2>
@@ -158,7 +158,7 @@ const ManagerStudnets = () => {
               onClickStudentGroupButton={(element) => addGroupChange(element)}
             />
           ) : (
-            <h3>Такого студента нет</h3>
+            <h3>Азырынча бул жер бош</h3>
           )}
         </div>
       </ContainerDiv>

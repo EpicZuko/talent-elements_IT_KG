@@ -1,4 +1,10 @@
+import RoleRoutes from './routes/RoleRoutes'
+
 const App = () => {
-  return <div />
+  return (
+    <div>
+      <RoleRoutes />
+    </div>
+  )
 }
 export default App

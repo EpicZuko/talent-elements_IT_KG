@@ -6,6 +6,7 @@ import menuBurgerIcon from '../../assets/icon/headericon/menu.svg'
 import notificationIcon from '../../assets/icon/headericon/notification.svg'
 
 const Header = ({
+  variant,
   data,
   onClickProfile,
   onClickNotification,
@@ -19,17 +20,21 @@ const Header = ({
         <StyledH1>IT.KG</StyledH1>
       </LeftBlock>
       <RightBLock>
-        <Div onClick={onClickProfile}>
+        <Div onClick={onClickProfile} variant={variant}>
           <Avatar src={avatarImg} alt='error' />
           <StyledH3>{name}</StyledH3>
         </Div>
-        <StyledNotication
-          onClick={onClickNotification}
-          src={notificationIcon}
-          alt='error'
-        />
-        {notificationNumberCount > 0 && (
-          <NotificationCount>{notificationNumberCount}</NotificationCount>
+        {variant !== 'Seo admin' && (
+          <>
+            <StyledNotication
+              onClick={onClickNotification}
+              src={notificationIcon}
+              alt='error'
+            />
+            {notificationNumberCount > 0 && (
+              <NotificationCount>{notificationNumberCount}</NotificationCount>
+            )}
+          </>
         )}
         <BurgerMenu
           onClick={onBurgerMenuClick}
@@ -74,6 +79,7 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-right: ${({ variant }) => variant === 'Seo admin' && '100px'};
   @media (max-width: 390px) {
     display: none;
   }

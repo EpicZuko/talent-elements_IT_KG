@@ -24,7 +24,7 @@ const StudentLesson = () => {
 
   return (
     <DivLesson>
-      <H6 onClick={goBackGroup}>Все уроки</H6>
+      <H6 onClick={goBackGroup}>Сабактар</H6>
       {state?.getStudentLessonsArray?.studentLesson.length > 0 ? (
         state?.getStudentLessonsArray?.studentLesson.map((item) => (
           <Lessons
@@ -44,7 +44,7 @@ const StudentLesson = () => {
           />
         ))
       ) : (
-        <H4>У вас еще нет уроков</H4>
+        <H4>Бул жер азырынча бош</H4>
       )}
     </DivLesson>
   )

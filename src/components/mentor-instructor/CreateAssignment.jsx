@@ -110,29 +110,29 @@ export const MentorIsntructorCreateAssignment = () => {
           <Input
             onChange={AssignmentTitleHandler}
             variant='enter-lesson'
-            placeholder='Введите название для задания'
+            placeholder='Тапшырманын атын жазыңыз'
             value={assignmetValues.title}
           />
 
           <Input
             onChange={AssignmentDescriptionHandler}
             variant='enter-lesson'
-            placeholder='Введите комментарии к заданию'
+            placeholder='Тапшырмага пикир жазыңыз'
             value={assignmetValues.description}
           />
           <Input
             onChange={AssignmentDaysHandler}
             variant='enter-lesson'
-            placeholder='Срок в днях'
+            placeholder='Мөөнөтү'
             value={assignmetValues.days}
           />
           <Input
             onChange={AssignmentScoreHandler}
             variant='enter-lesson'
-            placeholder='Баллы'
+            placeholder='Упай'
             value={assignmetValues.score}
           />
-          <Button variant='create group-page'>Добавить задание</Button>
+          <Button variant='create group-page'>Тапшырманы кошуу</Button>
         </AssignmentImageSetBlock>
       </AssignmentBlock>
       <CustomizedSnackbars
@@ -146,7 +146,7 @@ export const MentorIsntructorCreateAssignment = () => {
         text={
           state.status === 'success'
             ? 'Тапшырма ийгиликтүү жүктөлдү '
-            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+            : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
       />

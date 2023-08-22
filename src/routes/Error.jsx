@@ -3,25 +3,25 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Error = () => {
+const Error = (props) => {
   return (
-    <CartError>
+    <CartError variant={props.variant}>
       <section className='page_404'>
-        <h1>Error!</h1>
+        <h1>Токто!!!</h1>
         <img
           src='https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif'
           alt='gif'
         />
         <div className='contant_box_404'>
-          <h4>
-            We are sorry, the page you requested could not be found &#10006;
-          </h4>
+          <h4>Кечиресиз, сиз сураган баракча табылган жок &#10006;</h4>
           <Link
             to='/'
             href='https://instagram.com/abol.codes'
             className='link_404'
           >
-            Go to Home
+            {props.variant === 'page'
+              ? 'Мындай баракча жок'
+              : 'Кайрадан катталыныз'}
           </Link>
         </div>
       </section>
@@ -33,7 +33,7 @@ const CartError = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1240px;
+  width: ${(props) => (props.variant === 'page' ? '1240px' : '100%')};
   @media (max-width: 391px) {
     width: 360px;
   }

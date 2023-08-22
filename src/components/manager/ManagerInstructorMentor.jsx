@@ -91,11 +91,11 @@ const ManagerInstructorMentor = () => {
       <CustomizedSnackbars
         message={
           managerInstructorMentorSnackBar.managerStatusBlock === 'success'
-            ? 'Поздравляем!  Данный  пользователь  успешно  заблокировано! '
+            ? 'Куттуктайбыз! Белгиленген колдонуучу ийгиликтүү кулпуланды 👍🏻'
             : managerInstructorMentorSnackBar.managerStatusUnBlock === 'success'
-            ? 'Поздравляем!  Данный  пользователь  успешно  разблокировано! '
+            ? 'Куттуктайбыз! Белгиленген колдонуучу ийгиликтүү кулпудан чыгарылды 👍🏻'
             : managerInstructorMentorSnackBar.status === 'error'
-            ? 'Извините ! Произошло ошибка при запросе! Повторите попытку'
+            ? 'Кечиресиз! Иш аракетте ката чыкты! Башынан кайталаңыз 😔'
             : ''
         }
         variant={managerInstructorMentorSnackBar.status}
@@ -103,10 +103,10 @@ const ManagerInstructorMentor = () => {
         closeSnackbar={closeSnackBarHandler}
       />
       <DivInput>
-        <H6>Инструкторы, Мен.</H6>
+        <H6>Инструкторлор жана Менторлор</H6>
         <Input
           variant='add Search'
-          placeholder='Поиск...'
+          placeholder='Издөө...'
           onChange={searchChangeValue}
           value={search}
         />
@@ -129,18 +129,18 @@ const ManagerInstructorMentor = () => {
           onClickInstructorGroupButton={(element) => addGroupChange(element)}
         />
       ) : (
-        <H3>У вас еще нет Менторо и Инструкторов</H3>
+        <H3>Азырынча бул жер бош</H3>
       )}
       {groupState && (
         <Modall variant='' onClose={closeModalGroup}>
           <DivGroupStudentStyled>
-            <H4> Добавить группу</H4>
+            <H4>Тайпа кошуу</H4>
             <BasikSelect
               variant='standard'
               options={SelectRole}
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option.option}
-              label='Role'
+              label='Кызматы'
               onChange={(event) => setSelectRole(event)}
             />
             <BasikSelect
@@ -148,12 +148,12 @@ const ManagerInstructorMentor = () => {
               options={getAllGroup?.group}
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option.groupId}
-              label='Группа'
+              label='Тайпа'
               onChange={(event) => setGroupId(event)}
             />
             <h5>{groupStudentName.name}</h5>
             <Button variant='RequestAllow-Buttons' onClick={clickAddGroupId}>
-              Добавить
+              Кошуу
             </Button>
           </DivGroupStudentStyled>
         </Modall>

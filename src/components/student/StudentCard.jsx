@@ -21,7 +21,7 @@ const StudentCard = () => {
 
   return (
     <DivStudentCourses>
-      <H5>Все уроки</H5>
+      <H5>Сабактар</H5>
 
       <Card
         variant='User_doctrine'

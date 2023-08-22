@@ -19,11 +19,14 @@ const SeoAdminGroup = () => {
   return (
     <div>
       <Container2>
-        <StyledH5>Все группы</StyledH5>
+        <StyledH5>Тайпалар</StyledH5>
         <Card
           variant='Manager_group'
+          variantClick='click'
           user={state?.card}
           navToStudents={(element) => groupIdOrStudents(element)}
+          navToCurrentGroup={() => ''}
+          variantDelete=''
         />
       </Container2>
     </div>
