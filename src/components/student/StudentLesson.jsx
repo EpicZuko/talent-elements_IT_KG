@@ -7,7 +7,7 @@ import Lessons from '../UI/Lessons'
 
 const StudentLesson = () => {
   const state = useSelector((state) => state.student)
-  console.log(state.getStudentLessonsArray.studentLesson)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {

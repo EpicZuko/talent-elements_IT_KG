@@ -211,7 +211,7 @@ const DivStudent = styled.div`
 const Lesson = styled.div`
   width: 1077px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   margin-left: 60px;
   margin-top: 5px;
   &:hover {
