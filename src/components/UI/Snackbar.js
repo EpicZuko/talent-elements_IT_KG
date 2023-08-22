@@ -70,17 +70,10 @@ export default function CustomizedSnackbars({
                 }
                 alt='none'
               />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '1000px',
-                }}
-              >
+              <SnackbarDiv>
                 <SnackBarText1>{message}</SnackBarText1>
                 <img onClick={closeSnackbar} src={closeAlertIcon} alt='none' />
-              </div>
+              </SnackbarDiv>
             </SnackTopBlock>
             <SnackBarText2>{text}</SnackBarText2>
           </Alert>
@@ -122,4 +115,13 @@ const SnackTopBlock = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+`
+const SnackbarDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1000px;
+  @media (max-width: 415px) {
+    width: 300px;
+  }
 `
