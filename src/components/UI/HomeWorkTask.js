@@ -152,6 +152,7 @@ const StyledDivN3 = styled.div`
   @media screen and (max-width: 391px) {
     width: 300px;
     height: auto;
+    margin-bottom: 0;
   }
 `
 const StyledDivN4 = styled.div`
