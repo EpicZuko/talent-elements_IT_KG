@@ -7,6 +7,7 @@ import MentorInstrucorGroups from '../components/mentor-instructor/Groups'
 import MentorInstructorLessons from '../components/mentor-instructor/Lessons'
 import { MentorInstructorNotifications } from '../components/mentor-instructor/Notifications'
 import { MentorInstructorStudents } from '../components/mentor-instructor/Students'
+import { MentorInstructorSubmissions } from '../components/mentor-instructor/Submissions'
 import { MentorInstructorLayout } from '../layouts/MentorInstructor'
 
 const MentorInstrucorRoute = () => {
@@ -14,6 +15,10 @@ const MentorInstrucorRoute = () => {
     <Routes>
       <Route path='' element={<MentorInstructorLayout />}>
         <Route path='/' element={<MentorInstrucorGroups />} />
+        <Route
+          path='/notifications'
+          element={<MentorInstructorNotifications />}
+        />
         <Route
           path='/students/:groupName/:groupId'
           element={<MentorInstructorStudents />}
@@ -35,8 +40,8 @@ const MentorInstrucorRoute = () => {
           element={<MentorIsntructorCreateAssignment />}
         />
         <Route
-          path='/notifications'
-          element={<MentorInstructorNotifications />}
+          path='/lessons/:groupName/:groupId/homework/:studentName/:studentId'
+          element={<MentorInstructorSubmissions />}
         />
       </Route>
     </Routes>

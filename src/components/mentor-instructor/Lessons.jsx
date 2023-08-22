@@ -40,6 +40,9 @@ const MentorInstructorLessons = () => {
   const addAssignment = (element) => {
     navigate(`create_assignment/${element.id}`)
   }
+  const navigateToHomeWorkPage = (element) => {
+    navigate(`homework/${element.studentName}/${element.studentId}`)
+  }
   const closeSnackbar = () => {
     dispatch(
       MentorInstructorAction.SnackbarClose({
@@ -133,6 +136,7 @@ const MentorInstructorLessons = () => {
             getId={getId}
             deleteAssignment={showDeleteAssignmentModal}
             addAssignment={addAssignment}
+            onClickStudentSubmission={navigateToHomeWorkPage}
           />
         ))}
       </LessonsBlock>

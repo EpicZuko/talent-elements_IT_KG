@@ -264,6 +264,35 @@ export const postMentorStudentSubmission = createAsyncThunk(
     }
   }
 )
+export const getStudentSubmissionById = createAsyncThunk(
+  'mentor-instructor/getStudentSubmissions',
+  async (props, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/teachers/${props.id}/submissions`,
+      })
+      const getStudentSubmission = {
+        homeWork: [],
+        answer: [],
+      }
+      for (let i = 0; i < response.length; i++) {
+        getStudentSubmission.homeWork.push({
+          id: response[i].id,
+          taskTitle: response[i].assignmentResponse.title,
+          img: response[i].assignmentResponse.photo,
+          kods: response[i].assignmentResponse.description,
+        })
+        getStudentSubmission.answer.push({
+          text: response[i].text,
+        })
+      }
+
+      return { getStudentSubmission }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const initialState = {
   getCardGroupsStatus: null,
@@ -278,6 +307,8 @@ const initialState = {
   getLessonsStatus: null,
   getVotedStudents: {},
   getVotedStudentsStatus: null,
+  getStudentSubmission: {},
+  getStudentSubmissionStatus: null,
   isSuccess: false,
   status: null,
 }
@@ -354,6 +385,17 @@ export const MentorInstructorSlice = createSlice({
     },
     [getMentorLessons.rejected]: (state) => {
       state.getLessonsStatus = 'error'
+    },
+    // get mentor student submission by id
+    [getStudentSubmissionById.pending]: (state) => {
+      state.getStudentSubmissionStatus = 'pending'
+    },
+    [getStudentSubmissionById.fulfilled]: (state, action) => {
+      state.getStudentSubmissionStatus = 'fulfilled'
+      state.getStudentSubmission = action.payload?.getStudentSubmission
+    },
+    [getStudentSubmissionById.rejected]: (state) => {
+      state.getStudentSubmissionStatus = 'rejected'
     },
     // get voted students by assignmentId
     [getMentorVotedStudentsByAssignmentId.pending]: (state) => {

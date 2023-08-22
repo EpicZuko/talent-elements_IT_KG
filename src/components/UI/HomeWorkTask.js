@@ -40,9 +40,6 @@ const HomeWorkTask = ({
       ))}
       {variant === 'admin' && (
         <ContainerDiv>
-          <div>
-            <H5>Ответ</H5>
-          </div>
           {!OnswerHomeWork && (
             <div>
               <H5>Ожидание ответа...</H5>
@@ -52,6 +49,9 @@ const HomeWorkTask = ({
             OnswerHomeWork.map((element) => (
               <div key={element.id}>
                 <StyledDivN1>
+                  <div>
+                    <H5>Ответ</H5>
+                  </div>
                   {element.taskTitle && (
                     <StyledTaskTitle>{element.taskTitle}</StyledTaskTitle>
                   )}
@@ -94,7 +94,7 @@ const Container = styled.div`
   }
 `
 const ContainerDiv = styled.div`
-  margin-top: 45px;
+  margin-top: 76px;
   text-align: start;
 `
 const StyledDivN1 = styled.div`
@@ -148,6 +148,7 @@ const StyledDivN3 = styled.div`
   height: 23px;
   color: rgba(55, 55, 55, 1);
   margin-top: 47px;
+  margin-bottom: 100px;
   @media screen and (max-width: 391px) {
     width: 300px;
     height: auto;

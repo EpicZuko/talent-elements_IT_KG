@@ -17,6 +17,7 @@ const Lessons = ({
   addAssignment,
   deleteLesson,
   onEdit,
+  onClickStudentSubmission,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
@@ -179,7 +180,12 @@ const Lessons = ({
                                 return (
                                   show && (
                                     <ShowedStudents>
-                                      <p style={{ cursor: 'pointer' }}>
+                                      <p
+                                        onClick={() =>
+                                          onClickStudentSubmission(elem)
+                                        }
+                                        style={{ cursor: 'pointer' }}
+                                      >
                                         {el.id === id && elem.studentName}
                                       </p>
                                     </ShowedStudents>
