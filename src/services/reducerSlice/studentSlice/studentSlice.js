@@ -8,6 +8,7 @@ import {
   getStudentNotification,
   getStudentProfile,
   getStudentProfileProgress,
+  notificationStudentManager,
   postStudentFileUpload,
   postStudentTextForm,
 } from './studentAction'
@@ -39,7 +40,10 @@ const initialState = {
     studentMyProfileStatus: null,
   },
   getStudentNotification: [],
-  managerMessage: [],
+  managerMessage: {
+    message: [],
+  },
+  managerMessageStatus: null,
   getStudentNotificationStatus: null,
   getStaffAdminLesson: [],
   getStaffAdminLessonStatus: null,
@@ -98,7 +102,7 @@ const studentSlice = createSlice({
       })
       .addCase(getCoursesStudent.rejected, (state) => {
         state.getStudentCousesStatus = 'error'
-        state.getStudentCouses = []
+        state.getStudentCourses = []
       })
       // getStudentMyGroup
       .addCase(getStudentMyGroup.pending, (state) => {
@@ -176,7 +180,6 @@ const studentSlice = createSlice({
 
         state.getStudentNotification =
           action.payload.getStudentNotificationArray
-        state.managerMessage = action.payload.managerMessage
       })
       .addCase(getStudentNotification.rejected, (state) => {
         state.getStudentProfileProgress.studentProfileStatus = 'error'
@@ -235,6 +238,17 @@ const studentSlice = createSlice({
       .addCase(postStudentTextForm.rejected, (state) => {
         state.postStudentTextFormStatus = 'error'
         state.postStudentTextFormSnackbar.open = true
+      })
+      // get student manager notification
+      .addCase(notificationStudentManager.pending, (state) => {
+        state.managerMessageStatus = 'pending'
+      })
+      .addCase(notificationStudentManager.fulfilled, (state, action) => {
+        state.managerMessage.message = action.payload.managerMessage
+      })
+      .addCase(notificationStudentManager.rejected, (state) => {
+        state.managerMessageStatus = 'error'
+        state.managerMessage.message = []
       })
   },
 })

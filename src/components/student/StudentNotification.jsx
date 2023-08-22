@@ -1,16 +1,21 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getStudentNotification } from '../../services/reducerSlice/studentSlice/studentAction'
+import {
+  getStudentNotification,
+  notificationStudentManager,
+} from '../../services/reducerSlice/studentSlice/studentAction'
 import Notifications from '../UI/Notifications'
 
 const StudentNotification = () => {
   const state = useSelector((state) => state.student)
+  console.log(state)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getStudentNotification())
-  }, [])
+    dispatch(notificationStudentManager())
+  }, [dispatch])
 
   return (
     <StyledDivStudentNotification>
@@ -22,7 +27,8 @@ const StudentNotification = () => {
       ) : (
         <P>на данный момент у вас нет новых уведомлений</P>
       )}
-      {state?.managerMessage?.map((elem) => (
+
+      {state.managerMessage.message.map((elem) => (
         <Notifications variant='StudentNotifications' studentData={elem} />
       ))}
     </StyledDivStudentNotification>
