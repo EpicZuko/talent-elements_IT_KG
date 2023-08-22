@@ -11,11 +11,11 @@ const Lessons = ({
   element,
   variantClick,
   chageExplain,
-  assignment,
   id,
   getId,
   deleteAssignment,
   deleteLesson,
+  onEdit,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
@@ -93,7 +93,7 @@ const Lessons = ({
             </Container>
           )}
           {variant === 'Mentor' && (
-            <MentorLesson>
+            <MentorLesson onAuxClick={() => onEdit(element)}>
               <LessonEditTools>
                 <ButtonsLessonBlock>
                   <AddAssignmentButton>+</AddAssignmentButton>
@@ -122,8 +122,8 @@ const Lessons = ({
                   </D7>
                 </Lesson>
               </StyledTagA>
-              {assignment &&
-                assignment?.map((el) => {
+              {element?.assignments &&
+                element?.assignments?.map((el) => {
                   const dateString = el?.created
                   const [year, month, day] = dateString.split('T')[0].split('-')
                   const formattedDate = `${day}.${month}.${year}`

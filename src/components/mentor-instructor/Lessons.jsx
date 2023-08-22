@@ -31,6 +31,12 @@ const MentorInstructorLessons = () => {
   const navToCourse = () => {
     navigate('/')
   }
+  const navigateToEditLessonPage = (element) => {
+    navigate(`edit_lesson/${element.id}`)
+  }
+  const createLesson = () => {
+    navigate('create-lesson')
+  }
   const closeSnackbar = () => {
     dispatch(
       MentorInstructorAction.SnackbarClose({
@@ -95,16 +101,19 @@ const MentorInstructorLessons = () => {
           <LocationText2>Уроки</LocationText2>
         </Location>
         <ButtonsBlock>
-          <Button variant='Add-Button'>+</Button>
+          <Button variant='Add-Button' onClick={createLesson}>
+            +
+          </Button>
         </ButtonsBlock>
         <ButtonsBlock2>
-          <Button variant='create group'>Ввести урок</Button>
+          <Button variant='create group' onClick={createLesson}>
+            Ввести урок
+          </Button>
         </ButtonsBlock2>
       </Block>
       <LessonsBlock>
         {state.getLessons?.lesson?.map((elem) => (
           <Lessons
-            key={elem?.id}
             variant='Mentor'
             element={{
               id: elem?.id,
@@ -113,8 +122,9 @@ const MentorInstructorLessons = () => {
               title: elem?.title,
               urlPdf: elem?.file,
               lesson: elem?.titleFile,
+              assignments: elem?.assignments,
             }}
-            assignment={elem?.assignment}
+            onEdit={navigateToEditLessonPage}
             deleteLesson={modalShow}
             id={id}
             getId={getId}
