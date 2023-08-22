@@ -1,4 +1,6 @@
+import { MentorInstructorNotifications } from './components/mentor-instructor/Notifications'
+
 const App = () => {
-  return <div />
+  return <MentorInstructorNotifications />
 }
 export default App

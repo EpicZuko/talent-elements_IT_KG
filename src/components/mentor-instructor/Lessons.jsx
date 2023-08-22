@@ -111,7 +111,7 @@ const MentorInstructorLessons = () => {
               text: `${elem?.id} - ${elem?.text}`,
               videoUrl: elem?.youtube,
               title: elem?.title,
-              urlFile: elem?.file,
+              urlPdf: elem?.file,
               lesson: elem?.titleFile,
             }}
             assignment={elem?.assignment}
