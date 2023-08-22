@@ -43,7 +43,6 @@ export const MentorInstructorLayout = () => {
         </Container>
         <SideBlock>
           <SiderBar
-            absoluteNone='none'
             variant='mentor'
             onClickMentorInstructorGroup={navToGroup}
           />
@@ -53,7 +52,6 @@ export const MentorInstructorLayout = () => {
             variant='mentor'
             onClickMentorInstructorGroup={navToGroup}
             onCloseBackdrop={burger}
-            absoluteNone='none'
           />
         )}
       </Block>
