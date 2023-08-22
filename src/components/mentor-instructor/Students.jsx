@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import {
+  MentorInstructorAction,
   getMentorStudents,
   putMentorStudents,
 } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import Button from '../UI/Button'
 import Modall from '../UI/Modal'
+import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
 export const MentorInstructorStudents = () => {
@@ -21,7 +23,8 @@ export const MentorInstructorStudents = () => {
   const navToGroup = () => {
     navigate('/')
   }
-  const { name, groupId } = useParams()
+
+  const { groupName, groupId } = useParams()
   const [showModal, setShowModal] = useState(false)
   const [studentId, setStudentId] = useState(null)
   const modalShow = (element) => {
@@ -37,12 +40,19 @@ export const MentorInstructorStudents = () => {
     dispatch(putMentorStudents({ id: studentId, groupId }))
     modalClose()
   }
-
+  const closeSnackbar = () => {
+    dispatch(
+      MentorInstructorAction.SnackbarClose({
+        isSuccess: false,
+        status: state.status,
+      })
+    )
+  }
   return (
     <div>
       <Location>
         <LocationText onClick={navToGroup}>Мои группы /</LocationText>
-        <LocationText2>Студенты: {name}</LocationText2>
+        <LocationText2>Студенты: {groupName}</LocationText2>
       </Location>
       <StudentBlock>
         <Student
@@ -55,7 +65,7 @@ export const MentorInstructorStudents = () => {
       {showModal && (
         <Modall onClose={modalClose}>
           <ModalBlock>
-            <OnDeleteText>Вы хотите удалить студента ?</OnDeleteText>
+            <OnDeleteText>Xотите удалить студента ?</OnDeleteText>
             <div style={{ display: 'flex', gap: '20px' }}>
               <Button variant='RequestRefusal-Buttons' onClick={deleteStudents}>
                 Да
@@ -67,6 +77,21 @@ export const MentorInstructorStudents = () => {
           </ModalBlock>
         </Modall>
       )}
+      <CustomizedSnackbars
+        variant={state.status}
+        open={state.isSuccess}
+        message={
+          state.status === 'success'
+            ? 'Куттуктайбыз!'
+            : state.status === 'error' && 'Ката'
+        }
+        text={
+          state.status === 'success'
+            ? 'Студент ийгиликтүү өчүрүлдү'
+            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+        }
+        closeSnackbar={closeSnackbar}
+      />
     </div>
   )
 }

@@ -33,16 +33,16 @@ export const MentorInstructorNotifications = () => {
     navigate(-1)
   }
   const checkSubmissonStudent = (data) => {
-    if (comment.trim() !== '' && score.trim() !== '') {
-      dispatch(
-        postMentorStudentSubmission({
-          studentId: data.studentId,
-          submissionId: data.submissionId,
-          score,
-          comment,
-        })
-      )
-    }
+    // if (comment.trim() !== '' && score.trim() !== '') {
+    dispatch(
+      postMentorStudentSubmission({
+        studentId: data.studentId,
+        submissionId: data.submissionId,
+        score,
+        comment,
+      })
+    )
+    // }
     setComment('')
     setScore('')
   }
@@ -54,7 +54,6 @@ export const MentorInstructorNotifications = () => {
       })
     )
   }
-  console.log(state)
   return (
     <div>
       <Location>
@@ -84,13 +83,13 @@ export const MentorInstructorNotifications = () => {
         open={state.isSuccess}
         message={
           state.status === 'success'
-            ? 'Поздравляем!'
-            : state.status === 'error' && 'Ошибка'
+            ? 'Куттуктайбыз!'
+            : state.status === 'error' && 'Ката'
         }
         text={
           state.status === 'success'
-            ? 'Запрос отправлен успешно'
-            : state.status === 'error' && 'Ошибка соеденения с сервером'
+            ? 'Билдирүү ийгиликтүү жөнөтүлдү'
+            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
         }
         closeSnackbar={closeSnackbar}
       />

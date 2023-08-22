@@ -4,19 +4,34 @@ import Frame3 from '../../assets/icon/lessonIcons/_2759160148944.svg'
 import Frame2 from '../../assets/icon/lessonIcons/Frame 141.svg'
 import Frame from '../../assets/icon/lessonIcons/video-square.svg'
 import Frame1 from '../../assets/icon/lessonIcons/Слой_x0020_1.svg'
+import Button from './Button'
 
 const Lessons = ({
   variant,
   element,
-  onClickStudent,
   variantClick,
   chageExplain,
-  getVotedStudents,
+  assignment,
+  id,
+  getId,
+  deleteAssignment,
+  deleteLesson,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
     setShow((prevState) => !prevState)
   }
+  const [showDeletAssignmentButton, setShowDeleteAssignmentButton] =
+    useState(false)
+
+  const showAssignments = () => {
+    setShowDeleteAssignmentButton(true)
+  }
+  const hideDeleteAssignmentButton = () => {
+    setShowDeleteAssignmentButton(false)
+    getId(null)
+  }
+
   return (
     <div>
       <Container variant={variant}>
@@ -79,66 +94,102 @@ const Lessons = ({
           )}
           {variant === 'Mentor' && (
             <MentorLesson>
-              <H1>{element.text}</H1>
-              <StyledTagA
-                style={{ textDecoration: 'none' }}
-                href={element.videoUrl}
-              >
+              <LessonEditTools>
+                <ButtonsLessonBlock>
+                  <AddAssignmentButton>+</AddAssignmentButton>
+                  <DeleteButton>
+                    <Button
+                      onClick={() => deleteLesson(element)}
+                      variant='delete button'
+                    />
+                  </DeleteButton>
+                </ButtonsLessonBlock>
+                <H1>{element.text}</H1>
+              </LessonEditTools>
+              <a style={{ textDecoration: 'none' }} href={element.videoUrl}>
                 <Lesson>
                   <D6>
                     <Img src={Frame} alt='error' />
                     <Title>{element.title}</Title>
                   </D6>
-                  <Data>{element.date}</Data>
                 </Lesson>
-              </StyledTagA>
-              <LessonLeft>
-                <StyledTagA
-                  style={{ textDecoration: 'none' }}
-                  href={element.urlFile}
-                >
+              </a>
+              <a style={{ textDecoration: 'none' }} href={element.urlFile}>
+                <Lesson>
                   <D7>
                     <Img src={Frame3} alt='error' />
-                    <Title>{element.lesson}</Title>
+                    <Title>{element.text}</Title>
                   </D7>
-                </StyledTagA>
-                <Left>
-                  <DateBlock>
-                    <Data>{element.date}</Data>
-                    <DivStudent>
-                      <P
-                        onClickCapture={() => {
-                          getVotedStudents(element)
-                        }}
-                        onClick={showStudents}
-                      >
-                        ответили{' '}
-                        {element.votedStudents < 5
-                          ? `${element.votedStudents} студента`
-                          : `${element.votedStudents} студентов`}
-                      </P>
-                      {show && (
-                        <ShowedStudents>
-                          {element.students.map((el) => {
-                            return (
-                              <p
-                                onClick={
-                                  variantClick === 'disbled'
-                                    ? ''
-                                    : () => onClickStudent(el)
-                                }
-                                style={{ cursor: 'pointer' }}
-                              >
-                                {el.username}
-                              </p>
-                            )
-                          })}
-                        </ShowedStudents>
+                </Lesson>
+              </a>
+              {assignment &&
+                assignment?.map((el) => {
+                  const dateString = el?.created
+                  const [year, month, day] = dateString.split('T')[0].split('-')
+                  const formattedDate = `${day}.${month}.${year}`
+                  return (
+                    <Div onMouseLeave={hideDeleteAssignmentButton}>
+                      {showDeletAssignmentButton && (
+                        <DeleteAssignmentButton>
+                          {el.id === id && (
+                            <Button
+                              onClick={() => deleteAssignment(el)}
+                              variant='delete button'
+                            />
+                          )}
+                        </DeleteAssignmentButton>
                       )}
-                    </DivStudent>
-                  </DateBlock>
-                </Left>
-              </LessonLeft>
+                      <LessonLeft>
+                        <D7
+                          onMouseOverCapture={() => getId(el.id)}
+                          onMouseOver={showAssignments}
+                        >
+                          <Img src={Frame1} alt='error' />
+                          <Title>{el.title}</Title>
+                        </D7>
+                        <Left>
+                          <DateBlock>
+                            <Data>{formattedDate}</Data>
+                            <DivStudent
+                              onClickCapture={() => getId(el.id)}
+                              onClick={
+                                variantClick === 'disbled' ? '' : showStudents
+                              }
+                            >
+                              <P>
+                                {(el?.submissionResponseList?.length === 1 &&
+                                  'ответил') ||
+                                  'ответили'}{' '}
+                                {el?.submissionResponseList?.length || 0}{' '}
+                                {(el?.submissionResponseList?.length < 5 &&
+                                  el?.submissionResponseList?.length > 1 &&
+                                  'студента') ||
+                                  (el?.submissionResponseList?.length < 1 &&
+                                    'студентов') ||
+                                  (el?.submissionResponseList?.length === 1 &&
+                                    'студент') ||
+                                  (el?.submissionResponseList?.length >= 5 &&
+                                    'студентов') ||
+                                  'студентов'}
+                              </P>
+                              {el?.submissionResponseList?.map((elem) => {
+                                return (
+                                  show && (
+                                    <ShowedStudents>
+                                      <p style={{ cursor: 'pointer' }}>
+                                        {el.id === id && elem.studentName}
+                                      </p>
+                                    </ShowedStudents>
+                                  )
+                                )
+                              })}
+                            </DivStudent>
+                          </DateBlock>
+                        </Left>
+                      </LessonLeft>
+                    </Div>
+                  )
+                })}
             </MentorLesson>
           )}
         </div>
@@ -219,6 +270,7 @@ const DivStudent = styled.div`
   display: flex;
   align-items: baseline;
   flex-direction: column;
+  cursor: pointer;
   @media screen and (max-width: 391px) {
     display: flex;
     justify-content: end;
@@ -382,6 +434,34 @@ const ShowedStudents = styled.div`
     /* margin-left: 155px; */
   }
 `
+const Div = styled.div``
 const StyledTagA = styled.a`
   text-decoration: none;
+`
+const LessonEditTools = styled.div`
+  display: flex;
+  align-items: center;
+`
+const AddAssignmentButton = styled.button`
+  background: rgba(19, 71, 100, 1);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 5px 8px 5px 8px;
+  cursor: pointer;
+`
+const ButtonsLessonBlock = styled.div`
+  position: relative;
+  top: 10px;
+`
+const DeleteButton = styled.div`
+  position: relative;
+  top: 15px;
+  height: 12px;
+`
+const DeleteAssignmentButton = styled.div`
+  position: relative;
+  top: 8px;
+  left: 20px;
+  height: 0px;
 `

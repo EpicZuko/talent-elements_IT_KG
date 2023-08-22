@@ -30,6 +30,7 @@ const MentorInstrucorGroups = () => {
         navToStudents={navToStudents}
         onClickStudents={navToStudents}
         navToCurrentGroup={navToLessons}
+        onClickHandler={navToLessons}
       />
     </div>
   )

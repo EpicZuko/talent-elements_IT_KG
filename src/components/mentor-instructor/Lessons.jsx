@@ -1,14 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import {
+  MentorInstructorAction,
+  deleteMentorAssignmnentsById,
+  deleteMentorLesson,
   getMentorLessons,
-  getMentorVotedStudentsByAssignmentId,
 } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import Button from '../UI/Button'
 import Lessons from '../UI/Lessons'
+import Modall from '../UI/Modal'
+import CustomizedSnackbars from '../UI/Snackbar'
 
 const MentorInstructorLessons = () => {
   const navigate = useNavigate()
@@ -27,17 +31,61 @@ const MentorInstructorLessons = () => {
   const navToCourse = () => {
     navigate('/')
   }
-  const getVotedStudents = (element) => {
-    dispatch(getMentorVotedStudentsByAssignmentId({ id: element.assignmentId }))
+  const closeSnackbar = () => {
+    dispatch(
+      MentorInstructorAction.SnackbarClose({
+        isSuccess: false,
+        status: state.status,
+      })
+    )
   }
-  const createLesson = () => {
-    navigate('create-lesson')
+  const [showModal, setShowModal] = useState({
+    state: false,
+    variant: '',
+  })
+  const [inLessonIds, setInLessonIds] = useState({
+    lessonId: null,
+    assignmentId: null,
+  })
+  const modalShow = (element) => {
+    setInLessonIds({
+      lessonId: element.id,
+      assignmentId: null,
+    })
+    setShowModal({
+      state: true,
+      variant: 'lesson',
+    })
   }
-  const navigateToHomeWorkPage = (element) => {
-    navigate(`homework/${element.username}/${element.studentId}`)
+  const modalClose = () => {
+    setShowModal({
+      state: false,
+      variant: 'lesson',
+    })
   }
-  const navigateToEditLessonPage = (element) => {
-    navigate(`edit_lesson/${element.id}/${element.materialId}`)
+  const deleteLesson = () => {
+    dispatch(deleteMentorLesson({ id: inLessonIds.lessonId, groupId }))
+    modalClose()
+  }
+  const showDeleteAssignmentModal = (elem) => {
+    setInLessonIds({
+      lessonId: null,
+      assignmentId: elem.id,
+    })
+    setShowModal({
+      state: true,
+      variant: 'assignment',
+    })
+  }
+  const deleteAssignment = () => {
+    dispatch(
+      deleteMentorAssignmnentsById({ id: inLessonIds.assignmentId, groupId })
+    )
+    modalClose()
+  }
+  const [id, setId] = useState()
+  const getId = (value) => {
+    setId(value)
   }
   return (
     <div>
@@ -47,44 +95,74 @@ const MentorInstructorLessons = () => {
           <LocationText2>Уроки</LocationText2>
         </Location>
         <ButtonsBlock>
-          <Button onClick={createLesson} variant='Add-Button'>
-            +
-          </Button>
+          <Button variant='Add-Button'>+</Button>
         </ButtonsBlock>
         <ButtonsBlock2>
-          <Button onClick={createLesson} variant='create group'>
-            Ввести урок
-          </Button>
+          <Button variant='create group'>Ввести урок</Button>
         </ButtonsBlock2>
       </Block>
       <LessonsBlock>
-        {state.getLessons?.lesson?.map((elem) =>
-          elem?.assignment.map((assignment) =>
-            state.getMaterials.map((material) => (
-              <Lessons
-                key={elem?.id}
-                variant='Mentor'
-                element={{
-                  id: elem?.id,
-                  text: `${elem?.id} - ${elem?.text}`,
-                  videoUrl: elem?.youtube,
-                  assignmentId: assignment?.id,
-                  votedStudents: assignment?.countSubmission,
-                  lesson: assignment?.title,
-                  date: assignment?.created,
-                  urlFile: material?.file,
-                  materialId: material?.id,
-                  title: material?.title,
-                  students: state.getVotedStudents?.responseStudents || [],
-                }}
-                getVotedStudents={getVotedStudents}
-                onEdit={navigateToEditLessonPage}
-                onClickStudent={navigateToHomeWorkPage}
-              />
-            ))
-          )
-        )}
+        {state.getLessons?.lesson?.map((elem) => (
+          <Lessons
+            key={elem?.id}
+            variant='Mentor'
+            element={{
+              id: elem?.id,
+              text: `${elem?.id} - ${elem?.text}`,
+              videoUrl: elem?.youtube,
+              title: elem?.title,
+              urlFile: elem?.file,
+              lesson: elem?.titleFile,
+            }}
+            assignment={elem?.assignment}
+            deleteLesson={modalShow}
+            id={id}
+            getId={getId}
+            deleteAssignment={showDeleteAssignmentModal}
+          />
+        ))}
       </LessonsBlock>
+      <CustomizedSnackbars
+        variant={state.status}
+        open={state.isSuccess}
+        message={
+          state.status === 'success'
+            ? 'Куттуктайбыз!'
+            : state.status === 'error' && 'Ката'
+        }
+        text={
+          state.status === 'success'
+            ? 'Сабагыныз ийгиликтүү өчүрүлдү'
+            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+        }
+        closeSnackbar={closeSnackbar}
+      />
+      {showModal.state && (
+        <Modall onClose={modalClose}>
+          <ModalBlock>
+            <OnDeleteText>
+              Хотите удалить{' '}
+              {showModal.variant === 'lesson' ? 'текущий' : 'текущее'}{' '}
+              {showModal.variant === 'lesson' ? 'урок' : 'задание'} ?
+            </OnDeleteText>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <Button
+                variant='RequestRefusal-Buttons'
+                onClick={
+                  showModal.variant === 'lesson'
+                    ? deleteLesson
+                    : deleteAssignment
+                }
+              >
+                Да
+              </Button>
+              <Button variant='RequestAllow-Buttons' onClick={modalClose}>
+                Нет
+              </Button>
+            </div>
+          </ModalBlock>
+        </Modall>
+      )}
     </div>
   )
 }
@@ -166,4 +244,22 @@ const LocationText2 = styled.p`
     font-weight: 700;
     line-height: normal;
   }
+`
+const ModalBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`
+const OnDeleteText = styled.h1`
+  font-size: 20px;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
+  font-weight: 700;
+  line-height: 29px;
+  letter-spacing: 0em;
+  margin-bottom: 50px;
+  text-align: center;
 `

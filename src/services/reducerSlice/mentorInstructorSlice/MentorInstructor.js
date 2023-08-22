@@ -2,6 +2,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import ApiFetch from '../../../api/ApiFetch'
 import {
+  MentorDeleteLessonByIdUrl,
+  MentorGetLessonByGroupIdUrl,
+  MentorGetVotedStudentByAssignmentIdUrl,
+  MentorRemoveStudentsUrl,
+  mentorGetStudentsUrl,
   mentorInstructorGetAllGroupsUrl,
   mentorNotificationsUrl,
   mentorProfileUrl,
@@ -54,7 +59,7 @@ export const getMentorStudents = createAsyncThunk(
   async (props, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `api/teachers/rating/group/by/id?groupId=${props.groupId}`,
+        url: mentorGetStudentsUrl + props.groupId,
       })
       const getStudents = []
       for (let i = 0; i < response.length; i++) {
@@ -79,10 +84,10 @@ export const putMentorStudents = createAsyncThunk(
   async (props, { rejectWithValue, dispatch }) => {
     try {
       await ApiFetch({
-        url: `api/teachers/remove_student/${props.id}`,
+        url: MentorRemoveStudentsUrl + props.id,
         method: 'PUT',
       })
-      dispatch(getMentorStudents({ groupId: props.groupId }))
+      dispatch(getMentorStudents(props))
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -93,7 +98,7 @@ export const getMentorNotifications = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `${mentorNotificationsUrl}`,
+        url: mentorNotificationsUrl,
       })
       const getNotifications = []
       for (let i = 0; i < response.length; i++) {
@@ -119,43 +124,24 @@ export const getMentorNotifications = createAsyncThunk(
     }
   }
 )
-export const getMentorMaterials = createAsyncThunk(
-  'mentor-instrcutor/getMaterials',
-  async (props, { rejectWithValue }) => {
-    const getMaterials = []
-    try {
-      const response = await ApiFetch({
-        url: `api/teachers/get_all_materials/by/groupId?groupId=${props.groupId}`,
-      })
-      for (let i = 0; i < response.length; i++) {
-        getMaterials.push({
-          title: response[i].title,
-          id: response[i].id,
-          file: response[i].file,
-        })
-      }
-      return { getMaterials }
-    } catch (error) {
-      return rejectWithValue(error.message)
-    }
-  }
-)
 export const getMentorLessons = createAsyncThunk(
   'mentor-instructor/getLessons',
-  async (props, { rejectWithValue, dispatch }) => {
-    dispatch(getMentorMaterials(props))
+  async (props, { rejectWithValue }) => {
     try {
       const lessons = {
         lesson: [],
       }
       const getLessons = await ApiFetch({
-        url: `api/teachers/get/lessons/by/groupId?groupId=${props.groupId}`,
+        url: MentorGetLessonByGroupIdUrl + props.groupId,
       })
       for (let i = 0; i < getLessons.length; i++) {
         lessons.lesson.push({
-          id: getLessons[i].lesson.id,
-          text: getLessons[i].lesson.title,
-          youtube: getLessons[i].lesson.youtube,
+          id: getLessons[i].id,
+          text: getLessons[i].title,
+          title: getLessons[i].titleYoutube,
+          youtube: getLessons[i].youtube,
+          titleFile: getLessons[i].titleFile,
+          file: getLessons[i].file,
           assignment: getLessons[i].assignments,
         })
       }
@@ -170,9 +156,40 @@ export const getMentorVotedStudentsByAssignmentId = createAsyncThunk(
   async (props, { rejectWithValue }) => {
     try {
       const getVotedStudents = await ApiFetch({
-        url: `api/teachers/assigment/id/find/student/submission?assigmentId=${props.id}`,
+        url: MentorGetVotedStudentByAssignmentIdUrl + props.id,
       })
       return { getVotedStudents }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const deleteMentorLesson = createAsyncThunk(
+  'mentor-instrcutor/deleteLessons',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      await ApiFetch({
+        url: MentorDeleteLessonByIdUrl + props.id,
+        method: 'DELETE',
+      })
+      dispatch(getMentorLessons(props))
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const deleteMentorAssignmnentsById = createAsyncThunk(
+  'mentor-instructor/deleteMentorAssignmnets',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      await ApiFetch({
+        url: MentorDeleteLessonByIdUrl + props.id,
+        method: 'DELETE',
+      })
+      dispatch(getMentorLessons(props))
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -189,6 +206,7 @@ export const postMentorStudentSubmission = createAsyncThunk(
         method: 'POST',
       })
       dispatch(getMentorNotifications())
+      dispatch(getMentorProfile())
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -271,8 +289,8 @@ export const MentorInstructorSlice = createSlice({
       state.status = 'success'
     },
     [postMentorStudentSubmission.rejected]: (state) => {
-      state.status = 'error'
       state.isSuccess = true
+      state.status = 'error'
     },
     // get mentor lessons
     [getMentorLessons.pending]: (state) => {
@@ -295,6 +313,33 @@ export const MentorInstructorSlice = createSlice({
     },
     [getMentorVotedStudentsByAssignmentId.rejected]: (state) => {
       state.getVotedStudentsStatus = 'error'
+    },
+    // delete mentor students by id
+    [putMentorStudents.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [putMentorStudents.rejected]: (state) => {
+      state.isSuccess = true
+      state.status = 'error'
+    },
+    // delete mentor lesson
+    [deleteMentorLesson.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [deleteMentorLesson.rejected]: (state) => {
+      state.isSuccess = true
+      state.status = 'error'
+    },
+    // delete mentor assignments
+    [deleteMentorAssignmnentsById.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [deleteMentorAssignmnentsById.rejected]: (state) => {
+      state.isSuccess = true
+      state.staus = 'error'
     },
   },
 })
