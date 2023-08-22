@@ -9,7 +9,7 @@ import Notifications from '../UI/Notifications'
 
 const StudentNotification = () => {
   const state = useSelector((state) => state.student)
-  console.log(state)
+
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -37,7 +37,6 @@ export const getCoursesStudent = createAsyncThunk(
         url: getCousesUrl,
       })
       const courses = []
-      console.log(response)
 
       // eslint-disable-next-line no-plusplus
       courses.push({

@@ -36,7 +36,7 @@ const ProgressCard = (props) => {
 
     return progressPercentage
   }
-  console.log(progress)
+
   return (
     <ProgressBlock>
       <Span>
