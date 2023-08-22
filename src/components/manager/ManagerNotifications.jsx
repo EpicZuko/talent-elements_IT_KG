@@ -41,61 +41,14 @@ const ManagerNotifications = () => {
     dispatch(managerGetNotifications())
   }, [dispatch])
   const postSelected = (element) => {
-    if (selectstate === 'USER') {
-      dispatch(
-        managerPostNotificationSelect({
-          fetchRole: 'user',
-          body: {
-            id: element.number,
-            roleRequest: selectstate,
-          },
-        })
-      )
-    }
-    if (selectstate === 'STUDENT') {
-      dispatch(
-        managerPostNotificationSelect({
-          fetchRole: 'user',
-          body: {
-            id: element.number,
-            roleRequest: selectstate.toString(),
-          },
-        })
-      )
-    }
-    if (selectstate === 'MENTOR') {
-      dispatch(
-        managerPostNotificationSelect({
-          fetchRole: 'teacher',
-          body: {
-            id: element.number,
-            roleRequest: selectstate,
-          },
-        })
-      )
-    }
-    if (selectstate === 'INSTRUCTOR') {
-      dispatch(
-        managerPostNotificationSelect({
-          fetchRole: 'teacher',
-          body: {
-            id: element.number,
-            roleRequest: selectstate,
-          },
-        })
-      )
-    }
-    if (selectstate === 'USER') {
-      dispatch(
-        managerPostNotificationSelect({
-          fetchRole: 'teacher',
-          body: {
-            id: element.number,
-            roleRequest: selectstate,
-          },
-        })
-      )
-    }
+    dispatch(
+      managerPostNotificationSelect({
+        body: {
+          id: element.number,
+          roleRequest: selectstate,
+        },
+      })
+    )
   }
   const handlerBlockUser = (element) => {
     dispatch(managerBlockUser({ id: element.number }))

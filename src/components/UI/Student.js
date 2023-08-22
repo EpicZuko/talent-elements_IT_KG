@@ -14,7 +14,6 @@ const Student = ({
   onClickInstructorGroupButton,
   onClickInstructorUnlockButton,
   onClickInstructorBlockButton,
-  onClickManagerUnlockButton,
   onClickManagerBlockButton,
   onClickManagerDeleteButton,
   onClickMentorDeleteButton,
@@ -341,7 +340,7 @@ const Student = ({
                     )}
                     <StyledDivButton variant={variant}>
                       <Button
-                        onClick={onClickInstructorGroupButton}
+                        onClick={() => onClickInstructorGroupButton(element)}
                         variant='Add-Button'
                       >
                         +
@@ -480,15 +479,7 @@ const Student = ({
                         onClick={() => onClickManagerBlockButton(element)}
                         variant='ActionBlock-Button'
                       >
-                        <P>Блокировать</P>
-                      </Button>
-                    )}
-                    {element.action === true && (
-                      <Button
-                        onClick={() => onClickManagerUnlockButton(element)}
-                        variant='ActionUnlock-Button'
-                      >
-                        <P>Разблокировать</P>
+                        <P>УДАЛИТЬ</P>
                       </Button>
                     )}
                   </StyledActions>

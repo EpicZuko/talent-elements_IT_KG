@@ -37,6 +37,9 @@ const MentorInstructorLessons = () => {
   const createLesson = () => {
     navigate('create-lesson')
   }
+  const addAssignment = (element) => {
+    navigate(`create_assignment/${element.id}`)
+  }
   const closeSnackbar = () => {
     dispatch(
       MentorInstructorAction.SnackbarClose({
@@ -129,6 +132,7 @@ const MentorInstructorLessons = () => {
             id={id}
             getId={getId}
             deleteAssignment={showDeleteAssignmentModal}
+            addAssignment={addAssignment}
           />
         ))}
       </LessonsBlock>
