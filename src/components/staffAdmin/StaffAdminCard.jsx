@@ -26,6 +26,7 @@ const StaffAdminCard = () => {
         user={state?.cardCouses}
         onClickStudents={(element) => studentGroupsId(element.id)}
         onClickHandler={(element) => clickLessonNavigate(element.id)}
+        navToCurrentGroup={() => ''}
         variantClick='click'
       />
     </DivStyled>

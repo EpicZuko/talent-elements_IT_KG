@@ -17,11 +17,16 @@ const SeoAdminStudent = () => {
   const studentIdOrProfile = (studentId) => {
     navigate(`/studentProfile/${studentId}`)
   }
+
+  const goBackHandler = () => {
+    navigate(-1)
+  }
+
   return (
     <div>
       <DivContianer>
         <DivStyle>
-          <AllGroup>
+          <AllGroup onClick={goBackHandler}>
             Все группы / <Location />
           </AllGroup>
         </DivStyle>

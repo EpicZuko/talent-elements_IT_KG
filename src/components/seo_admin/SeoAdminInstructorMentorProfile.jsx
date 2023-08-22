@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getSeoAdminByIdTeachers } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
 import AvatarUsers from '../UI/AvatarUsers'
 import Table from '../UI/TableSelect'
 
 const SeoAdminInstructorMentorProfile = () => {
+  const navigate = useNavigate()
   const [, setFileImg] = useState('')
   const state = useSelector((state) => state.seoAdmin)
   const dispatch = useDispatch()
@@ -34,9 +35,14 @@ const SeoAdminInstructorMentorProfile = () => {
   }
 
   const lessons = lessonChange()
+
+  const goBackHandler = () => {
+    navigate(-1)
+  }
+
   return (
     <div>
-      <H6>
+      <H6 onClick={goBackHandler}>
         Инструкторы, Мен. /<H5>{state?.byIdTeachers?.email}</H5>
       </H6>
       <StyledDivStudent>

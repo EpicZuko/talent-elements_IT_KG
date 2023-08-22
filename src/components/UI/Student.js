@@ -351,10 +351,15 @@ const Student = ({
                 )}
                 {variant === 'Staff_admin' && (
                   <StyledDoctrines variant={variant}>
-                    <StyledStaffGroup>{element.group}/</StyledStaffGroup>
-                    <StyledStaffdoctrine>
-                      {element.doctrine}
-                    </StyledStaffdoctrine>
+                    {element.group}
+                    {element.doctrine.length > 0 && <Ps>/</Ps>}
+                    {element.doctrine.length > 0 && (
+                      <StyleddoctrineDiv doctrine={element.doctrine}>
+                        {element.doctrine.map((doctrine) => (
+                          <StyledStaffdoctrine>{doctrine}</StyledStaffdoctrine>
+                        ))}
+                      </StyleddoctrineDiv>
+                    )}
                   </StyledDoctrines>
                 )}
                 {variant === 'Students' && (
@@ -780,14 +785,8 @@ const StyledDoctrines = styled.td`
   font-family: Zen Kaku Gothic New;
   font-weight: 500;
   color: rgba(55, 55, 55, 1);
-`
-const StyledStaffGroup = styled.p`
-  font-size: 16px;
-  font-family: Zen Kaku Gothic New;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  color: rgba(55, 55, 55, 1);
+  display: flex;
+  align-items: center;
 `
 const StyledStaffdoctrine = styled.p`
   font-size: 16px;
@@ -809,6 +808,7 @@ const Ps = styled.p`
 const StyledDoctrinesP = styled.p`
   display: block;
   font-size: 14px;
+  margin-top: 3px;
   margin-left: 4px;
   font-family: Zen Kaku Gothic New;
   font-weight: 400;

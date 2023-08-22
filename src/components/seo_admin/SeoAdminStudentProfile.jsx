@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentIDProfile } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
 import AvatarUser from '../UI/AvatarUsers'
 import TableSelect from '../UI/TableSelect'
 
 const SeoAdminStudentProfile = () => {
+  const navigate = useNavigate()
   const [, setFileImg] = useState('')
   const state = useSelector((state) => state.seoAdmin)
   const dispatch = useDispatch()
@@ -14,9 +15,14 @@ const SeoAdminStudentProfile = () => {
   useEffect(() => {
     dispatch(getStudentIDProfile({ id: +studentProfile }))
   }, [studentProfile])
+
+  const goBackHandler = () => {
+    navigate(-1)
+  }
+
   return (
     <div>
-      <H6>
+      <H6 onClick={goBackHandler}>
         {state?.studentIdProfileArray?.group} /
         <H5>{state.studentIdProfileArray.email}</H5>
       </H6>

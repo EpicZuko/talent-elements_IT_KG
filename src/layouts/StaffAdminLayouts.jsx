@@ -38,6 +38,7 @@ const StaffAdminLayouts = () => {
   return (
     <div>
       <Header
+        variant='Seo admin'
         data={state?.getProfileStaffAdmin}
         onBurgerMenuClick={sideBarOpenMenuBar}
         onClickProfile={navigateProfile}

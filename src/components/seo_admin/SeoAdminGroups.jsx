@@ -22,8 +22,10 @@ const SeoAdminGroup = () => {
         <StyledH5>Все группы</StyledH5>
         <Card
           variant='Manager_group'
+          variantClick='click'
           user={state?.card}
           navToStudents={(element) => groupIdOrStudents(element)}
+          navToCurrentGroup={() => ''}
         />
       </Container2>
     </div>
