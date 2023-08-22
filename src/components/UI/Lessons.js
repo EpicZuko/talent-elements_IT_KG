@@ -14,6 +14,7 @@ const Lessons = ({
   id,
   getId,
   deleteAssignment,
+  addAssignment,
   deleteLesson,
   onEdit,
 }) => {
@@ -96,7 +97,9 @@ const Lessons = ({
             <MentorLesson onAuxClick={() => onEdit(element)}>
               <LessonEditTools>
                 <ButtonsLessonBlock>
-                  <AddAssignmentButton>+</AddAssignmentButton>
+                  <AddAssignmentButton onClick={() => addAssignment(element)}>
+                    +
+                  </AddAssignmentButton>
                   <DeleteButton>
                     <Button
                       onClick={() => deleteLesson(element)}
