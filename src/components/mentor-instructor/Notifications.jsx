@@ -33,18 +33,18 @@ export const MentorInstructorNotifications = () => {
     navigate(-1)
   }
   const checkSubmissonStudent = (data) => {
-    // if (comment.trim() !== '' && score.trim() !== '') {
-    dispatch(
-      postMentorStudentSubmission({
-        studentId: data.studentId,
-        submissionId: data.submissionId,
-        score,
-        comment,
-      })
-    )
-    // }
-    setComment('')
-    setScore('')
+    if (comment.trim() !== '' && score.trim() !== '') {
+      dispatch(
+        postMentorStudentSubmission({
+          studentId: data.studentId,
+          submissionId: data.submissionId,
+          score,
+          comment,
+        })
+      )
+      setComment('')
+      setScore('')
+    }
   }
   const closeSnackbar = () => {
     dispatch(
