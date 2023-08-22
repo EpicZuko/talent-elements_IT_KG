@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies,
 import { ThreeCircles } from 'react-loader-spinner'
 import styled from 'styled-components'
 
