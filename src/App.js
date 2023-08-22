@@ -1,10 +1,4 @@
-import ManagerRoutes from './routes/ManagerRoutes'
-
 const App = () => {
-  return (
-    <div>
-      <ManagerRoutes />
-    </div>
-  )
+  return <div />
 }
 export default App
