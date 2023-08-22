@@ -42,9 +42,9 @@ export const MentorInstructorNotifications = () => {
           comment,
         })
       )
+      setComment('')
+      setScore('')
     }
-    setComment('')
-    setScore('')
   }
   const closeSnackbar = () => {
     dispatch(
@@ -83,13 +83,13 @@ export const MentorInstructorNotifications = () => {
         open={state.isSuccess}
         message={
           state.status === 'success'
-            ? 'Поздравляем!'
-            : state.status === 'error' && 'Ошибка'
+            ? 'Куттуктайбыз!'
+            : state.status === 'error' && 'Ката'
         }
         text={
           state.status === 'success'
-            ? 'Запрос отправлен успешно'
-            : state.status === 'error' && 'Ошибка соеденения с сервером'
+            ? 'Билдирүү ийгиликтүү жөнөтүлдү'
+            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
         }
         closeSnackbar={closeSnackbar}
       />

@@ -61,7 +61,6 @@ const HomeWorkTask = ({
                     <StyledTaskImg src={element.img} alt='' />
                   </StyledDivN2>
                 )}
-
                 {element.kods && (
                   <StyledDivN3>
                     <Styledtextp>{element.kods}</Styledtextp>
