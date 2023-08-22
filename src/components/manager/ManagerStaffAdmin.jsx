@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
@@ -7,10 +7,14 @@ import {
   managerStaffAdmin,
   managerStaffAdminPutBlockOrUnBlock,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
+import Button from '../UI/Button'
+import Modall from '../UI/Modal'
 import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
 const ManagerStaffAdmin = () => {
+  const [modal, setModal] = useState(null)
+  const [dataId, setDataId] = useState(null)
   const state = useSelector((state) => state.manager)
 
   const dispatch = useDispatch()
@@ -26,13 +30,18 @@ const ManagerStaffAdmin = () => {
       })
     )
   }
-  const clickBlockButton = (id) => {
-    dispatch(managerStaffAdminPutBlockOrUnBlock({ id, block: 'block' }))
+  const clickDeleteButton = (id) => {
+    dispatch(managerStaffAdminPutBlockOrUnBlock({ id: +id, block: 'block' }))
   }
 
-  const clickUnBlockButton = (id) => {
-    dispatch(managerStaffAdminPutBlockOrUnBlock({ id, block: 'unblock' }))
+  const modalOpen = (element) => {
+    setModal(true)
+    setDataId(element)
   }
+  const modalClose = () => {
+    setModal(false)
+  }
+
   return (
     <div>
       <CustomizedSnackbars
@@ -41,9 +50,7 @@ const ManagerStaffAdmin = () => {
         closeSnackbar={closeSnackBarStaffAdmin}
         message={
           state.managerStaffAdminStatusBlock === 'success'
-            ? 'Поздравляем!  Данный  пользователь  успешно  заблокировано!'
-            : state.managerStaffAdminStatusUnBlock === 'success'
-            ? 'Поздравляем!  Данный  пользователь  успешно  разблокировано'
+            ? 'Поздравляем!  Данный  пользователь  успешно Удалено!'
             : state.statusStaffAdmin === 'error'
             ? 'Извините ! Произошло ошибка при запросе! Повторите попытку'
             : 'success'
@@ -54,10 +61,27 @@ const ManagerStaffAdmin = () => {
       <Student
         variant='Manager_staff-admin'
         UserDataArray={state?.managerStaffAdmin}
-        onClickManagerBlockButton={(element) => clickBlockButton(element.id)}
-        onClickManagerUnlockButton={(element) => clickUnBlockButton(element.id)}
+        onClickManagerBlockButton={(element) => modalOpen(element.id)}
         variantClick='disbled'
       />
+      {modal && (
+        <Modall onClose={modalClose}>
+          <StyledModallDiv>
+            <StyledH2>Вы дейтительно хотите удалить?</StyledH2>
+            <StydetModallButtonDiv>
+              <Button variant='paid' onClick={modalClose}>
+                ОТМЕНА
+              </Button>
+              <Button
+                variant='not paid'
+                onClick={() => clickDeleteButton(dataId)}
+              >
+                УДАЛИТЬ
+              </Button>
+            </StydetModallButtonDiv>
+          </StyledModallDiv>
+        </Modall>
+      )}
     </div>
   )
 }
@@ -75,4 +99,25 @@ const H5 = styled.h5`
     font-size: 16px;
     margin-bottom: 17px;
   }
+`
+const StyledH2 = styled.h2`
+  font-family: Zen Kaku Gothic New;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: rgba(19, 71, 100, 1);
+`
+const StyledModallDiv = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`
+const StydetModallButtonDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 `

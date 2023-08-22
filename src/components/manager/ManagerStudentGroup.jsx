@@ -85,7 +85,7 @@ const ManagerStudentGroup = () => {
             'Пока в этой группе нет студентов'
           )}
           {modal && (
-            <Modall onClose={modalClose}>
+            <Modall variant='' onClose={modalClose}>
               <StyledModallDiv>
                 <StyledH2>
                   Вы дейтительно хотите удалить этого студента?

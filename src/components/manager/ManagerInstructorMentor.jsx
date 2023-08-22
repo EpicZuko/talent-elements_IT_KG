@@ -5,24 +5,39 @@ import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
 import {
+  getAllManagerGroup,
+  managerAddToGroupMetorInstructors,
   managerInstructorMentor,
   managerInstructorMentorPutUnBlockOrBlock,
 } from '../../services/reducerSlice/manager/managerSlice/managerSlice'
+import { SelectRole } from '../../utils/helpers/selected/selectRole'
+import Button from '../UI/Button'
 import Input from '../UI/Input'
+import Modall from '../UI/Modal'
+import BasikSelect from '../UI/Select'
 import CustomizedSnackbars from '../UI/Snackbar'
 import Student from '../UI/Student'
 
 const ManagerInstructorMentor = () => {
   const [search, setSearch] = useState('')
+  const [groupState, setGroupState] = useState(false)
+  const [groupStudentName, setStudentName] = useState('')
+  const [groupId, setGroupId] = useState('')
+  const [teacherId, setStudentId] = useState('')
+  const [selectRole, setSelectRole] = useState(null)
   const state = useSelector((state) => state.manager)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(managerInstructorMentor())
+    dispatch(getAllManagerGroup())
   }, [])
-  const { managerInstructorMentorSnackBar, SnackBarOpen, SnackBarStatus } =
-    useSelector((state) => state.manager)
-
+  const {
+    managerInstructorMentorSnackBar,
+    SnackBarOpen,
+    SnackBarStatus,
+    getAllGroup,
+  } = useSelector((state) => state.manager)
   const instructorBlockButton = (id) => {
     dispatch(managerInstructorMentorPutUnBlockOrBlock({ id, block: 'block' }))
   }
@@ -43,6 +58,26 @@ const ManagerInstructorMentor = () => {
   const navigateInstructorMentorProfile = (id) => {
     navigate(`/instructorOrMentor/${id}`)
   }
+  const addGroupChange = (element) => {
+    setGroupState(true)
+    setStudentName(element)
+    setStudentId(element.id)
+  }
+  const closeModalGroup = () => {
+    setGroupState(false)
+  }
+
+  const clickAddGroupId = () => {
+    dispatch(
+      managerAddToGroupMetorInstructors({
+        teacherRole: selectRole,
+        teacherId: +teacherId,
+        groupId: +groupId,
+      })
+    )
+    setGroupState(false)
+  }
+
   const closeSnackBarHandler = () => {
     dispatch(
       managerAction.snackBarCloseInstructorMentor({
@@ -91,9 +126,37 @@ const ManagerInstructorMentor = () => {
           onClickImgName={(element) =>
             navigateInstructorMentorProfile(element.id)
           }
+          onClickInstructorGroupButton={(element) => addGroupChange(element)}
         />
       ) : (
         <H3>У вас еще нет Менторо и Инструкторов</H3>
+      )}
+      {groupState && (
+        <Modall variant='' onClose={closeModalGroup}>
+          <DivGroupStudentStyled>
+            <H4> Добавить группу</H4>
+            <BasikSelect
+              variant='standard'
+              options={SelectRole}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.option}
+              label='Role'
+              onChange={(event) => setSelectRole(event)}
+            />
+            <BasikSelect
+              variant='standard'
+              options={getAllGroup?.group}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.groupId}
+              label='Группа'
+              onChange={(event) => setGroupId(event)}
+            />
+            <h5>{groupStudentName.name}</h5>
+            <Button variant='RequestAllow-Buttons' onClick={clickAddGroupId}>
+              Добавить
+            </Button>
+          </DivGroupStudentStyled>
+        </Modall>
       )}
     </div>
   )
@@ -127,6 +190,23 @@ const H3 = styled.h3`
   color: var(--light-blue, #134764);
   font-family: Zen Kaku Gothic New;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`
+const DivGroupStudentStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 200px;
+  margin-top: 44px;
+`
+const H4 = styled.h4`
+  color: var(--light-blue, #134764);
+  text-align: center;
+  font-family: Zen Kaku Gothic New;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

@@ -251,24 +251,13 @@ export const managerPostNotificationSelect = createAsyncThunk(
   // eslint-disable-next-line consistent-return
   async (props, { rejectWithValue, dispatch }) => {
     try {
-      if (props.fetchRole === 'user') {
-        const response = await ApiFetch({
-          url: `api/managers/select/role?id=${props.body.id}&roleRequest=${props.body.roleRequest}`,
-          method: 'POST',
-          body: props.body,
-        })
-        dispatch(managerGetNotifications(), managerGetProfile())
-        return response
-      }
-      if (props.fetchRole === 'teacher') {
-        const response = await ApiFetch({
-          url: `api/managers/select/role/teacher/?id=${props.body.id}&roleRequest=${props.body.roleRequest}`,
-          method: 'POST',
-          body: props.body,
-        })
-        dispatch(managerGetNotifications(), managerGetProfile())
-        return response
-      }
+      const response = await ApiFetch({
+        url: `api/managers/select/role/teacher/?id=${props.body.id}&roleRequest=${props.body.roleRequest}`,
+        method: 'POST',
+        body: props.body,
+      })
+      dispatch(managerGetNotifications(), managerGetProfile())
+      return response
     } catch (error) {
       return rejectWithValue(error?.message)
     }
@@ -503,26 +492,14 @@ export const managerSeoAdminBlockOrUnBlock = createAsyncThunk(
   // eslint-disable-next-line consistent-return
   async (props, { rejectWithValue, dispatch }) => {
     try {
-      if (props.block === 'block') {
-        const response = await ApiFetch({
-          url: `api/managers/block/User/${props.id}`,
-          method: 'PUT',
-          body: { id: props.id },
-        })
-        const block = 'success'
-        dispatch(getManagerSeoAdmin())
-        return { response, block }
-      }
-      if (props.block === 'unblock') {
-        const response = await ApiFetch({
-          url: `api/managers/unblock/User/${props.id}`,
-          method: 'PUT',
-          body: { id: props.id },
-        })
-        const unblock = 'success'
-        dispatch(getManagerSeoAdmin())
-        return { response, unblock }
-      }
+      const response = await ApiFetch({
+        url: `api/managers/block/User?id=${props.id}`,
+        method: 'PUT',
+        body: { id: props.id },
+      })
+      const block = 'success'
+      dispatch(getManagerSeoAdmin())
+      return { response, block }
     } catch (error) {
       return rejectWithValue(error)
     }
@@ -619,6 +596,35 @@ export const managerDeleteStudentGroups = createAsyncThunk(
       return response
     } catch (error) {
       return rejectWithValue(error?.message)
+    }
+  }
+)
+
+export const managerAddToGroupMetorInstructors = createAsyncThunk(
+  'managerSlice/managerAddToGroupMetorInstructors',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      if (props.teacherRole === 'instructor') {
+        const response = await ApiFetch({
+          url: `api/managers/save/teacher/group?teacherId=${props.teacherId}&groupId=${props.groupId}`,
+          method: 'POST',
+          body: { teacherId: props.teacherId, groupId: props.groupId },
+        })
+        dispatch(managerInstructorMentor())
+        return response
+      }
+      if (props.teacherRole === 'mentor') {
+        const response = await ApiFetch({
+          url: `api/managers/save/mentor/group?teacherId=${props.teacherId}&groupId=${props.groupId}`,
+          method: 'POST',
+          body: { teacherId: props.teacherId, groupId: props.groupId },
+        })
+        dispatch(managerInstructorMentor())
+        return response
+      }
+    } catch (error) {
+      rejectWithValue(error)
     }
   }
 )
