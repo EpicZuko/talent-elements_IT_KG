@@ -6,6 +6,7 @@ import {
   getStudentMyGroupUrl,
   getStudentMyprofileUrl,
   getStudentNotificationUrl,
+  studentNotificationManagerUrl,
 } from '../../../utils/constants/url'
 
 export const getStudentProfile = createAsyncThunk(
@@ -36,15 +37,16 @@ export const getCoursesStudent = createAsyncThunk(
         url: getCousesUrl,
       })
       const courses = []
+
       // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < response.length; i++) {
-        courses.push({
-          id: response[i].id,
-          title: response[i].name,
-          img: response[i].photo,
-          percent: response[i].date_remainder,
-        })
-      }
+      courses.push({
+        id: response.id,
+        title: response.name,
+        img: response.photo,
+        date_start: response.date_start,
+        date_finish: response.date_finish,
+        date_count: response.date_count,
+      })
       return { courses }
     } catch (error) {
       return rejectWithValue(error)
@@ -150,6 +152,7 @@ export const getStudentNotification = createAsyncThunk(
       })
       dispatch(getStudentProfile())
       const getStudentNotificationArray = []
+
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
         getStudentNotificationArray.push({
@@ -160,6 +163,7 @@ export const getStudentNotification = createAsyncThunk(
           lesson: response[i].assigment,
         })
       }
+
       return { getStudentNotificationArray }
     } catch (error) {
       return rejectWithValue(error)
@@ -240,6 +244,32 @@ export const postStudentTextForm = createAsyncThunk(
       return response
     } catch (error) {
       return rejectWithValue(error)
+    }
+  }
+)
+export const notificationStudentManager = createAsyncThunk(
+  'studentSlice/notificationStudentManager',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: studentNotificationManagerUrl,
+      })
+      const managerMessage = []
+
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < response.length; i++) {
+        managerMessage.push({
+          id: response[i].id,
+          name: 'менеджер',
+          commentValue: response[i].message,
+          days: 10,
+        })
+      }
+
+      return { managerMessage }
+    } catch (error) {
+      return rejectWithValue()
     }
   }
 )

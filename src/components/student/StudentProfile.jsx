@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentProfileProgress } from '../../services/reducerSlice/studentSlice/studentAction'
 import AvatarUsers from '../UI/AvatarUsers'
@@ -11,12 +11,17 @@ const StudentProfile = () => {
   const state = useSelector((state) => state.student)
   const dispatch = useDispatch()
   const { studentId } = useParams()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getStudentProfileProgress({ id: +studentId }))
   }, [studentId])
+
+  const goBack = () => {
+    navigate(-1)
+  }
   return (
     <div>
-      <H6>
+      <H6 onClick={goBack}>
         Группа /<H5>{state?.getStudentProfileProgress?.email}</H5>
       </H6>
       <StyledDivStudent>
