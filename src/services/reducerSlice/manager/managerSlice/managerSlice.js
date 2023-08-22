@@ -624,7 +624,7 @@ export const managerAddToGroupMetorInstructors = createAsyncThunk(
         return response
       }
     } catch (error) {
-      rejectWithValue(error)
+      return rejectWithValue(error)
     }
   }
 )
