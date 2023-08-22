@@ -599,6 +599,7 @@ export const managerDeleteStudentGroups = createAsyncThunk(
     }
   }
 )
+
 export const managerAddToGroupMetorInstructors = createAsyncThunk(
   'managerSlice/managerAddToGroupMetorInstructors',
   // eslint-disable-next-line consistent-return
@@ -623,7 +624,7 @@ export const managerAddToGroupMetorInstructors = createAsyncThunk(
         return response
       }
     } catch (error) {
-      return rejectWithValue(error)
+      rejectWithValue(error)
     }
   }
 )
