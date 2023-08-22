@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import ApiFetch from '../../../api/ApiFetch'
+import ApiFetch, { appFile } from '../../../api/ApiFetch'
 import {
   MentorDeleteLessonByIdUrl,
   MentorGetLessonByGroupIdUrl,
@@ -119,6 +119,23 @@ export const getMentorNotifications = createAsyncThunk(
         })
       }
       return { getNotifications }
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+export const postMentorLessons = createAsyncThunk(
+  'mentor-instructor/postLessons',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    const formData = new FormData()
+    formData.append('file', props.file)
+    try {
+      await appFile({
+        url: `api/teachers/create_lesson?title=${props.title}&titleYoutube=${props.titleYoutube}&youtube=${props.youtube}&titleFile=${props.titleFile}&groupId=${props.id}`,
+        method: 'POST',
+        body: formData,
+      })
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -319,7 +336,12 @@ export const MentorInstructorSlice = createSlice({
       state.isSuccess = true
       state.status = 'success'
     },
-    [putMentorStudents.rejected]: (state) => {
+    // post mentor lessons
+    [postMentorLessons.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [postMentorLessons.rejected]: (state) => {
       state.isSuccess = true
       state.status = 'error'
     },
