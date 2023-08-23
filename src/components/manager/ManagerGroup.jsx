@@ -146,7 +146,7 @@ const TitleH5 = styled.h5`
   }
 `
 const ContainerDiv1 = styled.div`
-  width: 100%;
+  width: 92%;
   display: flex;
   justify-content: space-between;
   @media (max-width: 391px) {

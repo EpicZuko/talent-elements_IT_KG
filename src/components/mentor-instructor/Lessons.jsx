@@ -194,8 +194,8 @@ const Location = styled.div`
 `
 const Block = styled.div`
   display: flex;
-  width: 1400px;
   justify-content: space-between;
+  width: 1140px;
   @media (max-width: 415px) {
     align-items: baseline;
     width: 100%;

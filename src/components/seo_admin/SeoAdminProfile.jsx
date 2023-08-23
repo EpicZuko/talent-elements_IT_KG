@@ -5,12 +5,12 @@ import { getSeoAdminProfile } from '../../services/reducerSlice/seoAdminGroupsSl
 import AvatarUsers from '../UI/AvatarUsers'
 
 const SeoAdminProfile = () => {
-  const [fileImg, setFileImg] = useState('')
+  const state = useSelector((state) => state.seoAdmin)
+  const [fileImg, setFileImg] = useState(state?.getProfile?.profileImg)
   const [format, setFormat] = useState('')
   const [editButton, setEditButton] = useState(false)
   const [deleteButton, setDeleteButton] = useState(false)
 
-  const state = useSelector((state) => state.seoAdmin)
   const dispatch = useDispatch()
 
   useEffect(() => {

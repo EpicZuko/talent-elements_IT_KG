@@ -157,7 +157,7 @@ export const MentorIsntructorCreateAssignment = () => {
 const AssignmentBlock = styled.form`
   display: flex;
   justify-content: center;
-  width: 1400px;
+  width: 1200px;
   gap: 50px;
   margin-top: 0px;
   @media (max-width: 415px) {

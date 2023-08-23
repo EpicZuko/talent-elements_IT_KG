@@ -56,6 +56,20 @@ const Lessons = ({
                   </Lesson>
                 </StyledTagA>
               )}
+              {element.lessons &&
+                element?.lessons?.map((elem) => {
+                  return (
+                    <StyledTagA href={elem?.youtube}>
+                      <Lesson>
+                        <D>
+                          <Img src={Frame} alt='error' />
+                          <Title>{elem?.youtubeTitle}</Title>
+                        </D>
+                        <Date>{elem?.date}</Date>
+                      </Lesson>
+                    </StyledTagA>
+                  )
+                })}
               {element?.urlPdf && (
                 <StyledTagA href={element?.urlPdf}>
                   <Lesson>
@@ -80,15 +94,17 @@ const Lessons = ({
                         <Title>{elem?.title} </Title>
                       </D1>
                       <Date>{formattedDate}</Date>
-                      {elem?.submissionResponseList?.map((item) => (
-                        <DivScore>
-                          {item?.score !== 0 ? (
-                            <Score score={item?.score}>
-                              {`${item?.score} ball `}
-                            </Score>
-                          ) : null}
-                        </DivScore>
-                      ))}
+                      {elem?.submissionResponseList?.map((item) => {
+                        return (
+                          <DivScore>
+                            {item?.score !== 0 ? (
+                              <Score score={item?.score}>
+                                {`${item?.score} ball `}
+                              </Score>
+                            ) : null}
+                          </DivScore>
+                        )
+                      })}
                     </Lesson>
                   )
                 })}
@@ -122,10 +138,23 @@ const Lessons = ({
                 <Lesson>
                   <D7>
                     <Img src={Frame3} alt='error' />
-                    <Title>{element.text}</Title>
+                    <Title>{element.titleFile}</Title>
                   </D7>
                 </Lesson>
               </StyledTagA>
+              {element?.lessons &&
+                element?.lessons.map((elem) => {
+                  return (
+                    <StyledTagA href={elem?.youtube}>
+                      <Lesson>
+                        <D6>
+                          <Img src={Frame} alt='error' />
+                          <Title>{elem?.youtubeTitle}</Title>
+                        </D6>
+                      </Lesson>
+                    </StyledTagA>
+                  )
+                })}
               {element?.assignments &&
                 element?.assignments?.map((el) => {
                   const dateString = el?.created
@@ -182,7 +211,11 @@ const Lessons = ({
                                     <ShowedStudents>
                                       <p
                                         onClick={() =>
-                                          onClickStudentSubmission(elem)
+                                          onClickStudentSubmission({
+                                            assimentId: el.id,
+                                            submissinonId: elem.id,
+                                            studentId: elem,
+                                          })
                                         }
                                         style={{ cursor: 'pointer' }}
                                       >

@@ -137,7 +137,7 @@ export const MentorEditLesson = () => {
 }
 
 const Location = styled.div`
-  margin-bottom: 138px;
+  margin-bottom: 100px;
   display: flex;
   gap: 5px;
 `
@@ -183,7 +183,7 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   margin-left: 550px;
-  margin-top: 200px;
+  margin-top: 50px;
   @media (max-width: 415px) {
     margin-left: 0;
     margin-top: 100px;

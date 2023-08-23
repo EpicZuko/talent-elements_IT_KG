@@ -55,6 +55,7 @@ const CartError = styled.div`
         .link_404 {
           width: 140px;
           height: 40px;
+          font-size: 10px;
         }
         & h4 {
           margin-top: 20px;

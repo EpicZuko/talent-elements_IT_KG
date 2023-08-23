@@ -6,15 +6,16 @@ import AvatarUsers from '../UI/AvatarUsers'
 import { Progress } from '../UI/ProgressBar'
 
 const StudentMyProfile = () => {
-  const [fileImg, setFileImg] = useState('')
-  const [, setFormat] = useState('')
+  const state = useSelector((state) => state.student)
+  const [fileImg, setFileImg] = useState(state?.getStudentMyProfile?.profileImg)
+  const [format, setFormat] = useState('')
   const [deleteButton, setDeleteButton] = useState(false)
   const [editButton, setEditButton] = useState(false)
-  const state = useSelector((state) => state.student)
   const dispatch = useDispatch()
+
   useEffect(() => {
-    dispatch(getStudentMyProfile({ fileImg }))
-  }, [fileImg])
+    dispatch(getStudentMyProfile({ fileImg: format }))
+  }, [fileImg, format])
 
   return (
     <div>
