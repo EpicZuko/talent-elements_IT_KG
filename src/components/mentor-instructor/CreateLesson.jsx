@@ -37,6 +37,10 @@ const MentorCreateLesson = () => {
     setUrlInputValue(event.target.value)
   }
   const fileGroup = useRef(null)
+  const fileButton = (event) => {
+    event.preventDefault()
+    fileGroup.current.click()
+  }
   const createLesson = () => {
     if (TitleInputValue.trim() !== '' && UrlInputValue.trim() !== '') {
       dispatch(
@@ -95,12 +99,20 @@ const MentorCreateLesson = () => {
             placeholder='Видеонун атын жазыңыз'
             value={YoutubeInputValue}
           />
-          <InputFile
-            ref={fileGroup}
-            type='file'
-            accept='pdf/*,.pdf'
-            onChange={changeHandlerFile}
-          />
+          <FileSelectBlock>
+            <Button variant='Doctrine page' onClick={fileButton}>
+              Файл тандаңыз
+            </Button>
+            <FileSelectText>
+              {format?.name ? format?.name : 'Файл тандалган жок'}
+            </FileSelectText>
+            <InputFile
+              ref={fileGroup}
+              type='file'
+              accept='pdf/*,.pdf'
+              onChange={changeHandlerFile}
+            />
+          </FileSelectBlock>
           <Input
             onChange={FileInputValueHandler}
             variant='enter-lesson'
@@ -124,7 +136,7 @@ const MentorCreateLesson = () => {
         }
         text={
           state.status === 'success'
-            ? 'Сабагыныз ийгиликтүү жүктөлдү'
+            ? 'Сабагыңыз ийгиликтүү жүктөлдү'
             : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
@@ -196,26 +208,19 @@ const ButtonDiv = styled.div`
     width: 100%;
   }
 `
-const InputFile = styled.input`
+const FileSelectBlock = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`
+const FileSelectText = styled.p`
   font-family:
-    Zen Kaku Gothic New,
+    Kaku Gothic New,
     sans-serif;
   font-size: 15px;
   color: rgba(19, 71, 100, 1);
   font-weight: 600;
-  &::-webkit-file-upload-button {
-    transition: 0.3s;
-    cursor: pointer;
-    background: rgba(19, 71, 100, 1);
-    width: 200px;
-    height: 25px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-right: 20px;
-    font-weight: 600;
-    &:hover {
-      background: #0c2b3c;
-    }
-  }
+`
+const InputFile = styled.input`
+  display: none;
 `

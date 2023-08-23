@@ -194,11 +194,10 @@ export const getMentorLessons = createAsyncThunk(
         lessons.lesson.push({
           id: getLessons[i].id,
           text: getLessons[i].title,
-          title: getLessons[i].titleYoutube,
-          youtube: getLessons[i].youtube,
           titleFile: getLessons[i].titleFile,
           file: getLessons[i].file,
           assignments: getLessons[i].assignments,
+          youtubeVideo: getLessons[i].lessons,
         })
       }
       return { getLessons: lessons }
@@ -237,7 +236,20 @@ export const getMentorVotedStudentsByAssignmentId = createAsyncThunk(
     }
   }
 )
-
+export const postLessonMaterial = createAsyncThunk(
+  'mentor-instructor/saveLessonMaterial',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      await ApiFetch({
+        url: `api/teachers/save/lesson/material?youtube=${props.youtube}&youtubeTitle=${props.youtubeTitle}&lessonId=${props.lessonId}`,
+        method: 'POST',
+      })
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 export const deleteMentorLesson = createAsyncThunk(
   'mentor-instrcutor/deleteLessons',
   // eslint-disable-next-line consistent-return
@@ -487,6 +499,14 @@ export const MentorInstructorSlice = createSlice({
       state.status = 'success'
     },
     [postMentorAssignments.rejected]: (state) => {
+      state.isSuccess = true
+      state.status = 'error'
+    },
+    [postLessonMaterial.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [postLessonMaterial.rejected]: (state) => {
       state.isSuccess = true
       state.status = 'error'
     },
