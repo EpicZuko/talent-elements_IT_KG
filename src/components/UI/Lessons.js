@@ -18,6 +18,7 @@ const Lessons = ({
   deleteLesson,
   onEdit,
   onClickStudentSubmission,
+  variantLessonEditTools,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
@@ -95,37 +96,47 @@ const Lessons = ({
             </Container>
           )}
           {variant === 'Mentor' && (
-            <MentorLesson onAuxClick={() => onEdit(element)}>
-              <LessonEditTools>
-                <ButtonsLessonBlock>
-                  <AddAssignmentButton onClick={() => addAssignment(element)}>
-                    +
-                  </AddAssignmentButton>
-                  <DeleteButton>
-                    <Button
-                      onClick={() => deleteLesson(element)}
-                      variant='delete button'
-                    />
-                  </DeleteButton>
-                </ButtonsLessonBlock>
-                <H1>{element.text}</H1>
-              </LessonEditTools>
-              <StyledTagA href={element.videoUrl}>
-                <Lesson>
-                  <D6>
-                    <Img src={Frame} alt='error' />
-                    <Title>{element.title}</Title>
-                  </D6>
-                </Lesson>
-              </StyledTagA>
-              <StyledTagA href={element.urlPdf}>
-                <Lesson>
-                  <D7>
-                    <Img src={Frame3} alt='error' />
-                    <Title>{element.text}</Title>
-                  </D7>
-                </Lesson>
-              </StyledTagA>
+            <MentorLesson
+              onAuxClick={() => (variantLessonEditTools ? onEdit(element) : '')}
+            >
+              {variantLessonEditTools && (
+                <LessonEditTools>
+                  <ButtonsLessonBlock>
+                    <AddAssignmentButton onClick={() => addAssignment(element)}>
+                      +
+                    </AddAssignmentButton>
+                    <DeleteButton>
+                      <Button
+                        onClick={() => deleteLesson(element)}
+                        variant='delete button'
+                      />
+                    </DeleteButton>
+                  </ButtonsLessonBlock>
+                  <H1>{element.text}</H1>
+                </LessonEditTools>
+              )}
+              <div>
+                {element.youtube?.map((el) => {
+                  return (
+                    <StyledTagA href={el.youtube}>
+                      <Lesson>
+                        <D6>
+                          <Img src={Frame} alt='error' />
+                          <Title>{el.youtubeTitle}</Title>
+                        </D6>
+                      </Lesson>
+                    </StyledTagA>
+                  )
+                })}
+                <StyledTagA href={element.urlPdf}>
+                  <Lesson>
+                    <D7>
+                      <Img src={Frame3} alt='error' />
+                      <Title>{element.text}</Title>
+                    </D7>
+                  </Lesson>
+                </StyledTagA>
+              </div>
               {element?.assignments &&
                 element?.assignments?.map((el) => {
                   const dateString = el?.created
@@ -145,7 +156,9 @@ const Lessons = ({
                       )}
                       <LessonLeft>
                         <D7
-                          onMouseOverCapture={() => getId(el.id)}
+                          onMouseOverCapture={() =>
+                            variantLessonEditTools ? getId(el.id) : ''
+                          }
                           onMouseOver={showAssignments}
                         >
                           <Img src={Frame1} alt='error' />
