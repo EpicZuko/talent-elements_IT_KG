@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import IconCardGroup from '../../../assets/icon/Vector (1).svg'
 import ImgCardGroup from '../../../assets/icon/Слой_x0020_1.svg'
+import Button from '../Button'
 import ProgressCard from './ProgressCard'
 
 const Card = (props) => {
@@ -43,15 +44,29 @@ const Card = (props) => {
                         src={IconCardGroup}
                         alt='error'
                       />
-                      <Students
-                        onClick={() =>
-                          props.variantClick === 'disbled'
-                            ? ''
-                            : props.navToStudents(element)
-                        }
-                      >
-                        {element.students} студентов
-                      </Students>
+                      <DivDelete variantDelete={props.variantDelete}>
+                        <Students
+                          onClick={() =>
+                            props.variantClick === 'disbled'
+                              ? ''
+                              : props.navToStudents(element)
+                          }
+                        >
+                          {element.students} студент
+                        </Students>
+                        {props.variantDelete === 'delete' ? (
+                          <DivDeleteButton variantDelete={props.variantDelete}>
+                            <Button
+                              variant='delete button'
+                              onClick={() =>
+                                props.varinatClick === 'disbled'
+                                  ? ''
+                                  : props.onClickDeleteGroup(element)
+                              }
+                            />
+                          </DivDeleteButton>
+                        ) : null}
+                      </DivDelete>
                     </div>
                   </Containerr>
                 )}
@@ -68,7 +83,7 @@ const Card = (props) => {
                     tabIndex='0'
                   >
                     <ImgCard src={ImgCardGroup} alt='error' />
-                    <Lesson>Курсы - {element.lesson}</Lesson>
+                    <Lesson>Курстар - {element.lesson}</Lesson>
                   </Div1>
                   <Div2 role='button' tabIndex='0'>
                     <ImgGroup
@@ -80,7 +95,7 @@ const Card = (props) => {
                           : props.onClickStudents(element)
                       }
                     />
-                    <Studentss>Стдуенты - {element.students}</Studentss>
+                    <Studentss>Студенттер - {element.students}</Studentss>
                   </Div2>
                 </Mentor>
               )}
@@ -218,4 +233,13 @@ const Div1 = styled.div`
 `
 const Div2 = styled.div`
   text-align: center;
+`
+const DivDelete = styled.div`
+  display: ${(props) => (props.variantDelete === 'delete' ? 'flex' : '')};
+  margin-left: ${(props) =>
+    props.variantDelete === 'delete' ? '100px' : '0px'};
+`
+const DivDeleteButton = styled.div`
+  padding-left: ${(props) =>
+    props.variantDelete === 'delete' ? '70px' : '0px'};
 `

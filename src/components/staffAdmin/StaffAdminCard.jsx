@@ -20,7 +20,7 @@ const StaffAdminCard = () => {
   }
   return (
     <DivStyled>
-      <H5>Все группы</H5>
+      <H5>Тайпалар</H5>
       <Card
         variant='mentor_instructor'
         user={state?.cardCouses}

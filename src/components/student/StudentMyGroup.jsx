@@ -18,7 +18,7 @@ const StudentMyGroup = () => {
   }
   return (
     <DivBlockContainer>
-      <H5>Мои группа</H5>
+      <H5>Менин тайпам</H5>
       <StudentContianer>
         {state?.getStudentMyGroup.length > 0 ? (
           <Student
@@ -28,7 +28,7 @@ const StudentMyGroup = () => {
             onClickElement={(element) => navigateStudentProfile(element.id)}
           />
         ) : (
-          <p>Совпадений не найдено.</p>
+          <p>Азырынча бул жер бош</p>
         )}
       </StudentContianer>
     </DivBlockContainer>

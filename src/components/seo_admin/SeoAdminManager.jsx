@@ -26,11 +26,11 @@ const SeoAdminManager = () => {
     <StyledDiv>
       <div>
         <DivStyledInput>
-          <H5> Менеждеры </H5>
+          <H5> Менеждер </H5>
           <DivInput>
             <Input
               variant='add Search'
-              placeholder='Поиск...'
+              placeholder='Издөө...'
               onChange={searchChangeValue}
               value={search}
             />
@@ -44,7 +44,7 @@ const SeoAdminManager = () => {
               variantClick='disbled'
             />
           ) : (
-            <p>Совпадений не найдено</p>
+            <p>Азырынча бул жер бош</p>
           )}
         </Div>
       </div>

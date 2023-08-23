@@ -40,7 +40,7 @@ const ManagerRoutes = () => {
           <Route path='/staffAdmin' element={<ManagerStaffAdmin />} />
           <Route path='/seoAdmin' element={<ManagerSeoAdmin />} />
           <Route path='/profile' element={<ManagerProfile />} />
-          <Route path='*' element={<Error />} />
+          <Route path='*' element={<Error variant='page' />} />
         </Route>
         <Route path='*' element={<Error />} />
       </Routes>

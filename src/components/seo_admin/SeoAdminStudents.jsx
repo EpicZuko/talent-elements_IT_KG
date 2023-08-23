@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentsId } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
-import { Location } from '../UI/Location'
 import Student from '../UI/Student'
 
 const SeoAdminStudent = () => {
@@ -26,9 +25,7 @@ const SeoAdminStudent = () => {
     <div>
       <DivContianer>
         <DivStyle>
-          <AllGroup onClick={goBackHandler}>
-            Все группы / <Location />
-          </AllGroup>
+          <AllGroup onClick={goBackHandler}>Тайпалар</AllGroup>
         </DivStyle>
         <DivStudent>
           <Student

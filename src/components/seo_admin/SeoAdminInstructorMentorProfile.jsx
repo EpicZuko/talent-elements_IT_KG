@@ -43,7 +43,7 @@ const SeoAdminInstructorMentorProfile = () => {
   return (
     <div>
       <H6 onClick={goBackHandler}>
-        Инструкторы, Мен. /<H5>{state?.byIdTeachers?.email}</H5>
+        Инструкторлор жана Менторлор /<H5>{state?.byIdTeachers?.email}</H5>
       </H6>
       <StyledDivStudent>
         <AvatarUsers

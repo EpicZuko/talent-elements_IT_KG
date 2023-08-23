@@ -22,7 +22,7 @@ const ManagerInstructorMentorProfile = () => {
   return (
     <div>
       <H6 onClick={goBackInstructorMentor}>
-        Инструкторы, Мен. /<H5>{state?.instructorMentorProfile?.email}</H5>
+        Инструктор жана Ментор /<H5>{state?.instructorMentorProfile?.email}</H5>
       </H6>
       <DivStyled>
         <AvatarUsers

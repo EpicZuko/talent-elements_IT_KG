@@ -104,7 +104,7 @@ const MentorInstructorLessons = () => {
       <Block>
         <Location>
           <LocationText onClick={navToCourse}>{groupName} /</LocationText>
-          <LocationText2>Уроки</LocationText2>
+          <LocationText2>Сабактар</LocationText2>
         </Location>
         <ButtonsBlock>
           <Button variant='Add-Button' onClick={createLesson}>
@@ -113,7 +113,7 @@ const MentorInstructorLessons = () => {
         </ButtonsBlock>
         <ButtonsBlock2>
           <Button variant='create group' onClick={createLesson}>
-            Ввести урок
+            Сабак кошуу
           </Button>
         </ButtonsBlock2>
       </Block>
@@ -150,8 +150,8 @@ const MentorInstructorLessons = () => {
         }
         text={
           state.status === 'success'
-            ? 'Сабагыныз ийгиликтүү өчүрүлдү'
-            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+            ? 'Сабагыңыз ийгиликтүү өчүрүлдү'
+            : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
       />
@@ -159,9 +159,9 @@ const MentorInstructorLessons = () => {
         <Modall onClose={modalClose}>
           <ModalBlock>
             <OnDeleteText>
-              Хотите удалить{' '}
-              {showModal.variant === 'lesson' ? 'текущий' : 'текущее'}{' '}
-              {showModal.variant === 'lesson' ? 'урок' : 'задание'} ?
+              {showModal.variant === 'lesson' ? 'Ушул ' : 'Ушул '}
+              {showModal.variant === 'lesson' ? 'сабакты ' : 'тапшырманы '}
+              өчүрүүдө ишенимдүүсүзбү?
             </OnDeleteText>
             <div style={{ display: 'flex', gap: '20px' }}>
               <Button
@@ -172,10 +172,10 @@ const MentorInstructorLessons = () => {
                     : deleteAssignment
                 }
               >
-                Да
+                Ооба
               </Button>
               <Button variant='RequestAllow-Buttons' onClick={modalClose}>
-                Нет
+                Жок
               </Button>
             </div>
           </ModalBlock>
@@ -280,4 +280,5 @@ const OnDeleteText = styled.h1`
   letter-spacing: 0em;
   margin-bottom: 50px;
   text-align: center;
+  padding: 5px;
 `

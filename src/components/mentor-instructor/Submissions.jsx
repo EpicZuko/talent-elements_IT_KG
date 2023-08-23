@@ -25,7 +25,7 @@ export const MentorInstructorSubmissions = () => {
   return (
     <div>
       <Location>
-        <LocationText onClick={navToLesosn}>Уроки /</LocationText>
+        <LocationText onClick={navToLesosn}>Сабактар /</LocationText>
         <LocationText2>{studentName}</LocationText2>
       </Location>
       <HomeWorkTask

@@ -51,8 +51,8 @@ export const MentorInstructorStudents = () => {
   return (
     <div>
       <Location>
-        <LocationText onClick={navToGroup}>Мои группы /</LocationText>
-        <LocationText2>Студенты: {groupName}</LocationText2>
+        <LocationText onClick={navToGroup}>Тайпаларым /</LocationText>
+        <LocationText2>{groupName}</LocationText2>
       </Location>
       <StudentBlock>
         <Student
@@ -65,13 +65,13 @@ export const MentorInstructorStudents = () => {
       {showModal && (
         <Modall onClose={modalClose}>
           <ModalBlock>
-            <OnDeleteText>Xотите удалить студента ?</OnDeleteText>
+            <OnDeleteText>Өчүрүүдө ишенимдүүсүзбү?</OnDeleteText>
             <div style={{ display: 'flex', gap: '20px' }}>
               <Button variant='RequestRefusal-Buttons' onClick={deleteStudents}>
-                Да
+                Ооба
               </Button>
               <Button variant='RequestAllow-Buttons' onClick={modalClose}>
-                Нет
+                Жок
               </Button>
             </div>
           </ModalBlock>

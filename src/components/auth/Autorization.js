@@ -79,8 +79,8 @@ const Autorization = ({ variant, onClickVariant }) => {
       <CustomizedSnackbars
         message={
           status === 'success'
-            ? 'Поздравлеем! Вы успешно авторизовались в системе. Добро пожаловать!'
-            : 'Извините призошло ошибка при авторизации. Пожалуйста, проверьте введенные данные и повторите попытку'
+            ? 'Куттуктайбыз! Сиз системага ийгиликтүү катталыңыз! Кош келипсиз 😊'
+            : 'Кечиресиз катталууда ката кетти! Сураныч маалыматты тууралап кайрадан жөнөтүңүз! 😔(почтаңыз "com" болуусу жана сыр сөздө чоң тамга, белги жана сан болуусу зарыл)'
         }
         variant={status}
         open={Isuccess}
@@ -99,62 +99,62 @@ const Autorization = ({ variant, onClickVariant }) => {
             <div>
               {variant === 'Login' ? (
                 <LoginText>
-                  <AutorizationText>Войти</AutorizationText>
+                  <AutorizationText>Кирүү</AutorizationText>
                 </LoginText>
               ) : (
-                <AutorizationText>Регистрация</AutorizationText>
+                <AutorizationText>Каттоо</AutorizationText>
               )}
               {variant === 'Login' ? (
                 <AutorizationForm onSubmit={submitLogin}>
                   <Input
-                    placeholder='Введите логин'
+                    placeholder='Логин жазыңыз'
                     type='text'
                     name='emailOrUsername'
                     value={createAccount.emailOrUsername}
                     onChange={createAccountHandlerChangeValue}
                   />
                   <Input
-                    placeholder='Введите пароль'
+                    placeholder='Сыр сөзүңүздү жазыңыз'
                     type='password'
                     name='password'
                     value={createAccount.password}
                     onChange={createAccountHandlerChangeValue}
                   />
                   <LoginButton>
-                    <Button variant='sing in'>Войти</Button>
+                    <Button variant='sing in'>Кирүү</Button>
                   </LoginButton>
                   <ForLoginText>
-                    У вас нету аккаунта?
+                    Аккаунтуңуз жокбу?
                     <ForLoginText2 onClick={regHandler}>
-                      Зарегистрироваться
+                      Катталыңыз
                     </ForLoginText2>
                   </ForLoginText>
                 </AutorizationForm>
               ) : (
                 <AutorizationForm onSubmit={submitAuth}>
                   <Input
-                    placeholder='Введите логин'
+                    placeholder='логин жазыңыз'
                     type='text'
                     name='username'
                     value={toComeIn.username}
                     onChange={toComeInHandlerChangeValue}
                   />
                   <Input
-                    placeholder='Введите фамилю'
+                    placeholder='фамилияңызды жазыңыз'
                     type='text'
                     name='fullName'
                     value={toComeIn.fullName}
                     onChange={toComeInHandlerChangeValue}
                   />
                   <Input
-                    placeholder='Введите email'
+                    placeholder='email жазыңыз'
                     type='email'
                     name='email'
                     value={toComeIn.email}
                     onChange={toComeInHandlerChangeValue}
                   />
                   <Input
-                    placeholder='Введите пароль'
+                    placeholder='Сыр сөз жазыңыз'
                     type='password'
                     name='password'
                     value={toComeIn.password}
@@ -167,10 +167,10 @@ const Autorization = ({ variant, onClickVariant }) => {
                     value={toComeIn.repeatPassword}
                     onChange={toComeInHandlerChangeValue}
                   /> */}
-                  <Button variant='sing in'>Создать аккаунт</Button>
+                  <Button variant='sing in'>Аккаунт түзүү</Button>
                   <ForLoginText>
-                    У вас уже есть аккаунт?
-                    <ForLoginText2 onClick={loginHandler}>Войти</ForLoginText2>
+                    Сиздин аккаунтуңуз барбы?
+                    <ForLoginText2 onClick={loginHandler}>Кирүү</ForLoginText2>
                   </ForLoginText>
                 </AutorizationForm>
               )}
@@ -225,9 +225,9 @@ const AutorizationFormBlock = styled.div`
   border-radius: 20px;
   background: white;
   border-radius: 20px;
-  height: 732px;
+  height: 618px;
   gap: 115px;
-  margin-top: 70px;
+  margin-top: 50px;
   padding-right: 105px;
   background-repeat: no-repeat;
   @media screen and (max-width: 415px) {
@@ -281,8 +281,8 @@ const AutorizationForm = styled.form`
   }
 `
 const AutorizationImg = styled.img`
-  width: 618px;
-  height: 733px;
+  width: 523px;
+  height: 620px;
   border-radius: 20px 0px 0px 20px;
 `
 const AutorizationText = styled.h4`

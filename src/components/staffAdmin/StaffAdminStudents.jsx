@@ -22,10 +22,8 @@ const StaffAdminStudents = () => {
     <DivBlockContainer>
       <div>
         <AllGroups onClick={goBackGroup}>
-          Все группы /
-          <StudensJava5>
-            Студенты: {state?.getStudentIdRainting?.groupName}
-          </StudensJava5>
+          Тайпалар /
+          <StudensJava5>{state?.getStudentIdRainting?.groupName}</StudensJava5>
         </AllGroups>
       </div>
       <StudentContianer>

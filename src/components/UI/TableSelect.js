@@ -7,8 +7,8 @@ const Table = ({ student, variant }) => {
         <table>
           <TrHead>
             <TableHead>№</TableHead>
-            <TableHead>Уроки</TableHead>
-            <TableHead>Группы</TableHead>
+            <TableHead>Сабактар</TableHead>
+            <TableHead>Тайпалар</TableHead>
           </TrHead>
           {student.map((element) => (
             <TrBody key={element.id}>
@@ -23,11 +23,11 @@ const Table = ({ student, variant }) => {
         student.map((el) => (
           <StyledTable>
             <tr style={{ display: 'flex', gap: '5px' }}>
-              <TableBody2>Группа:</TableBody2>
+              <TableBody2>Тайпа:</TableBody2>
               <TableHead2>{el.groups}</TableHead2>
             </tr>
             <tr style={{ display: 'flex', gap: '5px' }}>
-              <TableBody2>Дата регистрации:</TableBody2>
+              <TableBody2>Катталган күнү:</TableBody2>
               <TableHead2>{el.date}</TableHead2>
             </tr>
           </StyledTable>

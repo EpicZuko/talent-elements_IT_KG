@@ -21,6 +21,7 @@ import {
   managerDeleteStudentGroups,
   managerAddToGroupMetorInstructors,
   managerProfileGet,
+  deleteGroupManager,
 } from '../managerSlice/managerSlice'
 
 const managerSlice = createSlice({
@@ -99,6 +100,10 @@ const managerSlice = createSlice({
       profile: [],
       status: null,
     },
+    deleteGroup: {
+      deleteStatus: null,
+      open: false,
+    },
   },
 
   reducers: {
@@ -139,6 +144,10 @@ const managerSlice = createSlice({
         action.payload.mentorInstructoraddToGroup
       state.mentorInstructoraddToGroupStatus =
         action.payload.mentorInstructoraddToGroupStatus
+    },
+    snackBarDeleteGroupClose(state, action) {
+      state.deleteGroup.open = action.payload.open
+      state.deleteGroup.deleteStatus = action.payload.deleteStatus
     },
   },
   extraReducers: (builder) => {
@@ -436,6 +445,15 @@ const managerSlice = createSlice({
       })
       .addCase(managerProfileGet.rejected, (state) => {
         state.managerProfileGet.status = 'error'
+      })
+      // delete group
+      .addCase(deleteGroupManager.fulfilled, (state) => {
+        state.deleteGroup.deleteStatus = 'success'
+        state.deleteGroup.open = true
+      })
+      .addCase(deleteGroupManager.rejected, (state) => {
+        state.deleteGroup.deleteStatus = 'error'
+        state.deleteGroup.open = true
       })
   },
 })

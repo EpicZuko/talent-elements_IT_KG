@@ -29,7 +29,7 @@ export const MentorInstrcutorProfile = () => {
           alt='none'
           onClick={navToPrevPage}
         />
-        <H5>Профиль</H5>
+        <H5>Жеке бөлмө</H5>
       </Location>
       <StyledDivStudent>
         <AvatarUsers

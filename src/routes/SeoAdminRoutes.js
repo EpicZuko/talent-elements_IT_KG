@@ -33,7 +33,7 @@ function SeoAdminRoutes() {
             <Route path='/student' element={<SeoAdminStudent />} />
             <Route path='/profile' element={<SeoAdminProfile />} />
             <Route path='login' element={<Autorization variant='Login' />} />
-            <Route path='*' element={<Error />} />
+            <Route path='*' element={<Error variant='page' />} />
           </Route>
           <Route path='*' element={<Error />} />
         </Routes>

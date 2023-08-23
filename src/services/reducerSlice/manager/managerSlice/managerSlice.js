@@ -426,26 +426,14 @@ export const managerStaffAdminPutBlockOrUnBlock = createAsyncThunk(
   // eslint-disable-next-line consistent-return
   async (props, { rejectWithValue, dispatch }) => {
     try {
-      if (props.block === 'block') {
-        const response = await ApiFetch({
-          url: `api/managers/block/User/${props.id}`,
-          method: 'PUT',
-          body: { id: props.id },
-        })
-        const block = 'success'
-        dispatch(managerStaffAdmin())
-        return { response, block }
-      }
-      if (props.block === 'unblock') {
-        const response = await ApiFetch({
-          url: `api/managers/unblock/User/${props.id}`,
-          method: 'PUT',
-          body: { id: props.id },
-        })
-        const unblock = 'success'
-        dispatch(managerStaffAdmin())
-        return { response, unblock }
-      }
+      const response = await ApiFetch({
+        url: `api/managers/block/User?id=${props.id}`,
+        method: 'PUT',
+        body: { id: props.id },
+      })
+      const block = 'success'
+      dispatch(managerStaffAdmin())
+      return { response, block }
     } catch (error) {
       return rejectWithValue(error)
     }
@@ -655,6 +643,24 @@ export const managerProfileGet = createAsyncThunk(
         email: response.email,
       })
       return { profile }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const deleteGroupManager = createAsyncThunk(
+  'managerSlice/deleteGroupManager',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/managers/delete_group/${props.id}`,
+        method: 'DELETE',
+        body: { id: props.id },
+      })
+      dispatch(managerGetAllGroups())
+      return response
     } catch (error) {
       return rejectWithValue(error)
     }

@@ -49,14 +49,14 @@ const ManagerSeoAdmin = () => {
         closeSnackbar={closeSnackBarSeoAdmin}
         message={
           state.managerSeoAdmin.statusBlock === 'success'
-            ? 'Поздравляем!  Данный  пользователь  успешно  Удалено!'
+            ? 'Куттуктайбыз! Бул колдонуучу ийгиликтүү өчүрүлдү 👍'
             : state.managerSeoAdmin.seoAdminStatus === 'error'
-            ? 'Извините ! Произошло ошибка при запросе! Повторите попытку'
+            ? 'Кечиресиз! Ката кетти! Башынан кайталаңыз 😔'
             : 'success'
         }
         text=' '
       />
-      <H5>Seo админ</H5>
+      <H5>СЕО Админ</H5>
       <Student
         variant='Manager_staff-admin'
         UserDataArray={state.managerSeoAdmin.seoAdmin}
@@ -66,16 +66,16 @@ const ManagerSeoAdmin = () => {
       {modal && (
         <Modall onClose={modalClose}>
           <StyledModallDiv>
-            <StyledH2>Вы дейтительно хотите удалить?</StyledH2>
+            <StyledH2>Өчүрүүдө ишенимдүүсүзбү?</StyledH2>
             <StydetModallButtonDiv>
               <Button variant='paid' onClick={modalClose}>
-                ОТМЕНА
+                Жок
               </Button>
               <Button
                 variant='not paid'
                 onClick={() => clickDeleteButton(dataId)}
               >
-                УДАЛИТЬ
+                Ооба
               </Button>
             </StydetModallButtonDiv>
           </StyledModallDiv>

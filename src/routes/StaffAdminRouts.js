@@ -34,7 +34,7 @@ const StaffAdminRouts = () => {
           />
           <Route path='/profileStaffAdmin' element={<StaffAdminProfile />} />
           <Route path='login' element={<Autorization variant='Login' />} />
-          <Route path='*' element={<Error />} />
+          <Route path='*' element={<Error variant='page' />} />
         </Route>
         <Route path='*' element={<Error />} />
       </Routes>

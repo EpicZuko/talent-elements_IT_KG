@@ -22,7 +22,7 @@ const StudentProfile = () => {
   return (
     <div>
       <H6 onClick={goBack}>
-        Группа /<H5>{state?.getStudentProfileProgress?.email}</H5>
+        Тайпа /<H5>{state?.getStudentProfileProgress?.email}</H5>
       </H6>
       <StyledDivStudent>
         <AvatarUsers
@@ -32,7 +32,7 @@ const StudentProfile = () => {
           user={state?.getStudentProfileProgress?.studentProfileProgress}
         />
         <DivProgress>
-          <H4>Прогрессы</H4>
+          <H4>Прогресс</H4>
           <Progress
             variant='successful'
             percent={state?.getStudentProfileProgress?.completedCount}

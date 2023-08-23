@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import ManagerRoutes from './ManagerRoutes'
+import MentorRoutes from './MentorRoutes'
 import Protected from './Protected'
 import SeoAdminRoutes from './SeoAdminRoutes'
 import StaffAdminRouts from './StaffAdminRouts'
@@ -17,6 +18,7 @@ const RoleRoutes = () => {
       {role === 'USER' ? <StudentRoutes /> : ''}
       {role === 'MANAGER' ? <ManagerRoutes /> : ''}
       {role === 'STAFF_ADMIN' ? <StaffAdminRouts /> : ''}
+      {role === 'INSTRUCTOR' ? <MentorRoutes /> : ''}
     </>
   )
 }

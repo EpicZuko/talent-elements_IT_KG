@@ -31,11 +31,11 @@ const SeoAdminInstructorMentor = () => {
     <DivStyled>
       <div>
         <DivStyledInput>
-          <H5>Инструкторы, Мен.</H5>
+          <H5>Инструкторлор жана Менторлор</H5>
           <DivInput>
             <Input
               variant='add Search'
-              placeholder='Поиск...'
+              placeholder='Издөө...'
               onChange={searchChangeValue}
               value={search}
             />
@@ -52,7 +52,7 @@ const SeoAdminInstructorMentor = () => {
               variantClick='click'
             />
           ) : (
-            <P>Совпадений не найдено.</P>
+            <P>Азырынча бул жер бош</P>
           )}
         </Div>
       </div>
