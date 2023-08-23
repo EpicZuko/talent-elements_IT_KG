@@ -19,13 +19,13 @@ const StudentNotification = () => {
 
   return (
     <StyledDivStudentNotification>
-      <H5>Уведомление</H5>
+      <H5>Билдирүү</H5>
       {state.getStudentNotification.length > 0 ? (
         state?.getStudentNotification?.map((element) => (
           <Notifications variant='StudentNotifications' studentData={element} />
         ))
       ) : (
-        <P>на данный момент у вас нет новых уведомлений</P>
+        <P>Азырынча бул жер бош</P>
       )}
 
       {state.managerMessage.message.map((elem) => (

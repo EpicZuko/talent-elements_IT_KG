@@ -55,9 +55,9 @@ const ManagerStudentGroup = () => {
       <CustomizedSnackbars
         message={
           deleteStudentGroupStatus === 'success'
-            ? 'Поздравляем! Запрос на разрешения пользовотеля отправлен!'
+            ? 'Куттуктайбыз! Колдонуучуну тайпадан чыгаруу ийгиликтүү ишке ашты 👍'
             : deleteStudentGroupStatus === 'error'
-            ? 'Произошло ошибка при заблокировании! Повторите попытку'
+            ? 'Кечиресиз! Ката кетти! Колдонуучуну тайпадан чыгаруу ишке ашпады 😔 Башынан кайталаңыз 🙏'
             : ''
         }
         variant={deleteStudentGroupStatus}
@@ -67,7 +67,7 @@ const ManagerStudentGroup = () => {
       <div>
         <div>
           <StyledTextDiv role='button' onClick={handlerGroupBackNavigate}>
-            <H6>Все группы /</H6>
+            <H6>Тайпалар /</H6>
             <StyledH6>{managerStudentGroup?.group}</StyledH6>
           </StyledTextDiv>
         </div>
@@ -82,23 +82,21 @@ const ManagerStudentGroup = () => {
               onClickImgName={{}}
             />
           ) : (
-            'Пока в этой группе нет студентов'
+            'Азырынча студент жок'
           )}
           {modal && (
             <Modall variant='' onClose={modalClose}>
               <StyledModallDiv>
-                <StyledH2>
-                  Вы дейтительно хотите удалить этого студента?
-                </StyledH2>
+                <StyledH2>Студентти өчүрүүдө ишенимдүүсүзбү?</StyledH2>
                 <StydetModallButtonDiv>
                   <Button variant='paid' onClick={modalClose}>
-                    ОТМЕНА
+                    Жок
                   </Button>
                   <Button
                     variant='not paid'
                     onClick={() => handlerDeleteStudents(dataId)}
                   >
-                    УДАЛИТЬ
+                    Ооба
                   </Button>
                 </StydetModallButtonDiv>
               </StyledModallDiv>

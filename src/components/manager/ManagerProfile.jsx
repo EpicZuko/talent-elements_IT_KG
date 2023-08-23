@@ -16,7 +16,7 @@ const ManagerProfile = () => {
   }, [format])
   return (
     <div>
-      <H5>Профиль</H5>
+      <H5>Жеке бөлмө</H5>
       <StyledDivStudent>
         <AvatarUsers
           variant='User_admin'

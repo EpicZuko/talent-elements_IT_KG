@@ -41,7 +41,7 @@ const ProgressCard = (props) => {
     <ProgressBlock>
       <Span>
         {progress >= 100 ? (
-          <SpanSuccess>Завершено</SpanSuccess>
+          <SpanSuccess>Аяктады</SpanSuccess>
         ) : (
           <SpanActive>{progress.toFixed(2)}%</SpanActive>
         )}

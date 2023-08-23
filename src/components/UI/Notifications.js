@@ -46,7 +46,7 @@ const Notifications = ({
         <StudentNotificationsBlock>
           <StudentNotificationsLeftBlock>
             <StudentNotificationsName>
-              {studentData.name !== 'менеджер' ? 'assigmentName:' : ''}
+              {studentData.name !== 'менеджер' ? 'Тапшырма:' : ''}
               <StudentNotificationsValue days={studentData?.days}>
                 {studentData.name !== 'менеджер'
                   ? `${
@@ -62,7 +62,7 @@ const Notifications = ({
               </StudentNotificationsValue>
             </StudentNotificationsName>
             <StudentNotificationsName>
-              {studentData.name !== 'менеджер' ? 'comment:' : 'менеджер'}
+              {studentData.name !== 'менеджер' ? 'Пикир:' : 'менеджер'}
               <StudentNotificationsValue days={studentData?.days}>
                 {studentData?.name !== 'менеджер'
                   ? `${
@@ -81,7 +81,7 @@ const Notifications = ({
           {studentData.name !== 'менеджер' && (
             <StudentNotificationsRightBlock>
               <StudentNotificationsScore score={studentData.score}>
-                {studentData.score} балл
+                {studentData.score} Упай
               </StudentNotificationsScore>
               {showStudentNotifications && (
                 <div>
@@ -128,7 +128,7 @@ const Notifications = ({
           <ButtonsBlock>
             <BasikSelect
               variant=''
-              label='Выберите роль'
+              label='Кызматтын тандаңыз'
               options={selectArray}
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => (option.option ? option.option : '')}
@@ -140,11 +140,11 @@ const Notifications = ({
                 variant='RequestRefusal-Buttons'
                 onClick={() => handlerBlockUser(managerData)}
               >
-                Блокировать
+                Кулпулоо
               </Button>
               {selectIndex !== index && (
                 <Button variant='allow' disabled>
-                  Разрешить
+                  Уруксат берүү
                 </Button>
               )}
               {selectIndex === index && (
@@ -152,7 +152,7 @@ const Notifications = ({
                   variant='RequestAllow-Buttons'
                   onClick={() => handlerAllowAccess(managerData)}
                 >
-                  Разрешить
+                  Уруксат берүү
                 </Button>
               )}
             </div>

@@ -22,7 +22,7 @@ const StaffAdminHomeWorkStudentId = () => {
   return (
     <DivStyledHomeWork>
       <H6 onClick={goBackLesson}>
-        Уроки / <H5>{state?.getStaffAdminHomeWorkStudent?.studentName}</H5>
+        Сабактар / <H5>{state?.getStaffAdminHomeWorkStudent?.studentName}</H5>
       </H6>
       <HomeWorkTask
         variant='admin'

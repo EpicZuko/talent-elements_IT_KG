@@ -1,6 +1,10 @@
-import MentorInstrucorRoute from './routes/MentorRoutes'
+import RoleRoutes from './routes/RoleRoutes'
 
 const App = () => {
-  return <MentorInstrucorRoute />
+  return (
+    <div>
+      <RoleRoutes />
+    </div>
+  )
 }
 export default App

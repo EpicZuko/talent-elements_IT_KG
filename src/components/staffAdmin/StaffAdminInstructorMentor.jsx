@@ -32,12 +32,12 @@ const StaffAdminInstructorMentor = () => {
     <Div>
       <DivContainerSearch>
         <div>
-          <Instrucktor>Инструкторы,Мен</Instrucktor>
+          <Instrucktor>Инструкторлор жана Менторлор</Instrucktor>
         </div>
         <DivInput>
           <Input
             variant='add Search'
-            placeholder='Поиск'
+            placeholder='Издөө'
             onChange={searchInputValue}
             value={search}
           />
@@ -53,7 +53,7 @@ const StaffAdminInstructorMentor = () => {
             }
           />
         ) : (
-          <p>Совпадений не найдено.</p>
+          <p>Азырынча бул жер бош</p>
         )}
       </DivStudent>
     </Div>

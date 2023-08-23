@@ -20,7 +20,7 @@ const ManagerStudentProfile = () => {
   return (
     <div>
       <H6 onClick={groupGoBack}>
-        Группа / <H5>{state?.managerStudentProfile?.email}</H5>
+        Тайпа / <H5>{state?.managerStudentProfile?.email}</H5>
       </H6>
       <DivStyled>
         <AvatarUsers

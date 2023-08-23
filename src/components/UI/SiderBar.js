@@ -45,7 +45,7 @@ const SiderBar = ({
                     <Img src={SideIcon} alt='error' />
                   </div>
                   <div>
-                    <Title>Курсы</Title>
+                    <Title>Курстар</Title>
                   </div>
                 </DivContainer>
                 <DivContainer onClick={onClickUserGroup}>
@@ -53,7 +53,7 @@ const SiderBar = ({
                     <Img src={SideIcon1} alt='error' />
                   </div>
                   <div>
-                    <Title>Группа</Title>
+                    <Title>Тайпа</Title>
                   </div>
                 </DivContainer>
               </div>
@@ -75,7 +75,7 @@ const SiderBar = ({
                   <Img src={SideIcon1} alt='error' />
                 </div>
                 <div>
-                  <Title>Группы</Title>
+                  <Title>Тайпалар</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickManagerStudent}>
@@ -83,7 +83,7 @@ const SiderBar = ({
                   <Img src={SideIcon2} alt='error' />
                 </div>
                 <div>
-                  <Title>Студенты</Title>
+                  <Title>Студенттер</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickManagerInstructor}>
@@ -91,7 +91,7 @@ const SiderBar = ({
                   <Img src={SideIcon3} alt='error' />
                 </div>
                 <div>
-                  <Title>Инструкторы</Title>
+                  <Title>Инструкторлор</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickManagerStafAdmin}>
@@ -99,7 +99,7 @@ const SiderBar = ({
                   <Img src={SideIcon4} alt='error' />
                 </div>
                 <div>
-                  <Title>Стаф Админ</Title>
+                  <Title>STAFF Админ</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickManagerSeoAdmin}>
@@ -107,7 +107,7 @@ const SiderBar = ({
                   <Img src={SideIcon5} alt='error' />
                 </div>
                 <div>
-                  <Title>Сео Админ</Title>
+                  <Title>СЕО Админ</Title>
                 </div>
               </DivContainer>
             </div>
@@ -119,7 +119,7 @@ const SiderBar = ({
                   <Img src={SideIcon1} alt='error' />
                 </div>
                 <div>
-                  <Title>группы</Title>
+                  <Title>Тайпалар</Title>
                 </div>
               </DivContainer>
             </div>
@@ -131,7 +131,7 @@ const SiderBar = ({
                   <Img src={SideIcon1} alt='error' />
                 </div>
                 <div>
-                  <Title>Группы</Title>
+                  <Title>Тайпалар</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickStafAdminInstructor}>
@@ -151,7 +151,7 @@ const SiderBar = ({
                   <Img src={SideIcon1} alt='error' />
                 </div>
                 <div>
-                  <Title>группы</Title>
+                  <Title>Тайпалар</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickSeoAdminInstructor}>
@@ -159,7 +159,7 @@ const SiderBar = ({
                   <Img src={SideIcon3} alt='error' />
                 </div>
                 <div>
-                  <Title>Инструкторы</Title>
+                  <Title>Инструкторлор</Title>
                 </div>
               </DivContainer>
               <DivContainer onClick={onClickSeoAdminManager}>
@@ -167,7 +167,7 @@ const SiderBar = ({
                   <img src={SideIcon3} alt='error' />
                 </div>
                 <div>
-                  <Title>Менеджеры</Title>
+                  <Title>Менеджер</Title>
                 </div>
               </DivContainer>
             </div>

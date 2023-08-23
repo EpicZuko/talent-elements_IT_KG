@@ -18,7 +18,7 @@ const StudentMyProfile = () => {
 
   return (
     <div>
-      <H5>Профиль</H5>
+      <H5>Жеке бөлмө</H5>
       <StyledDivStudent>
         <AvatarUsers
           variant='User_admin'
@@ -32,7 +32,7 @@ const StudentMyProfile = () => {
           user={state?.getStudentMyProfile?.studentMyProfile}
         />
         <DivProgress>
-          <H4>Прогрессы</H4>
+          <H4>Прогресс</H4>
           <Progress
             variant='successful'
             percent={state?.getStudentMyProfile?.completedCount}

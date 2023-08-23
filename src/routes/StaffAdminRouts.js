@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import Autorization from '../components/auth/Autorization'
 import StaffAdminCard from '../components/staffAdmin/StaffAdminCard'
 import StaffAdminHomeWorkStudentId from '../components/staffAdmin/StaffAdminHomeWorkStudentId'
 import StaffAdminInstructorMentor from '../components/staffAdmin/StaffAdminInstructorMentor'
@@ -32,7 +33,8 @@ const StaffAdminRouts = () => {
             element={<StaffAdminHomeWorkStudentId />}
           />
           <Route path='/profileStaffAdmin' element={<StaffAdminProfile />} />
-          <Route path='*' element={<Error />} />
+          <Route path='login' element={<Autorization variant='Login' />} />
+          <Route path='*' element={<Error variant='page' />} />
         </Route>
         <Route path='*' element={<Error />} />
       </Routes>

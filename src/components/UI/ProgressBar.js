@@ -5,9 +5,9 @@ export const Progress = (props) => {
     <ProgressBlock>
       <div>
         <P>
-          {props.variant === 'successful' && 'Законченный'}
-          {props.variant === 'inProgress' && 'В прогрессе'}
-          {props.variant === 'notStarted' && 'Ещё не началось'}
+          {props.variant === 'successful' && 'Аяктаган'}
+          {props.variant === 'inProgress' && 'Прогрессте'}
+          {props.variant === 'notStarted' && 'Баштала элек'}
         </P>
         <BarBlock>
           <ProgressBar>

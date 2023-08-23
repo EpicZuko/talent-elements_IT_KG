@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import Autorization from '../components/auth/Autorization'
 import SeoAdminGroup from '../components/seo_admin/SeoAdminGroups'
 import SeoAdminInstructorMentor from '../components/seo_admin/SeoAdminInstructorMentor'
 import SeoAdminInstructorMentorProfile from '../components/seo_admin/SeoAdminInstructorMentorProfile'
@@ -31,7 +32,8 @@ function SeoAdminRoutes() {
             <Route path='/manager' element={<SeoAdminManager />} />
             <Route path='/student' element={<SeoAdminStudent />} />
             <Route path='/profile' element={<SeoAdminProfile />} />
-            <Route path='*' element={<Error />} />
+            <Route path='login' element={<Autorization variant='Login' />} />
+            <Route path='*' element={<Error variant='page' />} />
           </Route>
           <Route path='*' element={<Error />} />
         </Routes>

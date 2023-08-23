@@ -36,7 +36,7 @@ const StaffAdminInstructorMentorProfile = () => {
   return (
     <div>
       <H6 onClick={goBackInstructorMentor}>
-        Инструкторы, Мен. /
+        Инструкторлор жана Менторлор /
         <H5>
           {state?.getProfileInstructorMentor?.profileInstructorOrMentor?.email}
         </H5>

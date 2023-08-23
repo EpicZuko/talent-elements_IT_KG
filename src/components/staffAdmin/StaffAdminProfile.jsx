@@ -19,7 +19,7 @@ const StaffAdminProfile = () => {
 
   return (
     <div>
-      <H5>Профиль</H5>
+      <H5>Жеке бөлмө</H5>
       <DivStyled>
         <AvatarUsers
           variant='User_admin'

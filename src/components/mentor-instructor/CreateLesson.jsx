@@ -72,27 +72,27 @@ const MentorCreateLesson = () => {
   return (
     <div>
       <Location>
-        <LocationText onClick={navToLesson}>Уроки /</LocationText>
-        <LocationText2>Ввести урок</LocationText2>
+        <LocationText onClick={navToLesson}>Сабактар /</LocationText>
+        <LocationText2>Сабак кошуу</LocationText2>
       </Location>
       <Container>
         <Div onSubmit={createLesson}>
           <Input
             onChange={TitleInputValueHandler}
             variant='enter-lesson'
-            placeholder='Введите название'
+            placeholder='Сабактын аталышын жазыңыз'
             value={TitleInputValue}
           />
           <Input
             onChange={UrlinputValueHandler}
             variant='enter-lesson'
-            placeholder='Вставте ссылку на видео с Youtube'
+            placeholder='YouTubeтан видеого шилтеме кошуңуз'
             value={UrlInputValue}
           />
           <Input
             onChange={YoutubeInputValueHandler}
             variant='enter-lesson'
-            placeholder='Введите название для видео с Youtube'
+            placeholder='Видеонун атын жазыңыз'
             value={YoutubeInputValue}
           />
           <InputFile
@@ -104,14 +104,14 @@ const MentorCreateLesson = () => {
           <Input
             onChange={FileInputValueHandler}
             variant='enter-lesson'
-            placeholder='Введите название для файла'
+            placeholder='Файлдын аталышын жазыңыз'
             value={FileInputValue}
           />
         </Div>
       </Container>
       <ButtonDiv>
         <Button onClick={createLesson} variant='create group-page'>
-          Ввести урок
+          Сабакты жүктөңүз
         </Button>
       </ButtonDiv>
       <CustomizedSnackbars
@@ -125,7 +125,7 @@ const MentorCreateLesson = () => {
         text={
           state.status === 'success'
             ? 'Сабагыныз ийгиликтүү жүктөлдү'
-            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+            : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
       />

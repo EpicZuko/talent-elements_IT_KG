@@ -55,23 +55,23 @@ const ManagerCreatedGroup = () => {
         closeSnackbar={closeSnackBar}
         message={
           state.managerCreatedGroupStatus === 'success'
-            ? 'Отлично! Ваша группа успешно создана желаем вам удачи'
-            : 'Ошибка при создании группы. Пожалуйста, попробуйте ещё раз'
+            ? 'Эң сонун тайпа ийгиликтүү түзүлдү.👍🏻'
+            : 'Тайпа түзүүдө катачылык кетти!!! Кайрадан түзүңүз.😔'
         }
       />
       <form onSubmit={postCreatedGroup}>
         <H6 onClick={navigateGoBackGroup}>
-          Все группы /<H5> Создать группу</H5>
+          Бардык тайпалар /<H5>Тайпа түзүү</H5>
         </H6>
         <Div>
           <Profile files={files} setFiles={setFiles} setFormat={setFormat} />
           <Input
             variant='create-group'
-            placeholder='Название группы'
+            placeholder='Тайпанын аты'
             onChange={groupNameChange}
             value={name}
           />
-          <Button variant='create group-page'>Создать группу</Button>
+          <Button variant='create group-page'>Тайпа түзүү</Button>
         </Div>
       </form>
     </div>

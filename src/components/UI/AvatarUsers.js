@@ -115,7 +115,7 @@ const AvatarUsers = ({
                       onClick={onClickBlockButtton}
                       variant='ActionBlock-Button'
                     >
-                      Не оплатил
+                      Төлөнбөдү
                     </Button>
                   )}
                 </ButtonDiv>

@@ -77,26 +77,26 @@ export const MentorEditLesson = () => {
   return (
     <div>
       <Location>
-        <LocationText onClick={navToLesson}>Уроки /</LocationText>
-        <LocationText2>Редактировать урок</LocationText2>
+        <LocationText onClick={navToLesson}>Сабактар /</LocationText>
+        <LocationText2>Сабакты түзөтүү</LocationText2>
       </Location>
       <Div onSubmit={editLesson}>
         <Input
           onChange={TitleInputValueHandler}
           variant='enter-lesson'
-          placeholder='Введите название'
+          placeholder='Аталышын жазыңыз'
           value={TitleInputValue}
         />
         <Input
           onChange={UrlinputValueHandler}
           variant='enter-lesson'
-          placeholder='Вставте ссылку на видео с Youtube'
+          placeholder='YouTube видеого шилтеме кошуңуз'
           value={UrlInputValue}
         />
         <Input
           onChange={YoutubeInputValueHandler}
           variant='enter-lesson'
-          placeholder='Введите название для видео с Youtube'
+          placeholder='Видеонун атын жазыңыз'
           value={YoutubeInputValue}
         />
         <InputFile
@@ -108,13 +108,13 @@ export const MentorEditLesson = () => {
         <Input
           onChange={FileInputValueHandler}
           variant='enter-lesson'
-          placeholder='Введите название для файла'
+          placeholder='Файлдын аталышын жазыңыз'
           value={FileInputValue}
         />
       </Div>
       <ButtonDiv>
         <Button onClick={editLesson} variant='create group-page'>
-          Отредактировать урок
+          Сабакты кайрадан түзөтүү
         </Button>
       </ButtonDiv>
       <CustomizedSnackbars
@@ -128,7 +128,7 @@ export const MentorEditLesson = () => {
         text={
           state.status === 'success'
             ? 'Сабагыныз ийгиликтүү жаңыланды'
-            : state.status === 'error' && 'Сервер менен байланышып албай атабыз'
+            : state.status === 'error' && 'Сервер менен байланыша албай жатабыз'
         }
         closeSnackbar={closeSnackbar}
       />
