@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-// import Autorization from '../components/auth/Autorization'
 import { MentorIsntructorCreateAssignment } from '../components/mentor-instructor/CreateAssignment'
 import MentorCreateLesson from '../components/mentor-instructor/CreateLesson'
 import { MentorEditLesson } from '../components/mentor-instructor/EditLesson'
@@ -46,7 +45,7 @@ const MentorRoutes = () => {
             element={<MentorIsntructorCreateAssignment />}
           />
           <Route
-            path='/lessons/:groupName/:groupId/homework/:studentName/:studentId'
+            path='/lessons/:groupName/:groupId/homework/:submissionId/:studentName/:assignmentId'
             element={<MentorInstructorSubmissions />}
           />
           <Route path='*' element={<Error variant='page' />} />

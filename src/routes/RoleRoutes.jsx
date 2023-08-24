@@ -19,6 +19,7 @@ const RoleRoutes = () => {
       {role === 'MANAGER' ? <ManagerRoutes /> : ''}
       {role === 'STAFF_ADMIN' ? <StaffAdminRouts /> : ''}
       {role === 'INSTRUCTOR' ? <MentorRoutes /> : ''}
+      {role === 'MENTOR' ? <MentorRoutes /> : ''}
     </>
   )
 }

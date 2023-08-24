@@ -345,12 +345,13 @@ export const managerInstructorMentorProfile = createAsyncThunk(
         lessonNames: [],
         tableNames: [],
       }
+
+      instructorMentorProfile.lessonNames.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
       response.groupName.forEach((group) => {
-        instructorMentorProfile.lessonNames.push({
-          id: response.id,
-          name: response.fullName,
-          email: response.email,
-        })
         group.lessonTipResponses.forEach((lesson) => {
           instructorMentorProfile.tableNames.push({
             id: group.groupId,

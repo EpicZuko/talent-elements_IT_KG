@@ -10,6 +10,7 @@ const Lessons = ({
   variant,
   element,
   variantClick,
+  variantLessonEditTools,
   chageExplain,
   id,
   getId,
@@ -111,37 +112,25 @@ const Lessons = ({
             </Container>
           )}
           {variant === 'Mentor' && (
-            <MentorLesson onAuxClick={() => onEdit(element)}>
+            <MentorLesson
+              onAuxClick={() => (variantLessonEditTools ? onEdit(element) : '')}
+            >
               <LessonEditTools>
-                <ButtonsLessonBlock>
-                  <AddAssignmentButton onClick={() => addAssignment(element)}>
-                    +
-                  </AddAssignmentButton>
-                  <DeleteButton>
-                    <Button
-                      onClick={() => deleteLesson(element)}
-                      variant='delete button'
-                    />
-                  </DeleteButton>
-                </ButtonsLessonBlock>
+                {variantLessonEditTools && (
+                  <ButtonsLessonBlock>
+                    <AddAssignmentButton onClick={() => addAssignment(element)}>
+                      +
+                    </AddAssignmentButton>
+                    <DeleteButton>
+                      <Button
+                        onClick={() => deleteLesson(element)}
+                        variant='delete button'
+                      />
+                    </DeleteButton>
+                  </ButtonsLessonBlock>
+                )}
                 <H1>{element.text}</H1>
               </LessonEditTools>
-              <StyledTagA href={element.videoUrl}>
-                <Lesson>
-                  <D6>
-                    <Img src={Frame} alt='error' />
-                    <Title>{element.title}</Title>
-                  </D6>
-                </Lesson>
-              </StyledTagA>
-              <StyledTagA href={element.urlPdf}>
-                <Lesson>
-                  <D7>
-                    <Img src={Frame3} alt='error' />
-                    <Title>{element.titleFile}</Title>
-                  </D7>
-                </Lesson>
-              </StyledTagA>
               {element?.lessons &&
                 element?.lessons.map((elem) => {
                   return (
@@ -155,6 +144,14 @@ const Lessons = ({
                     </StyledTagA>
                   )
                 })}
+              <StyledTagA href={element.urlPdf}>
+                <Lesson>
+                  <D7>
+                    <Img src={Frame3} alt='error' />
+                    <Title>{element.titleFile}</Title>
+                  </D7>
+                </Lesson>
+              </StyledTagA>
               {element?.assignments &&
                 element?.assignments?.map((el) => {
                   const dateString = el?.created
@@ -214,7 +211,7 @@ const Lessons = ({
                                           onClickStudentSubmission({
                                             assimentId: el.id,
                                             submissinonId: elem.id,
-                                            studentId: elem,
+                                            student: elem,
                                           })
                                         }
                                         style={{ cursor: 'pointer' }}

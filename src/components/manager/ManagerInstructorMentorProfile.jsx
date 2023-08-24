@@ -19,6 +19,7 @@ const ManagerInstructorMentorProfile = () => {
   const goBackInstructorMentor = () => {
     navigate(-1)
   }
+
   return (
     <div>
       <H6 onClick={goBackInstructorMentor}>

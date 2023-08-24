@@ -74,44 +74,58 @@ export const MentorEditLesson = () => {
     const fileGroup = event.target.files[0]
     setFormat(fileGroup)
   }
+  const fileButton = (event) => {
+    event.preventDefault()
+    fileGroup.current.click()
+  }
   return (
     <div>
       <Location>
         <LocationText onClick={navToLesson}>Сабактар /</LocationText>
         <LocationText2>Сабакты түзөтүү</LocationText2>
       </Location>
-      <Div onSubmit={editLesson}>
-        <Input
-          onChange={TitleInputValueHandler}
-          variant='enter-lesson'
-          placeholder='Аталышын жазыңыз'
-          value={TitleInputValue}
-        />
-        <Input
-          onChange={UrlinputValueHandler}
-          variant='enter-lesson'
-          placeholder='YouTube видеого шилтеме кошуңуз'
-          value={UrlInputValue}
-        />
-        <Input
-          onChange={YoutubeInputValueHandler}
-          variant='enter-lesson'
-          placeholder='Видеонун атын жазыңыз'
-          value={YoutubeInputValue}
-        />
-        <InputFile
-          ref={fileGroup}
-          type='file'
-          accept='pdf/*,.pdf'
-          onChange={changeHandlerFile}
-        />
-        <Input
-          onChange={FileInputValueHandler}
-          variant='enter-lesson'
-          placeholder='Файлдын аталышын жазыңыз'
-          value={FileInputValue}
-        />
-      </Div>
+      <Container>
+        <Div onSubmit={editLesson}>
+          <Input
+            onChange={TitleInputValueHandler}
+            variant='enter-lesson'
+            placeholder='Аталышын жазыңыз'
+            value={TitleInputValue}
+          />
+          <Input
+            onChange={UrlinputValueHandler}
+            variant='enter-lesson'
+            placeholder='Шилтеме кошуңуз'
+            value={UrlInputValue}
+          />
+          <Input
+            onChange={YoutubeInputValueHandler}
+            variant='enter-lesson'
+            placeholder='Видеонун атын жазыңыз'
+            value={YoutubeInputValue}
+          />
+          <FileSelectBlock>
+            <Button variant='Doctrine page' onClick={fileButton}>
+              Файл тандаңыз
+            </Button>
+            <FileSelectText>
+              {format?.name ? format?.name : 'Файл тандалган жок'}
+            </FileSelectText>
+            <InputFile
+              ref={fileGroup}
+              type='file'
+              accept='pdf/*,.pdf'
+              onChange={changeHandlerFile}
+            />
+          </FileSelectBlock>
+          <Input
+            onChange={FileInputValueHandler}
+            variant='enter-lesson'
+            placeholder='Файлдын аталышын жазыңыз'
+            value={FileInputValue}
+          />
+        </Div>
+      </Container>
       <ButtonDiv>
         <Button onClick={editLesson} variant='create group-page'>
           Сабакты кайрадан түзөтүү
@@ -156,6 +170,12 @@ const LocationText = styled.p`
     font-size: 16px;
   }
 `
+const Container = styled.div`
+  display: flex;
+  @media (max-width: 415px) {
+    display: block;
+  }
+`
 const LocationText2 = styled.p`
   font-family:
     Zen Kaku Gothic New,
@@ -189,26 +209,19 @@ const ButtonDiv = styled.div`
     margin-top: 100px;
   }
 `
-const InputFile = styled.input`
+const FileSelectBlock = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`
+const FileSelectText = styled.p`
   font-family:
-    Zen Kaku Gothic New,
+    Kaku Gothic New,
     sans-serif;
   font-size: 15px;
   color: rgba(19, 71, 100, 1);
   font-weight: 600;
-  &::-webkit-file-upload-button {
-    transition: 0.3s;
-    cursor: pointer;
-    background: rgba(19, 71, 100, 1);
-    width: 200px;
-    height: 25px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-right: 20px;
-    font-weight: 600;
-    &:hover {
-      background: #0c2b3c;
-    }
-  }
+`
+const InputFile = styled.input`
+  display: none;
 `

@@ -194,11 +194,10 @@ export const getMentorLessons = createAsyncThunk(
         lessons.lesson.push({
           id: getLessons[i].id,
           text: getLessons[i].title,
-          title: getLessons[i].titleYoutube,
-          youtube: getLessons[i].youtube,
           titleFile: getLessons[i].titleFile,
           file: getLessons[i].file,
           assignments: getLessons[i].assignments,
+          youtubeVideo: getLessons[i].lessons,
         })
       }
       return { getLessons: lessons }
@@ -237,7 +236,20 @@ export const getMentorVotedStudentsByAssignmentId = createAsyncThunk(
     }
   }
 )
-
+export const postLessonMaterial = createAsyncThunk(
+  'mentor-instructor/saveLessonMaterial',
+  // eslint-disable-next-line consistent-return
+  async (props, { rejectWithValue }) => {
+    try {
+      await ApiFetch({
+        url: `api/teachers/save/lesson/material?youtube=${props.youtube}&youtubeTitle=${props.youtubeTitle}&lessonId=${props.lessonId}`,
+        method: 'POST',
+      })
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 export const deleteMentorLesson = createAsyncThunk(
   'mentor-instrcutor/deleteLessons',
   // eslint-disable-next-line consistent-return
@@ -307,23 +319,21 @@ export const getStudentSubmissionById = createAsyncThunk(
   async (props, { rejectWithValue }) => {
     try {
       const response = await ApiFetch({
-        url: `api/teachers/${props.id}/submissions`,
+        url: `api/teachers/get/by/id/check/submission?submissionId=${props.submissionId}&assigmentId=${props.assignmentId}`,
       })
       const getStudentSubmission = {
         homeWork: [],
         answer: [],
       }
-      for (let i = 0; i < response.length; i++) {
-        getStudentSubmission.homeWork.push({
-          id: response[i].id,
-          taskTitle: response[i].assignmentResponse.title,
-          img: response[i].assignmentResponse.photo,
-          kods: response[i].assignmentResponse.description,
-        })
-        getStudentSubmission.answer.push({
-          text: response[i].text,
-        })
-      }
+      getStudentSubmission.homeWork.push({
+        id: response.submissionResponse.id,
+        taskTitle: response.titleAssigment,
+        img: response.photo,
+        kods: response.assignmentDescription,
+      })
+      getStudentSubmission.answer.push({
+        text: response.submissionResponse.text,
+      })
 
       return { getStudentSubmission }
     } catch (error) {
@@ -487,6 +497,14 @@ export const MentorInstructorSlice = createSlice({
       state.status = 'success'
     },
     [postMentorAssignments.rejected]: (state) => {
+      state.isSuccess = true
+      state.status = 'error'
+    },
+    [postLessonMaterial.fulfilled]: (state) => {
+      state.isSuccess = true
+      state.status = 'success'
+    },
+    [postLessonMaterial.rejected]: (state) => {
       state.isSuccess = true
       state.status = 'error'
     },

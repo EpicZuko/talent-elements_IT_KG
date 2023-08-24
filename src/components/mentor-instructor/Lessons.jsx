@@ -40,8 +40,8 @@ const MentorInstructorLessons = () => {
   const addAssignment = (element) => {
     navigate(`create_assignment/${element.id}`)
   }
-  const navigateToHomeWorkPage = (element) => {
-    navigate(`homework/${element.studentName}/${element.studentId}`)
+  const navigateToHomeWorkPage = ({ student, submissinonId, assimentId }) => {
+    navigate(`homework/${submissinonId}/${student.studentName}/${assimentId}`)
   }
   const closeSnackbar = () => {
     dispatch(
@@ -99,6 +99,7 @@ const MentorInstructorLessons = () => {
   const getId = (value) => {
     setId(value)
   }
+
   return (
     <div>
       <Block>
@@ -121,14 +122,14 @@ const MentorInstructorLessons = () => {
         {state.getLessons?.lesson?.map((elem) => (
           <Lessons
             variant='Mentor'
+            variantLessonEditTools
             element={{
               id: elem?.id,
               text: `${elem?.id} - ${elem?.text}`,
-              videoUrl: elem?.youtube,
-              title: elem?.title,
               urlPdf: elem?.file,
-              lesson: elem?.titleFile,
+              titleFile: elem?.titleFile,
               assignments: elem?.assignments,
+              lessons: elem?.youtubeVideo,
             }}
             onEdit={navigateToEditLessonPage}
             deleteLesson={modalShow}
