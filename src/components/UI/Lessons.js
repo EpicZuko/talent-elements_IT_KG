@@ -132,7 +132,7 @@ const Lessons = ({
                   <Lesson>
                     <D7>
                       <Img src={Frame3} alt='error' />
-                      <Title>{element.text}</Title>
+                      <Title>{element.titleFile}</Title>
                     </D7>
                   </Lesson>
                 </StyledTagA>
