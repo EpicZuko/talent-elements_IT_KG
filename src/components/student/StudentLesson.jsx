@@ -37,6 +37,7 @@ const StudentLesson = () => {
               urlLesson: item.youtube,
               explain: item.titleFile,
               urlPdf: item.file,
+              lessons: item.lessons,
               assignments: item.assignments,
               submissionResponseList: item.submissionResponseList,
             }}

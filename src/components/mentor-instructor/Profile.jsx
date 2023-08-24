@@ -52,7 +52,7 @@ const StyledDivStudent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 1400px;
+  width: 1200px;
   margin-top: 40px;
   @media (max-width: 415px) {
     margin-top: 60px;

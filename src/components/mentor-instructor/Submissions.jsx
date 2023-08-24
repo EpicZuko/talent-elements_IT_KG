@@ -9,13 +9,14 @@ import HomeWorkTask from '../UI/HomeWorkTask'
 export const MentorInstructorSubmissions = () => {
   const state = SelectorFuncMentor()
   const [task, setTask] = useState(null)
-  const { studentName, studentId } = useParams()
+  const { studentName, assignmentId, submissionId } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(
       getStudentSubmissionById({
-        id: studentId,
+        assignmentId,
+        submissionId,
       })
     )
   }, [])

@@ -67,15 +67,9 @@ export const getStudentStaffAdmin = createAsyncThunk(
       const getFindAllTeacehrs = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
-        const dateString = response[i].createdAt
-        const dateObject = new Date(dateString)
-        const dateAddOne =
-          dateObject.getMonth() < 10
-            ? `0${dateObject.getMonth() + 1}`
-            : dateObject.getMonth() + 1
-        const formattedDate = `${dateObject.toLocaleString('en-US', {
-          day: '2-digit',
-        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        const dateString = response[i]?.createdAt || ''
+        const [year, month, day] = dateString.split('T')[0].split('-')
+        const formattedDate = `${day}.${month}.${year}`
         getFindAllTeacehrs.push({
           id: response[i].id,
           raiting: response[i].id,
@@ -174,45 +168,44 @@ export const getStaffAdminLesson = createAsyncThunk(
 
       const staffAdminLesson = {
         groupName: null,
-        staffAdminLesson: [],
+        staffAdminLesson: [...response],
       }
 
-      // eslint-disable-next-line no-restricted-syntax
-      for (const item of response) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const elem of item.materials) {
-          // eslint-disable-next-line no-restricted-syntax
-          for (const el of item.assignments) {
-            // eslint-disable-next-line no-await-in-loop
-            const responseAssiment = await ApiFetch({
-              url: `api/v1/staff/admin/assigment/id/find/student/submission?assigmentId=${el.id}`,
-            })
-            staffAdminLesson.groupName = item.courseOrGroupName
-            const dateString = el.created
-            const dateObject = new Date(dateString)
-            const dateAddOne =
-              dateObject.getMonth() < 10
-                ? `0${dateObject.getMonth() + 1}`
-                : dateObject.getMonth() + 1
-            const formattedDate = `${dateObject.toLocaleString('en-US', {
-              day: '2-digit',
-            })}.${dateAddOne}.${dateObject.getFullYear()}`
+      // // eslint-disable-next-line no-restricted-syntax
+      // for (const item of response) {
+      //   // eslint-disable-next-line no-restricted-syntax
+      //   for (const elem of item.lessons) {
+      //     // eslint-disable-next-line no-restricted-syntax
+      //     for (const el of item.assignments) {
+      //       // eslint-disable-next-line no-await-in-loop
+      //       const responseAssiment = await ApiFetch({
+      //       })
+      //       staffAdminLesson.groupName = item.courseOrGroupName
+      //       const dateString = el.created
+      //       const dateObject = new Date(dateString)
+      //       const dateAddOne =
+      //         dateObject.getMonth() < 10
+      //           ? `0${dateObject.getMonth() + 1}`
+      //           : dateObject.getMonth() + 1
+      //       const formattedDate = `${dateObject.toLocaleString('en-US', {
+      //         day: '2-digit',
+      //       })}.${dateAddOne}.${dateObject.getFullYear()}`
 
-            staffAdminLesson.staffAdminLesson.push({
-              lessonId: item?.lesson?.id,
-              materialsId: elem?.id,
-              assignmentsId: el?.id,
-              text: item?.lesson?.title,
-              title: elem?.title,
-              urlLesson: elem?.youtube,
-              lesson: el?.title,
-              date: formattedDate,
-              votedStudents: el.countSubmission,
-              students: [...responseAssiment.responseStudents],
-            })
-          }
-        }
-      }
+      //       staffAdminLesson.staffAdminLesson.push({
+      //         lessonId: item?.lesson?.id,
+      //         materialsId: elem?.id,
+      //         assignmentsId: el?.id,
+      //         text: item?.lesson?.title,
+      //         title: elem?.title,
+      //         urlLesson: elem?.youtube,
+      //         lesson: el?.title,
+      //         date: formattedDate,
+      //         votedStudents: el.countSubmission,
+      //         students: [...responseAssiment.responseStudents],
+      //       })
+      //     }
+      // }
+      // }
 
       return { staffAdminLesson }
     } catch (error) {

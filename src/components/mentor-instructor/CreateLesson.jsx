@@ -190,7 +190,7 @@ const Div = styled.form`
   flex-direction: column;
   margin-left: 100px;
   gap: 50px;
-  margin-top: 180px;
+  margin-top: 70px;
   @media (max-width: 415px) {
     margin-left: 15px;
     margin-top: 50px;
@@ -198,7 +198,6 @@ const Div = styled.form`
 `
 
 const ButtonDiv = styled.div`
-  width: 1300px;
   display: flex;
   justify-content: center;
   margin-top: 100px;

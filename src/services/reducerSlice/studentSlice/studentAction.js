@@ -114,9 +114,11 @@ export const getStudentMyProfile = createAsyncThunk(
   async (props, { rejectWithValue, dispatch }) => {
     try {
       if (props.fileImg !== '') {
-        await ApiFetch({
-          method: 'PUT',
-          url: `api/v1/user/update/photo?photo=${props.fileImg}`,
+        const formData = new FormData()
+        formData.append('photo', props.fileImg)
+        await appFile({
+          url: 'api/v1/user/save/photo',
+          body: formData,
         })
         dispatch(getStudentProfile())
       }

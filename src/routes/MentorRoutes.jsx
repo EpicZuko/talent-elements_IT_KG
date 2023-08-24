@@ -45,7 +45,7 @@ const MentorRoutes = () => {
             element={<MentorIsntructorCreateAssignment />}
           />
           <Route
-            path='/lessons/:groupName/:groupId/homework/:studentName/:studentId'
+            path='/lessons/:groupName/:groupId/homework/:submissionId/:studentName/:assignmentId'
             element={<MentorInstructorSubmissions />}
           />
           <Route path='*' element={<Error variant='page' />} />

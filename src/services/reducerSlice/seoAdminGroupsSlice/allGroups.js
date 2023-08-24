@@ -62,15 +62,9 @@ export const getSeoAdminInstructorMentor = createAsyncThunk(
       const teachersArray = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
-        const dateString = response[i].createdAt
-        const dateObject = new Date(dateString)
-        const dateAddOne =
-          dateObject.getMonth() < 10
-            ? `0${dateObject.getMonth() + 1}`
-            : dateObject.getMonth() + 1
-        const formattedDate = `${dateObject.toLocaleString('en-US', {
-          day: '2-digit',
-        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        const dateString = response[i]?.createdAt || ''
+        const [year, month, day] = dateString.split('T')[0].split('-')
+        const formattedDate = `${day}.${month}.${year}`
         teachersArray.push({
           id: response[i].id,
           raiting: response[i].id,
@@ -132,15 +126,9 @@ export const getSeoAdminManager = createAsyncThunk(
       const managerArray = []
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < response.length; i++) {
-        const dateString = response[i].date
-        const dateObject = new Date(dateString)
-        const dateAddOne =
-          dateObject.getMonth() < 10
-            ? `0${dateObject.getMonth() + 1}`
-            : dateObject.getMonth() + 1
-        const formattedDate = `${dateObject.toLocaleString('en-US', {
-          day: '2-digit',
-        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        const dateString = response[i]?.date || ''
+        const [year, month, day] = dateString.split('T')[0].split('-')
+        const formattedDate = `${day}.${month}.${year}`
         managerArray.push({
           id: response[i].id,
           raiting: response[i].id,
