@@ -41,7 +41,9 @@ const DivStudentCourses = styled.div`
 `
 const H5 = styled.h5`
   color: var(--light-blue, #134764);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 25px;
   font-style: normal;
   font-weight: 700;

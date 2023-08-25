@@ -114,6 +114,7 @@ const H5 = styled.h5`
   font-weight: 700;
   line-height: normal;
   color: rgba(19, 71, 100, 1);
+  margin-bottom: 14px;
 `
 const StyledTaskTitle = styled.p`
   font-family: Zen Kaku Gothic New;
@@ -121,6 +122,7 @@ const StyledTaskTitle = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  cursor: pointer;
 `
 const StyledDivN2 = styled.div`
   width: 507px;

@@ -10,6 +10,7 @@ const Lessons = ({
   variant,
   element,
   variantClick,
+  variantLessonEditTools,
   chageExplain,
   id,
   getId,
@@ -18,7 +19,6 @@ const Lessons = ({
   deleteLesson,
   onEdit,
   onClickStudentSubmission,
-  variantLessonEditTools,
 }) => {
   const [show, setShow] = useState(false)
   const showStudents = () => {
@@ -57,6 +57,20 @@ const Lessons = ({
                   </Lesson>
                 </StyledTagA>
               )}
+              {element.lessons &&
+                element?.lessons?.map((elem) => {
+                  return (
+                    <StyledTagA href={elem?.youtube}>
+                      <Lesson>
+                        <D>
+                          <Img src={Frame} alt='error' />
+                          <Title>{elem?.youtubeTitle}</Title>
+                        </D>
+                        <Date>{elem?.date}</Date>
+                      </Lesson>
+                    </StyledTagA>
+                  )
+                })}
               {element?.urlPdf && (
                 <StyledTagA href={element?.urlPdf}>
                   <Lesson>
@@ -81,15 +95,17 @@ const Lessons = ({
                         <Title>{elem?.title} </Title>
                       </D1>
                       <Date>{formattedDate}</Date>
-                      {elem?.submissionResponseList?.map((item) => (
-                        <DivScore>
-                          {item?.score !== 0 ? (
-                            <Score score={item?.score}>
-                              {`${item?.score} ball `}
-                            </Score>
-                          ) : null}
-                        </DivScore>
-                      ))}
+                      {elem?.submissionResponseList?.map((item) => {
+                        return (
+                          <DivScore>
+                            {item?.score !== 0 ? (
+                              <Score score={item?.score}>
+                                {`${item?.score} ball `}
+                              </Score>
+                            ) : null}
+                          </DivScore>
+                        )
+                      })}
                     </Lesson>
                   )
                 })}
@@ -99,8 +115,8 @@ const Lessons = ({
             <MentorLesson
               onAuxClick={() => (variantLessonEditTools ? onEdit(element) : '')}
             >
-              {variantLessonEditTools && (
-                <LessonEditTools>
+              <LessonEditTools>
+                {variantLessonEditTools && (
                   <ButtonsLessonBlock>
                     <AddAssignmentButton onClick={() => addAssignment(element)}>
                       +
@@ -112,31 +128,38 @@ const Lessons = ({
                       />
                     </DeleteButton>
                   </ButtonsLessonBlock>
-                  <H1>{element.text}</H1>
-                </LessonEditTools>
-              )}
-              <div>
-                {element.youtube?.map((el) => {
+                )}
+                <H1>{element.text}</H1>
+              </LessonEditTools>
+              <StyledTagA href={element?.youtubeUrl}>
+                <Lesson>
+                  <D6>
+                    <Img src={Frame} alt='error' />
+                    <Title>{element?.youtubeTitle}</Title>
+                  </D6>
+                </Lesson>
+              </StyledTagA>
+              {element?.lessons &&
+                element?.lessons.map((elem) => {
                   return (
-                    <StyledTagA href={el.youtube}>
+                    <StyledTagA href={elem?.youtube}>
                       <Lesson>
                         <D6>
                           <Img src={Frame} alt='error' />
-                          <Title>{el.youtubeTitle}</Title>
+                          <Title>{elem?.youtubeTitle}</Title>
                         </D6>
                       </Lesson>
                     </StyledTagA>
                   )
                 })}
-                <StyledTagA href={element.urlPdf}>
-                  <Lesson>
-                    <D7>
-                      <Img src={Frame3} alt='error' />
-                      <Title>{element.titleFile}</Title>
-                    </D7>
-                  </Lesson>
-                </StyledTagA>
-              </div>
+              <StyledTagA href={element.urlPdf}>
+                <Lesson>
+                  <D7>
+                    <Img src={Frame3} alt='error' />
+                    <Title>{element.titleFile}</Title>
+                  </D7>
+                </Lesson>
+              </StyledTagA>
               {element?.assignments &&
                 element?.assignments?.map((el) => {
                   const dateString = el?.created
@@ -156,9 +179,7 @@ const Lessons = ({
                       )}
                       <LessonLeft>
                         <D7
-                          onMouseOverCapture={() =>
-                            variantLessonEditTools ? getId(el.id) : ''
-                          }
+                          onMouseOverCapture={() => getId(el.id)}
                           onMouseOver={showAssignments}
                         >
                           <Img src={Frame1} alt='error' />
@@ -174,20 +195,8 @@ const Lessons = ({
                               }
                             >
                               <P>
-                                {(el?.submissionResponseList?.length === 1 &&
-                                  'ответил') ||
-                                  'ответили'}{' '}
                                 {el?.submissionResponseList?.length || 0}{' '}
-                                {(el?.submissionResponseList?.length < 5 &&
-                                  el?.submissionResponseList?.length > 1 &&
-                                  'студента') ||
-                                  (el?.submissionResponseList?.length < 1 &&
-                                    'студентов') ||
-                                  (el?.submissionResponseList?.length === 1 &&
-                                    'студент') ||
-                                  (el?.submissionResponseList?.length >= 5 &&
-                                    'студентов') ||
-                                  'студентов'}
+                                студент жооп берди
                               </P>
                               {el?.submissionResponseList?.map((elem) => {
                                 return (
@@ -195,7 +204,11 @@ const Lessons = ({
                                     <ShowedStudents>
                                       <p
                                         onClick={() =>
-                                          onClickStudentSubmission(elem)
+                                          onClickStudentSubmission({
+                                            assimentId: el.id,
+                                            submissinonId: elem.id,
+                                            student: elem,
+                                          })
                                         }
                                         style={{ cursor: 'pointer' }}
                                       >

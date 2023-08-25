@@ -5,12 +5,12 @@ import { profileStaffAdmin } from '../../services/reducerSlice/staffAdminSlice/s
 import AvatarUsers from '../UI/AvatarUsers'
 
 const StaffAdminProfile = () => {
-  const [, setFileImg] = useState('')
+  const state = useSelector((state) => state.staffAdmin)
+  const [, setFileImg] = useState(state?.profile?.profileImg)
   const [format, setFormat] = useState('')
   const [editButton, setEditButton] = useState(false)
   const [deleteButton, setDeleteButton] = useState(false)
 
-  const state = useSelector((state) => state.staffAdmin)
   const dispatch = useDispatch()
 
   useEffect(() => {

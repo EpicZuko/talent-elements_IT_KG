@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Autorization from '../components/auth/Autorization'
+import StaffAdminAcessToDeleteGroup from '../components/staffAdmin/StaffAdminAcessToDeleteGroup'
 import StaffAdminCard from '../components/staffAdmin/StaffAdminCard'
 import StaffAdminHomeWorkStudentId from '../components/staffAdmin/StaffAdminHomeWorkStudentId'
 import StaffAdminInstructorMentor from '../components/staffAdmin/StaffAdminInstructorMentor'
@@ -22,6 +23,10 @@ const StaffAdminRouts = () => {
           <Route
             path='/inctructorOrMentor/:instructorMentorProfileID'
             element={<StaffAdminInstructorMentorProfile />}
+          />
+          <Route
+            path='/notifications'
+            element={<StaffAdminAcessToDeleteGroup />}
           />
           <Route
             path='/studentGroups/:student'

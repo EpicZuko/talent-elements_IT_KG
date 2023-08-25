@@ -37,6 +37,7 @@ const StudentLesson = () => {
               urlLesson: item.youtube,
               explain: item.titleFile,
               urlPdf: item.file,
+              lessons: item.lessons,
               assignments: item.assignments,
               submissionResponseList: item.submissionResponseList,
             }}
@@ -59,7 +60,9 @@ const DivLesson = styled.div`
 `
 const H6 = styled.h6`
   color: var(--breadcrumbs, #878787);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -76,7 +79,9 @@ const H6 = styled.h6`
 `
 
 const H4 = styled.h4`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;

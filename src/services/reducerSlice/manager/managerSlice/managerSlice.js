@@ -235,7 +235,7 @@ export const managerBlockUser = createAsyncThunk(
   async (props, { rejectWithValue, dispatch }) => {
     try {
       const response = await ApiFetch({
-        url: `api/managers/block/${props.id}`,
+        url: `api/managers/block/User?id=${props.id}`,
         method: 'PUT',
         body: { userId: props.id },
       })
@@ -345,12 +345,13 @@ export const managerInstructorMentorProfile = createAsyncThunk(
         lessonNames: [],
         tableNames: [],
       }
+
+      instructorMentorProfile.lessonNames.push({
+        id: response.id,
+        name: response.fullName,
+        email: response.email,
+      })
       response.groupName.forEach((group) => {
-        instructorMentorProfile.lessonNames.push({
-          id: response.id,
-          name: response.fullName,
-          email: response.email,
-        })
         group.lessonTipResponses.forEach((lesson) => {
           instructorMentorProfile.tableNames.push({
             id: group.groupId,

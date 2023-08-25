@@ -40,8 +40,8 @@ const MentorInstructorLessons = () => {
   const addAssignment = (element) => {
     navigate(`create_assignment/${element.id}`)
   }
-  const navigateToHomeWorkPage = (element) => {
-    navigate(`homework/${element.studentName}/${element.studentId}`)
+  const navigateToHomeWorkPage = ({ student, submissinonId, assimentId }) => {
+    navigate(`homework/${submissinonId}/${student.studentName}/${assimentId}`)
   }
   const closeSnackbar = () => {
     dispatch(
@@ -99,7 +99,7 @@ const MentorInstructorLessons = () => {
   const getId = (value) => {
     setId(value)
   }
-  console.log(state)
+
   return (
     <div>
       <Block>
@@ -129,7 +129,9 @@ const MentorInstructorLessons = () => {
               urlPdf: elem?.file,
               titleFile: elem?.titleFile,
               assignments: elem?.assignments,
-              youtube: elem?.youtubeVideo,
+              lessons: elem?.youtubeVideo,
+              youtubeUrl: elem?.youtube,
+              youtubeTitle: elem?.youtubeTitle,
             }}
             onEdit={navigateToEditLessonPage}
             deleteLesson={modalShow}
@@ -195,8 +197,8 @@ const Location = styled.div`
 `
 const Block = styled.div`
   display: flex;
-  width: 1400px;
   justify-content: space-between;
+  width: 1140px;
   @media (max-width: 415px) {
     align-items: baseline;
     width: 100%;

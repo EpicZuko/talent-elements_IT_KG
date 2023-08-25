@@ -60,7 +60,7 @@ export const MentorInstructorLayout = () => {
 }
 
 const Container = styled.div`
-  margin: 35px 35px 0px 43px;
+  margin: 35px 0px 0px 43px;
   @media screen and (max-width: 415px) {
     margin-left: 35px;
   }

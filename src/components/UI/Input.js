@@ -21,6 +21,7 @@ const Input = forwardRef(function Input(props, ref) {
           variant={props.variant}
           {...props}
           placeholder={props.placeholder}
+          maxLength={props.maxLength}
         />
       </StyledDiv>
     </div>

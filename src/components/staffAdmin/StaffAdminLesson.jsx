@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -7,6 +7,7 @@ import Lessons from '../UI/Lessons'
 
 const StaffAdminLesson = () => {
   const state = useSelector((state) => state.staffAdmin)
+  const [id, setID] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { lessonsId } = useParams()
@@ -19,28 +20,44 @@ const StaffAdminLesson = () => {
     )
   }, [lessonsId])
 
-  const navigateHomeWorkStudentId = (element) => {
+  const navigateHomeWorkStudentId = (elem) => {
     navigate(
-      `/lessons/submission/${element.submissionId}/assigment/${element.assigmentId}`
+      `/lessons/submission/${elem.submissinonId}/assigment/${elem.assimentId}`
     )
   }
 
   const goBackGroupStaffAdmin = () => {
     navigate(-1)
   }
+
   return (
     <DivLesson>
       <H6 onClick={goBackGroupStaffAdmin}>
         {state?.getStaffAdminLesson?.groupName} /<H5>Сабактар</H5>
       </H6>
       <DivStyled>
-        {state.getStaffAdminLesson.staffAdminLesson.length > 0 ? (
-          state?.getStaffAdminLesson.staffAdminLesson.map((element) => (
+        {state.getStaffAdminLesson?.staffAdminLesson.length > 0 ? (
+          state?.getStaffAdminLesson?.staffAdminLesson?.map((elem) => (
             <Lessons
+              id={id}
               variant='Mentor'
-              element={element}
+              element={{
+                id: elem?.id,
+                text: `${elem?.id} - ${elem?.title}`,
+                videoUrl: elem?.youtube,
+                title: elem?.title,
+                urlPdf: elem?.file,
+                lesson: elem?.titleFile,
+                lessons: elem?.lessons,
+                titleFile: elem.titleFile,
+                assignments: elem?.assignments,
+              }}
               variantClick='click'
-              onClickStudent={(element) => navigateHomeWorkStudentId(element)}
+              onClickStudentSubmission={(elem) =>
+                navigateHomeWorkStudentId(elem)
+              }
+              onEdit={() => ''}
+              getId={setID}
             />
           ))
         ) : (
