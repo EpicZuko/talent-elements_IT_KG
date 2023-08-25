@@ -35,12 +35,15 @@ const StaffAdminLayouts = () => {
   const navigateProfile = () => {
     navigate('/profileStaffAdmin')
   }
+  const navigateNotification = () => {
+    navigate('/notification')
+  }
   return (
     <div>
       <Header
-        variant='Seo admin'
         data={state?.getProfileStaffAdmin}
         onBurgerMenuClick={sideBarOpenMenuBar}
+        onClickNotification={navigateNotification}
         onClickProfile={navigateProfile}
       />
       <DivStyled>

@@ -6,6 +6,7 @@ import StaffAdminHomeWorkStudentId from '../components/staffAdmin/StaffAdminHome
 import StaffAdminInstructorMentor from '../components/staffAdmin/StaffAdminInstructorMentor'
 import StaffAdminInstructorMentorProfile from '../components/staffAdmin/StaffAdminInstructorMentorProfile'
 import StaffAdminLesson from '../components/staffAdmin/StaffAdminLesson'
+import StaffAdminNotification from '../components/staffAdmin/StaffAdminNotification'
 import StaffAdminProfile from '../components/staffAdmin/StaffAdminProfile'
 import StaffAdminStudents from '../components/staffAdmin/StaffAdminStudents'
 import StaffAdminLayouts from '../layouts/StaffAdminLayouts'
@@ -34,6 +35,7 @@ const StaffAdminRouts = () => {
           />
           <Route path='/profileStaffAdmin' element={<StaffAdminProfile />} />
           <Route path='login' element={<Autorization variant='Login' />} />
+          <Route path='/notification' element={<StaffAdminNotification />} />
           <Route path='*' element={<Error variant='page' />} />
         </Route>
         <Route path='*' element={<Error />} />
