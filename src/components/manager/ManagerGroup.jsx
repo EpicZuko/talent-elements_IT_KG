@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
-import { managerAction } from '../../services/reducerSlice/manager/managerAction/managerAction'
 import {
   deleteGroupManager,
   managerGetAllGroups,
@@ -12,7 +11,6 @@ import Button from '../UI/Button'
 import Card from '../UI/card/Card'
 import Input from '../UI/Input'
 import Modall from '../UI/Modal'
-import CustomizedSnackbars from '../UI/Snackbar'
 
 const ManagerGroup = () => {
   const [search, setSearch] = useState('')
@@ -35,14 +33,6 @@ const ManagerGroup = () => {
   }
   const filterSearch = searchFilter()
 
-  const closeSnackBarDelete = () => {
-    dispatch(
-      managerAction.snackBarDeleteGroupClose({
-        open: false,
-        deleteStatus: state.deleteGroup.deleteStatus,
-      })
-    )
-  }
   const deleteGroup = (groupId) => {
     dispatch(deleteGroupManager({ id: groupId }))
     setDeleteModal(false)
@@ -63,16 +53,6 @@ const ManagerGroup = () => {
   }
   return (
     <div>
-      <CustomizedSnackbars
-        variant={state.deleteGroup.deleteStatus}
-        open={state.deleteGroup.open}
-        message={
-          state.deleteGroup.deleteStatus === 'success'
-            ? 'Өчүргөнү запрос ийгиликтүү жөнөтүлдү 👍🏻'
-            : 'Ийгиликсиз болду жаңыдан кайталаңыз. 😔'
-        }
-        closeSnackbar={closeSnackBarDelete}
-      />
       {deleteModal && (
         <Modall onClose={deleteModalHandlerClose}>
           <StyledModallDiv>

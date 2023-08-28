@@ -15,6 +15,10 @@ export const postLoginOrRegister = createAsyncThunk(
           body: props.body,
         })
         LocalStorageFunction({
+          type: 'removeItem',
+          key: 'login',
+        })
+        LocalStorageFunction({
           type: 'setItem',
           key: 'login',
           body: {
@@ -73,9 +77,10 @@ export const getForgetPassword = createAsyncThunk(
   // eslint-disable-next-line consistent-return
   async (props, { rejectWithValue }) => {
     try {
-      await ApiFetch({
+      const response = await ApiFetch({
         url: `forget/password?email=${props.email}`,
       })
+      return response
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -128,6 +133,8 @@ const initialState = {
     verificated: null,
   },
   vfn: null,
+  emailStats: null,
+  emailIsSuccess: null,
   restoreVfnSatus: null,
   restoreVfn: null,
   restoreStatus: null,
@@ -135,7 +142,7 @@ const initialState = {
   codeIsSuccess: false,
   codeStatus: null,
   restoreVfnCode: false,
-  acess: false,
+  isVerificated: false,
 }
 const loginOrRegisterSlice = createSlice({
   name: 'login',
@@ -148,6 +155,8 @@ const loginOrRegisterSlice = createSlice({
       state.restoreIsSuccess = action.payload.restoreIsSuccess
       state.codeIsSuccess = action.payload.codeIsSuccess
       state.codeStatus = action.payload.codeStatus
+      state.emailStats = action.payload.emailStats
+      state.emailIsSuccess = action.payload.emailIsSuccess
     },
     emailCheckBack(state) {
       state.restoreVfn = null
@@ -159,12 +168,12 @@ const loginOrRegisterSlice = createSlice({
       state.status = 'pending'
     },
     [postLoginOrRegister.fulfilled]: (state, action) => {
-      state.vfn = false
       state.login.role = action?.payload?.response?.role
       state.login.email = action?.payload?.response?.email
       state.login.jwt = action?.payload?.response?.token
       state.login.message = action?.payload?.response?.message
       state.login.verificated = action?.payload?.verificated
+      state.vfn = false
     },
     [postLoginOrRegister.rejected]: (state, action) => {
       state.status = 'error'
@@ -178,8 +187,9 @@ const loginOrRegisterSlice = createSlice({
     [putVerificateUser.fulfilled]: (state, action) => {
       if (action.payload?.message === 'успешно проверено') {
         state.Isuccess = true
+        state.isVerificated = true
         state.status = 'success'
-        state.acess = true
+        state.vfn = null
         LocalStorageFunction({
           type: 'removeItem',
           key: 'login',
@@ -194,9 +204,15 @@ const loginOrRegisterSlice = createSlice({
       state.Isuccess = true
       state.status = 'error'
     },
-    [getForgetPassword.fulfilled]: (state) => {
-      state.restoreVfn = true
-      state.restoreVfnSatus = 'success'
+    [getForgetPassword.fulfilled]: (state, action) => {
+      if (action.payload?.message === 'вы указали неверную почту') {
+        state.restoreVfn = null
+        state.emailIsSuccess = true
+        state.emailStatus = 'error'
+      } else {
+        state.restoreVfn = true
+        state.restoreVfnSatus = 'success'
+      }
     },
     [getForgetPassword.rejected]: (state) => {
       state.restoreVfn = null
@@ -215,7 +231,8 @@ const loginOrRegisterSlice = createSlice({
       }
     },
     [putCheckCodeForRestorePassword.rejected]: (state) => {
-      state.restoreVfn = true
+      state.restoreVfn = false
+      state.restoreIsSuccess = true
       state.restoreVfnSatus = 'error'
       state.codeIsSuccess = true
       state.codeStatus = 'error'

@@ -33,6 +33,7 @@ export default function CustomizedSnackbars({
       >
         <div>
           <Alert
+            icon
             sx={{
               height: variant === 'success' ? '' : '95px',
               width: '500px',
@@ -58,7 +59,6 @@ export default function CustomizedSnackbars({
               borderRadius: '7px',
             }}
             severity={variant !== '' ? variant : ''}
-            icon
           >
             <SnackTopBlock>
               <img

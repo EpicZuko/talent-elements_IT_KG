@@ -6,6 +6,7 @@ import {
   staffAdminfindallteachers,
   getMyprofileStaffAdminUrl,
   postStaffAdminProfile,
+  getStaffAdminNotification,
 } from '../../../utils/constants/url'
 
 export const getAllCouseCardStaffAdmin = createAsyncThunk(
@@ -274,6 +275,71 @@ export const profileStaffAdmin = createAsyncThunk(
     }
   }
 )
+export const GetStaffNotifications = createAsyncThunk(
+  'GetStaffNotification',
+  // eslint-disable-next-line consistent-return
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await ApiFetch({
+        url: getStaffAdminNotification,
+      })
+      const staffNotifications = []
+      // eslint-disable-next-line no-plusplus, no-unreachable-loop
+      for (let i = 0; i < response.length; i++) {
+        const dateString = response[i].createdAt
+        const dateObject = new Date(dateString)
+        const dateAddOne =
+          dateObject.getMonth() < 10
+            ? `0${dateObject.getMonth() + 1}`
+            : dateObject.getMonth() + 1
+        const formattedDate = `${dateObject.toLocaleString('en-US', {
+          day: '2-digit',
+        })}.${dateAddOne}.${dateObject.getFullYear()}`
+        staffNotifications.push({
+          id: response[i].id,
+          groupId: response[i].groupID,
+          message: response[i].message,
+          groupName: response[i].groupName,
+          date: formattedDate,
+        })
+      }
+      return { staffNotifications }
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+export const DeleteStaffGroups = createAsyncThunk(
+  'DeleteStaffGroup',
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/staff/admin/delete_group/${props.id}`,
+        method: 'DELETE',
+      })
+      dispatch(GetStaffNotifications())
+      return response
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+export const NotDeleteStaffGroups = createAsyncThunk(
+  'NotDeleteStaffGroup',
+  async (props, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await ApiFetch({
+        url: `api/v1/staff/admin/delete/notices?id=${props.id}`,
+        method: 'PUT',
+      })
+      dispatch(GetStaffNotifications())
+      return response
+    } catch (error) {
+      return rejectWithValue(error?.message)
+    }
+  }
+)
+
 const staffAdminSlice = createSlice({
   name: 'staffAdminSlice',
   initialState: {
@@ -310,8 +376,17 @@ const staffAdminSlice = createSlice({
       profileImg: null,
       getMyProfileArrayStatus: null,
     },
+    staffNotificationStatus: null,
+    staffNotification: [],
+    staffSnackBarStatus: null,
+    staffSnackBar: false,
   },
-  reducers: {},
+  reducers: {
+    snackBarClose(state, action) {
+      state.staffSnackBarStatus = action.payload.staffSnackBarStatus
+      state.staffSnackBar = action.payload.staffSnackBar
+    },
+  },
   extraReducers: (builder) => {
     // staffAdminStudent
     builder
@@ -423,6 +498,29 @@ const staffAdminSlice = createSlice({
       .addCase(profileStaffAdmin.rejected, (state) => {
         state.profile.getMyProfileArrayStatus = 'error'
         state.profile.groupProfile = []
+      })
+      // staff Notification
+      .addCase(GetStaffNotifications.pending, (state) => {
+        state.staffNotificationStatus = 'pending'
+      })
+      .addCase(GetStaffNotifications.fulfilled, (state, action) => {
+        state.staffNotificationStatus = 'success'
+        state.staffNotification = action.payload.staffNotifications
+      })
+      .addCase(GetStaffNotifications.rejected, (state) => {
+        state.staffNotificationStatus = 'error'
+        state.staffNotification = []
+      })
+      .addCase(DeleteStaffGroups.pending, (state) => {
+        state.staffSnackBarStatus = 'pending'
+      })
+      .addCase(DeleteStaffGroups.fulfilled, (state) => {
+        state.staffSnackBarStatus = 'success'
+        state.staffSnackBar = true
+      })
+      .addCase(DeleteStaffGroups.rejected, (state) => {
+        state.staffSnackBarStatus = 'error'
+        state.staffSnackBar = true
       })
   },
 })

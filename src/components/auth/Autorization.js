@@ -45,7 +45,9 @@ const Autorization = ({ variant, onClickVariant }) => {
     restoreIsSuccess,
     codeStatus,
     codeIsSuccess,
-    acess,
+    emailStatus,
+    emailIsSuccess,
+    isVerificated,
   } = useSelector((state) => state.login)
   const createAccountHandlerChangeValue = (event) => {
     setCreateAccount({
@@ -68,6 +70,8 @@ const Autorization = ({ variant, onClickVariant }) => {
         restoreStatus,
         codeIsSuccess: false,
         codeStatus,
+        emailStatus,
+        emailIsSuccess: false,
       })
     )
   }
@@ -113,10 +117,15 @@ const Autorization = ({ variant, onClickVariant }) => {
           password: toComeIn.password,
         })
       )
-      if (acess) {
-        setVerifcationCode('')
-        onClickVariant('')
-        setToComeIn({})
+      setVerifcationCode('')
+      if (isVerificated) {
+        setToComeIn({
+          email: '',
+          code: '',
+          fullName: '',
+          username: '',
+          password: '',
+        })
       }
     }
   }
@@ -184,20 +193,19 @@ const Autorization = ({ variant, onClickVariant }) => {
   }
   const restorePassword = () => {
     if (
-      restoreInputs.email.trim() !== '' &&
       restoreInputs.password.trim() !== '' &&
       restoreInputs.repeatPassword.trim() !== '' &&
       restoreInputs.password === restoreInputs.repeatPassword
     ) {
       dispatch(putNewPassword(restoreInputs))
-      if (restoreStatus === 'success') {
-        closeModal()
-      }
       setRestoreInputs({
-        email: '',
+        email: restoreInputs.email,
         password: '',
         repeatPassword: '',
       })
+    }
+    if (restoreStatus === 'success') {
+      closeModal()
     }
   }
   const backToEmailCheckCode = () => {
@@ -219,7 +227,7 @@ const Autorization = ({ variant, onClickVariant }) => {
         message={
           restoreStatus === 'success'
             ? 'Куттуктайбыз! Сиз сыр сөзүңүздү ийгиликтүү өзгөрттүңүз! Кайрадан кош келипсиз 😊'
-            : 'Кечиресиз ката кетти! Сураныч маалыматты тууралап кайрадан жөнөтүңүз! 😔(почтаңыз "com" болуусу жана сыр сөздө чоң тамга, белги жана сан болуусу зарыл)'
+            : 'Кечиресиз ката кетти! Сураныч маалыматты тууралап кайрадан жөнөтүңүз! 😔(cыр сөздө чоң тамга, белги жана сан болуусу зарыл)'
         }
         variant={restoreStatus}
         open={restoreIsSuccess}
@@ -233,6 +241,15 @@ const Autorization = ({ variant, onClickVariant }) => {
         }
         variant={codeStatus}
         open={codeIsSuccess}
+        closeSnackbar={closeSnackBarHandler}
+      />
+      <CustomizedSnackbars
+        message={
+          emailStatus === 'error' &&
+          'Кечиресиз ката кетти! Азыркы жазган email жок Же туура эмес жазылды'
+        }
+        variant={emailStatus}
+        open={emailIsSuccess}
         closeSnackbar={closeSnackBarHandler}
       />
       <RegisterBg>
