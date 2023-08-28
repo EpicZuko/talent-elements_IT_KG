@@ -22,7 +22,7 @@ export const getAllCouseCardStaffAdmin = createAsyncThunk(
       for (let i = 0; i < response.length; i++) {
         getAllCouseStaffAdmin.push({
           id: response[i].id,
-          title: response[i].description,
+          title: response[i].name,
           img: response[i].photo,
           students: response[i].count,
           lesson: response[i].lessonId,

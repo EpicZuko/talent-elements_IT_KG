@@ -122,6 +122,7 @@ const StyledTaskTitle = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  cursor: pointer;
 `
 const StyledDivN2 = styled.div`
   width: 507px;

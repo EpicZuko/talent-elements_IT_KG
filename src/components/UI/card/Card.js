@@ -83,7 +83,7 @@ const Card = (props) => {
                     tabIndex='0'
                   >
                     <ImgCard src={ImgCardGroup} alt='error' />
-                    <Lesson>Курстар - {element.lesson}</Lesson>
+                    <Lesson>Курстар - {element.lesson || 0}</Lesson>
                   </Div1>
                   <Div2 role='button' tabIndex='0'>
                     <ImgGroup
@@ -209,7 +209,7 @@ const Mentor = styled.div`
   margin-bottom: 19px;
 `
 const Studentss = styled.div`
-  width: 75px;
+  width: 85px;
   height: 17px;
   font-family: 'Zen Kaku Gothic New', sans-serif;
   font-weight: 500px;

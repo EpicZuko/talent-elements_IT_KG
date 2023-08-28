@@ -8,9 +8,14 @@ import AutorizationLogo from '../../assets/icon/autorizationIcons/nubelson-ferna
 import {
   postLoginOrRegister,
   LoginSliceAction,
+  putVerificateUser,
+  getForgetPassword,
+  putCheckCodeForRestorePassword,
+  putNewPassword,
 } from '../../services/reducerSlice/authSlice/loginOrRegisterSlice'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
+import Modall from '../UI/Modal'
 import CustomizedSnackbars from '../UI/Snackbar'
 
 const Autorization = ({ variant, onClickVariant }) => {
@@ -31,7 +36,19 @@ const Autorization = ({ variant, onClickVariant }) => {
     onClickVariant()
   }
   const dispatch = useDispatch()
-  const { status, Isuccess } = useSelector((state) => state.login)
+  const {
+    status,
+    Isuccess,
+    vfn,
+    restoreVfn,
+    restoreStatus,
+    restoreIsSuccess,
+    codeStatus,
+    codeIsSuccess,
+    emailStatus,
+    emailIsSuccess,
+    isVerificated,
+  } = useSelector((state) => state.login)
   const createAccountHandlerChangeValue = (event) => {
     setCreateAccount({
       ...createAccount,
@@ -45,7 +62,18 @@ const Autorization = ({ variant, onClickVariant }) => {
     })
   }
   const closeSnackBarHandler = () => {
-    dispatch(LoginSliceAction.snackBarClose({ Isuccess: false, status }))
+    dispatch(
+      LoginSliceAction.snackBarClose({
+        Isuccess: false,
+        status,
+        restoreIsSuccess: false,
+        restoreStatus,
+        codeIsSuccess: false,
+        codeStatus,
+        emailStatus,
+        emailIsSuccess: false,
+      })
+    )
   }
   const submitLogin = (event) => {
     event.preventDefault()
@@ -74,6 +102,115 @@ const Autorization = ({ variant, onClickVariant }) => {
       })
     )
   }
+  const [verificationCode, setVerifcationCode] = useState('')
+  const verificationCodeHandler = (event) => {
+    setVerifcationCode(event.target.value)
+  }
+  const checkCode = (event) => {
+    event.preventDefault()
+    if (verificationCode.length >= 6) {
+      dispatch(
+        putVerificateUser({
+          email: toComeIn.email,
+          code: verificationCode,
+          username: toComeIn.username,
+          password: toComeIn.password,
+        })
+      )
+      setVerifcationCode('')
+      if (isVerificated) {
+        setToComeIn({
+          email: '',
+          code: '',
+          fullName: '',
+          username: '',
+          password: '',
+        })
+      }
+    }
+  }
+
+  const [modal, setModal] = useState(false)
+
+  const openModal = () => {
+    setModal(true)
+  }
+  const closeModal = () => {
+    setModal(false)
+  }
+
+  const [restoreInputs, setRestoreInputs] = useState({
+    email: '',
+    password: '',
+    repeatPassword: '',
+    code: '',
+  })
+  const getEmailForRestore = (event) => {
+    setRestoreInputs({
+      email: event.target.value,
+      password: restoreInputs.password,
+      repeatPassword: restoreInputs.repeatPassword,
+    })
+  }
+  const getPasswordForRestore = (event) => {
+    setRestoreInputs({
+      email: restoreInputs.email,
+      password: event.target.value,
+      repeatPassword: restoreInputs.repeatPassword,
+      code: restoreInputs.code,
+    })
+  }
+  const getRepeatPasswordForRestore = (event) => {
+    setRestoreInputs({
+      email: restoreInputs.email,
+      password: restoreInputs.password,
+      repeatPassword: event.target.value,
+      code: restoreInputs.code,
+    })
+  }
+  const getCodeForRestore = (event) => {
+    setRestoreInputs({
+      email: restoreInputs.email,
+      password: restoreInputs.password,
+      repeatPassword: restoreInputs.repeatPassword,
+      code: event.target.value,
+    })
+  }
+  const getRestoreRequest = () => {
+    if (restoreInputs.email.trim() !== '') {
+      dispatch(getForgetPassword({ email: restoreInputs.email }))
+    }
+  }
+  const checkCodeForRestorePassword = () => {
+    if (restoreInputs.email !== '' && restoreInputs.code !== '') {
+      dispatch(
+        putCheckCodeForRestorePassword({
+          code: restoreInputs.code,
+          email: restoreInputs.email,
+        })
+      )
+    }
+  }
+  const restorePassword = () => {
+    if (
+      restoreInputs.password.trim() !== '' &&
+      restoreInputs.repeatPassword.trim() !== '' &&
+      restoreInputs.password === restoreInputs.repeatPassword
+    ) {
+      dispatch(putNewPassword(restoreInputs))
+      setRestoreInputs({
+        email: restoreInputs.email,
+        password: '',
+        repeatPassword: '',
+      })
+    }
+    if (restoreStatus === 'success') {
+      closeModal()
+    }
+  }
+  const backToEmailCheckCode = () => {
+    dispatch(LoginSliceAction.emailCheckBack())
+  }
   return (
     <>
       <CustomizedSnackbars
@@ -84,6 +221,35 @@ const Autorization = ({ variant, onClickVariant }) => {
         }
         variant={status}
         open={Isuccess}
+        closeSnackbar={closeSnackBarHandler}
+      />
+      <CustomizedSnackbars
+        message={
+          restoreStatus === 'success'
+            ? 'Куттуктайбыз! Сиз сыр сөзүңүздү ийгиликтүү өзгөрттүңүз! Кайрадан кош келипсиз 😊'
+            : 'Кечиресиз ката кетти! Сураныч маалыматты тууралап кайрадан жөнөтүңүз! 😔(cыр сөздө чоң тамга, белги жана сан болуусу зарыл)'
+        }
+        variant={restoreStatus}
+        open={restoreIsSuccess}
+        closeSnackbar={closeSnackBarHandler}
+      />
+      <CustomizedSnackbars
+        message={
+          codeStatus === 'success'
+            ? 'Куттуктайбыз! Кодту туура тердиниз!'
+            : 'Кечиресиз ката кетти! 😔(код 6дан коп болуусу жана сан турдо болуусу зарыл) Же туура эмес жазылды'
+        }
+        variant={codeStatus}
+        open={codeIsSuccess}
+        closeSnackbar={closeSnackBarHandler}
+      />
+      <CustomizedSnackbars
+        message={
+          emailStatus === 'error' &&
+          'Кечиресиз ката кетти! Азыркы жазган email жок Же туура эмес жазылды'
+        }
+        variant={emailStatus}
+        open={emailIsSuccess}
         closeSnackbar={closeSnackBarHandler}
       />
       <RegisterBg>
@@ -129,9 +295,14 @@ const Autorization = ({ variant, onClickVariant }) => {
                       Катталыңыз
                     </ForLoginText2>
                   </ForLoginText>
+                  <RestoreText onClick={openModal}>
+                    Сыр созунузду унутуп калдынызбы?
+                  </RestoreText>
                 </AutorizationForm>
               ) : (
-                <AutorizationForm onSubmit={submitAuth}>
+                <AutorizationForm
+                  onSubmit={vfn === null ? submitAuth : checkCode}
+                >
                   <Input
                     placeholder='логин жазыңыз'
                     type='text'
@@ -160,14 +331,19 @@ const Autorization = ({ variant, onClickVariant }) => {
                     value={toComeIn.password}
                     onChange={toComeInHandlerChangeValue}
                   />
-                  {/* <Input
-                    placeholder='Повторите пароль'
-                    type='pasword'
-                    name='repeatPassword'
-                    value={toComeIn.repeatPassword}
-                    onChange={toComeInHandlerChangeValue}
-                  /> */}
-                  <Button variant='sing in'>Аккаунт түзүү</Button>
+                  {vfn === false && (
+                    <Input
+                      placeholder='Текшерүү кодун жазыңыз'
+                      type='pasword'
+                      name='verificationCode'
+                      maxLength={6}
+                      value={verificationCode}
+                      onChange={verificationCodeHandler}
+                    />
+                  )}
+                  <Button variant='sing in'>
+                    {vfn === null ? 'Аккаунт түзүү' : 'Жонотуу'}
+                  </Button>
                   <ForLoginText>
                     Сиздин аккаунтуңуз барбы?
                     <ForLoginText2 onClick={loginHandler}>Кирүү</ForLoginText2>
@@ -178,6 +354,57 @@ const Autorization = ({ variant, onClickVariant }) => {
           </AutorizationFormBlock>
         </RegisterBg2>
       </RegisterBg>
+      {modal && (
+        <Modall onClose={closeModal}>
+          <RestoreTitle>Сыр сөздү калыбына келтирүү</RestoreTitle>
+          <RestoreBlock>
+            {restoreVfn === null && (
+              <Input
+                onChange={getEmailForRestore}
+                value={restoreInputs.email}
+                placeholder='emailды жазыныз'
+              />
+            )}
+            {restoreVfn && (
+              <Input
+                onChange={getCodeForRestore}
+                value={restoreInputs.code}
+                placeholder='почтанызга келген кодту жазыныз'
+                maxLength={6}
+              />
+            )}
+            {restoreVfn === false && (
+              <InputsDiv>
+                <Input
+                  onChange={getPasswordForRestore}
+                  value={restoreInputs.password}
+                  placeholder='Жаны сыр соз жазыныз'
+                />
+                <Input
+                  onChange={getRepeatPasswordForRestore}
+                  value={restoreInputs.repeatPassword}
+                  placeholder='Сыр созунунзду кайталаныз'
+                />
+              </InputsDiv>
+            )}
+            <Button
+              onClick={
+                (restoreVfn === null && getRestoreRequest) ||
+                (restoreVfn && checkCodeForRestorePassword) ||
+                (restoreVfn === false && restorePassword)
+              }
+              variant='create group-page'
+            >
+              Жонотуу
+            </Button>
+          </RestoreBlock>
+          {restoreVfn && (
+            <P onClick={backToEmailCheckCode}>
+              email туура эмес жазып алдынызбы?
+            </P>
+          )}
+        </Modall>
+      )}
     </>
   )
 }
@@ -363,4 +590,45 @@ const LoginButton = styled.div`
   @media screen and (max-width: 415px) {
     margin-bottom: 33px;
   }
+`
+const RestoreText = styled.p`
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #373737;
+  cursor: pointer;
+  margin-top: 5px;
+`
+const RestoreTitle = styled.p`
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #373737;
+  cursor: pointer;
+  margin-top: 60px;
+`
+const RestoreBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  gap: 50px;
+`
+const P = styled.p`
+  text-align: center;
+  font-size: 15px;
+  margin-top: 20px;
+  color: #373737;
+  cursor: pointer;
+`
+const InputsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `

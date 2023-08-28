@@ -46,7 +46,8 @@ const StaffAdminInstructorMentorProfile = () => {
           variant='Visitor'
           profileImg={
             state?.getProfileInstructorMentor?.profileInstructorOrMentor
-              ?.profileImg
+              ?.profileImg ||
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'
           }
           setFileImg={setFileImg}
           user={profileInstructor}

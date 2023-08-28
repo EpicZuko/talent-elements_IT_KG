@@ -52,7 +52,9 @@ const StudentContianer = styled.div`
   }
 `
 const H5 = styled.h5`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 25px;
   font-weight: 700;
   line-height: 36px;
@@ -60,7 +62,9 @@ const H5 = styled.h5`
   text-align: left;
   color: hsla(201, 68%, 23%, 1);
   @media (max-width: 391px) {
-    font-family: Zen Kaku Gothic New;
+    font-family:
+      Zen Kaku Gothic New,
+      sans-serif;
     font-size: 16px;
     font-weight: 700;
     line-height: 23px;

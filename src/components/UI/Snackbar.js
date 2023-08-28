@@ -29,10 +29,11 @@ export default function CustomizedSnackbars({
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={open}
         onClose={closeSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
       >
         <div>
           <Alert
+            icon
             sx={{
               height: variant === 'success' ? '' : '95px',
               width: '500px',
@@ -57,8 +58,7 @@ export default function CustomizedSnackbars({
               boxShadow: '0px 2px 15px 0px #2121341A',
               borderRadius: '7px',
             }}
-            severity={variant}
-            icon
+            severity={variant !== '' ? variant : ''}
           >
             <SnackTopBlock>
               <img

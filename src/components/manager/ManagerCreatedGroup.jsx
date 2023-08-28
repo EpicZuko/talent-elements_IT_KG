@@ -82,7 +82,9 @@ export default ManagerCreatedGroup
 const H6 = styled.h6`
   display: flex;
   color: var(--breadcrumbs, #878787);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -93,7 +95,9 @@ const H6 = styled.h6`
 `
 const H5 = styled.h5`
   color: var(--light-blue, #134764);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;

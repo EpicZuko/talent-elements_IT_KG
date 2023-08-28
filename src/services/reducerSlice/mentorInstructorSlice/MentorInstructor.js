@@ -197,6 +197,8 @@ export const getMentorLessons = createAsyncThunk(
           titleFile: getLessons[i].titleFile,
           file: getLessons[i].file,
           assignments: getLessons[i].assignments,
+          youtubeUrl: getLessons[i].youtube,
+          youtubeTitle: getLessons[i].titleYoutube,
           youtubeVideo: getLessons[i].lessons,
         })
       }

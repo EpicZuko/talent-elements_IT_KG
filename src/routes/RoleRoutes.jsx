@@ -7,8 +7,8 @@ import StaffAdminRouts from './StaffAdminRouts'
 import StudentRoutes from './StudentRoutes'
 
 const RoleRoutes = () => {
-  const { jwt, role } = useSelector((state) => state.login.login)
-  if (!jwt) {
+  const { verificated, role } = useSelector((state) => state.login.login)
+  if (!verificated) {
     return <Protected />
   }
   return (

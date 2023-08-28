@@ -131,6 +131,14 @@ const Lessons = ({
                 )}
                 <H1>{element.text}</H1>
               </LessonEditTools>
+              <StyledTagA href={element?.youtubeUrl}>
+                <Lesson>
+                  <D6>
+                    <Img src={Frame} alt='error' />
+                    <Title>{element?.youtubeTitle}</Title>
+                  </D6>
+                </Lesson>
+              </StyledTagA>
               {element?.lessons &&
                 element?.lessons.map((elem) => {
                   return (
@@ -187,20 +195,8 @@ const Lessons = ({
                               }
                             >
                               <P>
-                                {(el?.submissionResponseList?.length === 1 &&
-                                  'ответил') ||
-                                  'ответили'}{' '}
                                 {el?.submissionResponseList?.length || 0}{' '}
-                                {(el?.submissionResponseList?.length < 5 &&
-                                  el?.submissionResponseList?.length > 1 &&
-                                  'студента') ||
-                                  (el?.submissionResponseList?.length < 1 &&
-                                    'студентов') ||
-                                  (el?.submissionResponseList?.length === 1 &&
-                                    'студент') ||
-                                  (el?.submissionResponseList?.length >= 5 &&
-                                    'студентов') ||
-                                  'студентов'}
+                                студент жооп берди
                               </P>
                               {el?.submissionResponseList?.map((elem) => {
                                 return (

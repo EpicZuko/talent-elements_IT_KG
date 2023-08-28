@@ -235,7 +235,7 @@ export const managerBlockUser = createAsyncThunk(
   async (props, { rejectWithValue, dispatch }) => {
     try {
       const response = await ApiFetch({
-        url: `api/managers/block/${props.id}`,
+        url: `api/managers/block/User?id=${props.id}`,
         method: 'PUT',
         body: { userId: props.id },
       })

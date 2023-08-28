@@ -130,6 +130,8 @@ const MentorInstructorLessons = () => {
               titleFile: elem?.titleFile,
               assignments: elem?.assignments,
               lessons: elem?.youtubeVideo,
+              youtubeUrl: elem?.youtube,
+              youtubeTitle: elem?.youtubeTitle,
             }}
             onEdit={navigateToEditLessonPage}
             deleteLesson={modalShow}

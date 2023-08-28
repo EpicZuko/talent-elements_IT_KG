@@ -60,7 +60,9 @@ const Progress = styled.div`
   flex-shrink: 0;
   color: var(--white, #fff);
   font-size: 11px;
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-weight: 500;
   border-radius: 4px;
   background: ${(props) =>
@@ -81,14 +83,12 @@ const Span = styled.span`
 `
 
 const SpanSuccess = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-  margin-left: 29px;
+  margin-left: 33px;
   color: var(--white, #fff);
   font-size: 11px;
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-weight: 500;
 `
 
@@ -100,6 +100,8 @@ const SpanActive = styled.span`
   justify-content: center;
   color: var(--white, #fff);
   font-size: 11px;
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-weight: 500;
 `

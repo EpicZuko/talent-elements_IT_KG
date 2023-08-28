@@ -169,7 +169,9 @@ const DivHomeWork = styled.div`
 `
 const H5 = styled.h5`
   color: var(--dark-blue, #0b3852);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -193,7 +195,9 @@ const DivText = styled.div`
   }
 `
 const H4 = styled.h4`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -236,7 +240,9 @@ const StyledModalltextDiv = styled.div`
   }
 `
 const StyledModalltext = styled.div`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 25px;
   font-style: normal;
   font-weight: 700;
@@ -255,7 +261,9 @@ const Textarea = styled.textarea`
   flex-shrink: 0;
   border-radius: 8px;
   color: rgba(135, 135, 135, 1);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 16px;
   font-weight: 700;
   resize: none;
@@ -270,7 +278,9 @@ const Textarea = styled.textarea`
 `
 const StyledH6 = styled.h6`
   color: var(--breadcrumbs, #878787);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -286,7 +296,9 @@ const StyledH6 = styled.h6`
 `
 const StyledH5 = styled.h5`
   color: var(--dark-blue, #0b3852);
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
