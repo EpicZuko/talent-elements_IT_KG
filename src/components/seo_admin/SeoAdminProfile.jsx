@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { getSeoAdminProfile } from '../../services/reducerSlice/seoAdminGroupsSlice/allGroups'
+import { LocalStorageFunction } from '../../utils/helpers/localeStorage/LocalStorageFunction'
 import AvatarUsers from '../UI/AvatarUsers'
 
 const SeoAdminProfile = () => {
@@ -16,6 +18,15 @@ const SeoAdminProfile = () => {
   useEffect(() => {
     dispatch(getSeoAdminProfile({ fileImg: format }))
   }, [fileImg, format])
+  const navigate = useNavigate()
+  const logout = () => {
+    LocalStorageFunction({
+      type: 'removeItem',
+      key: 'login',
+    })
+    navigate('/')
+    window.location.reload()
+  }
   return (
     <div>
       <H5>Жеке бөлмө</H5>
@@ -30,6 +41,7 @@ const SeoAdminProfile = () => {
           setDeleteButton={setDeleteButton}
           deleteButtons={deleteButton}
           user={state.getProfile.seoAdminProfile}
+          logoutAccount={logout}
         />
       </DivStyled>
     </div>

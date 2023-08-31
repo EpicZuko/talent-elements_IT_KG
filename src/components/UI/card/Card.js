@@ -44,7 +44,7 @@ const Card = (props) => {
                         src={IconCardGroup}
                         alt='error'
                       />
-                      <DivDelete variantDelete={props.variantDelete}>
+                      <DivDelete variantdelete={props.variantDelete}>
                         <Students
                           onClick={() =>
                             props.variantClick === 'disbled'
@@ -55,7 +55,7 @@ const Card = (props) => {
                           {element.students} студент
                         </Students>
                         {props.variantDelete === 'delete' ? (
-                          <DivDeleteButton variantDelete={props.variantDelete}>
+                          <DivDeleteButton variantdelete={props.variantDelete}>
                             <Button
                               variant='delete button'
                               onClick={() =>
@@ -235,11 +235,11 @@ const Div2 = styled.div`
   text-align: center;
 `
 const DivDelete = styled.div`
-  display: ${(props) => (props.variantDelete === 'delete' ? 'flex' : '')};
+  display: ${(props) => (props.variantdelete === 'delete' ? 'flex' : '')};
   margin-left: ${(props) =>
-    props.variantDelete === 'delete' ? '100px' : '0px'};
+    props.variantdelete === 'delete' ? '100px' : '0px'};
 `
 const DivDeleteButton = styled.div`
   padding-left: ${(props) =>
-    props.variantDelete === 'delete' ? '70px' : '0px'};
+    props.variantdelete === 'delete' ? '70px' : '0px'};
 `

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { profileStaffAdmin } from '../../services/reducerSlice/staffAdminSlice/staffAdmin'
+import { LocalStorageFunction } from '../../utils/helpers/localeStorage/LocalStorageFunction'
 import AvatarUsers from '../UI/AvatarUsers'
 
 const StaffAdminProfile = () => {
@@ -16,6 +18,15 @@ const StaffAdminProfile = () => {
   useEffect(() => {
     dispatch(profileStaffAdmin({ file: format }))
   }, [format])
+  const navigate = useNavigate()
+  const logout = () => {
+    LocalStorageFunction({
+      type: 'removeItem',
+      key: 'login',
+    })
+    navigate('/')
+    window.location.reload()
+  }
 
   return (
     <div>
@@ -31,6 +42,7 @@ const StaffAdminProfile = () => {
           setDeleteButton={setDeleteButton}
           deleteButtons={deleteButton}
           user={state?.profile?.groupProfile}
+          logoutAccount={logout}
         />
       </DivStyled>
     </div>

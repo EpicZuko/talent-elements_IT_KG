@@ -97,8 +97,8 @@ const ManagerGroup = () => {
           navToCurrentGroup={(element) => handlerManagerStudentGroup(element)}
           navToStudents={(element) => handlerManagerStudentGroup(element)}
           variant='Manager_group'
-          variantDelete='delete'
           onClickDeleteGroup={(element) => deleteModalHandler(element.id)}
+          variantDelete='delete'
         />
       ) : (
         <H3>Табылган жок</H3>
@@ -110,7 +110,9 @@ const ManagerGroup = () => {
 export default ManagerGroup
 
 const TitleH5 = styled.h5`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-size: 25px;
   font-style: normal;
   font-weight: 700;
@@ -156,7 +158,9 @@ const H3 = styled.h3`
   @media (max-width: 391px) {
     text-align: center;
     margin-top: 20px;
-    font-family: Zen Kaku Gothic New;
+    font-family:
+      Zen Kaku Gothic New,
+      sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -166,7 +170,9 @@ const H3 = styled.h3`
 `
 
 const StyledH2 = styled.h2`
-  font-family: Zen Kaku Gothic New;
+  font-family:
+    Zen Kaku Gothic New,
+    sans-serif;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

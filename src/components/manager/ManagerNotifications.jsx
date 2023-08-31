@@ -53,6 +53,7 @@ const ManagerNotifications = () => {
   const handlerBlockUser = (element) => {
     dispatch(managerBlockUser({ id: element.number }))
   }
+  console.log(state)
   return (
     <div>
       <CustomizedSnackbars

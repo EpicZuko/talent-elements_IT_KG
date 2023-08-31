@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import arrowLeft from '../../assets/icon/notificationIcons/strelka.svg'
 import { getMentorProfile } from '../../services/reducerSlice/mentorInstructorSlice/MentorInstructor'
+import { LocalStorageFunction } from '../../utils/helpers/localeStorage/LocalStorageFunction'
 import SelectorFuncMentor from '../../utils/helpers/useSelector/SelectorFunc'
 import AvatarUsers from '../UI/AvatarUsers'
 
@@ -20,6 +21,14 @@ export const MentorInstrcutorProfile = () => {
   useEffect(() => {
     dispatch(getMentorProfile({ img: format }))
   }, [format])
+  const logout = () => {
+    LocalStorageFunction({
+      type: 'removeItem',
+      key: 'login',
+    })
+    navigate('/')
+    window.location.reload()
+  }
   return (
     <div>
       <Location>
@@ -41,6 +50,7 @@ export const MentorInstrcutorProfile = () => {
           setFormat={setFormat}
           setEditButton={setEditButton}
           editButtons={editButton}
+          logoutAccount={logout}
         />
       </StyledDivStudent>
     </div>

@@ -126,9 +126,7 @@ const Student = ({
               )}
               {variant === 'Students' && <StyledAction>Аракеттер</StyledAction>}
               {variant === 'Manager_Group' && (
-                <div>
-                  <StyledAction>Аракеттер</StyledAction>
-                </div>
+                <StyledAction>Аракеттер</StyledAction>
               )}
               {variant === 'mentor/instructors' && (
                 <span>
@@ -479,21 +477,19 @@ const Student = ({
                   </StyledActions>
                 )}
                 {variant === 'Manager_Group' && (
-                  <td>
-                    <StyledActions
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <span style={{ marginLeft: '27px', background: 'none' }}>
-                        <Button
-                          onClick={() => onClickManagerDeleteButton(element)}
-                          variant='delete button'
-                        />
-                      </span>
-                    </StyledActions>
-                  </td>
+                  <StyledActions
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span style={{ marginLeft: '27px', background: 'none' }}>
+                      <Button
+                        onClick={() => onClickManagerDeleteButton(element)}
+                        variant='delete button'
+                      />
+                    </span>
+                  </StyledActions>
                 )}
                 {variant === 'mentor/instructors' && (
                   <td>
