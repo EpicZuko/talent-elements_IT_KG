@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudentMyProfile } from '../../services/reducerSlice/studentSlice/studentAction'
+import { LocalStorageFunction } from '../../utils/helpers/localeStorage/LocalStorageFunction'
 import AvatarUsers from '../UI/AvatarUsers'
 import { Progress } from '../UI/ProgressBar'
 
@@ -16,7 +18,16 @@ const StudentMyProfile = () => {
   useEffect(() => {
     dispatch(getStudentMyProfile({ fileImg: format }))
   }, [fileImg, format])
+  const navigate = useNavigate()
 
+  const logout = () => {
+    LocalStorageFunction({
+      type: 'removeItem',
+      key: 'login',
+    })
+    navigate('/')
+    window.location.reload()
+  }
   return (
     <div>
       <H5>Жеке бөлмө</H5>
@@ -31,6 +42,7 @@ const StudentMyProfile = () => {
           setDeleteButton={setDeleteButton}
           setEditButton={setEditButton}
           user={state?.getStudentMyProfile?.studentMyProfile}
+          logoutAccount={logout}
         />
         <DivProgress>
           <H4>Прогресс</H4>

@@ -18,6 +18,7 @@ const AvatarUsers = ({
   profileImg,
   onClickBlockButtton,
   setFormat,
+  logoutAccount,
 }) => {
   const filePicker = useRef(null)
   const handlerFiles = (event) => {
@@ -123,6 +124,11 @@ const AvatarUsers = ({
             ))}
           </StyledDivContainerEmail>
         </Container>
+        <LogoutButton>
+          <Button onClick={logoutAccount} variant='logout'>
+            Аккаунттан чыгуу
+          </Button>
+        </LogoutButton>
       </StyledContainer>
     </div>
   )
@@ -241,4 +247,9 @@ const Div = styled.div`
 `
 const ButtonDiv = styled.div`
   margin-top: 20px;
+`
+const LogoutButton = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
 `

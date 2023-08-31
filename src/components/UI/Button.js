@@ -136,6 +136,12 @@ const getManagerNotificationAllow = (props) => {
     'width: 120px; height: 38px; background-color: rgba(224, 224, 224, 1);'
   )
 }
+const getLogoutButton = (props) => {
+  return (
+    props.variant === 'logout' &&
+    'width:250px; background-color:#DC3545; height:40px;'
+  )
+}
 // media
 const getStyleMediaButton = (props) => {
   return (
@@ -243,6 +249,7 @@ const StyledButton = styled.button`
    ${getNotPaidButton}
    ${getSeoAdminButton}
    ${getManagerNotificationAllow}
+   ${getLogoutButton}
   @media screen and (max-width:415px) {
     ${getStyleMediaButton}
     ${getPaidMediaButton}

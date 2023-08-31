@@ -132,7 +132,14 @@ export default StaffAdminNotification
 
 const Containern1 = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 35px;
+  @media (max-width: 415px) {
+    padding-left: 15px;
+    padding-right: 0;
+  }
 `
 const TitleDiv = styled.div`
   width: 100%;
@@ -153,13 +160,20 @@ const StyledDivContainer = styled.div`
 `
 const Container = styled.div`
   width: 100%;
-  height: 42px;
   display: flex;
   justify-content: space-around;
   border-radius: 8px;
   box-shadow: 0px 0px 4px 0px #00000040;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 30px;
+  padding: 5px;
+  @media (max-width: 415px) {
+    width: 360px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+  }
 `
 const StyledGroupDiv = styled.div`
   width: 200px;
@@ -180,6 +194,9 @@ const StyledDivButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  @media (max-width: 415px) {
+    gap: 30px;
+  }
 `
 const H2 = styled.h2`
   font-family: Zen Kaku Gothic New;

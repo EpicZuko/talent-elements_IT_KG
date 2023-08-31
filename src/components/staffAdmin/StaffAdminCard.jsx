@@ -38,7 +38,7 @@ export default StaffAdminCard
 const DivStyled = styled.div`
   padding: 35px;
   @media (max-width: 391px) {
-    padding: 10px;
+    padding: 20px;
   }
 `
 const H5 = styled.h5`

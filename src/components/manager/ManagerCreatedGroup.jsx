@@ -79,7 +79,7 @@ const ManagerCreatedGroup = () => {
 }
 export default ManagerCreatedGroup
 
-const H6 = styled.h6`
+const H6 = styled.div`
   display: flex;
   color: var(--breadcrumbs, #878787);
   font-family:
