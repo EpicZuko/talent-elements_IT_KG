@@ -124,11 +124,13 @@ const AvatarUsers = ({
             ))}
           </StyledDivContainerEmail>
         </Container>
-        <LogoutButton>
-          <Button onClick={logoutAccount} variant='logout'>
-            Аккаунттан чыгуу
-          </Button>
-        </LogoutButton>
+        {variant === 'User_admin' && (
+          <LogoutButton>
+            <Button onClick={logoutAccount} variant='logout'>
+              Аккаунттан чыгуу
+            </Button>
+          </LogoutButton>
+        )}
       </StyledContainer>
     </div>
   )
