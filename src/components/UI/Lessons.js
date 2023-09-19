@@ -20,7 +20,6 @@ const Lessons = ({
   onEdit,
   onClickStudentSubmission,
 }) => {
-  console.log(element)
   const [show, setShow] = useState(false)
   const showStudents = () => {
     setShow((prevState) => !prevState)
